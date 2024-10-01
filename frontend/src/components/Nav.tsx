@@ -1,5 +1,5 @@
 //
-
+"use client";
 import { HouseSimple, CalendarBlank, Compass } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
