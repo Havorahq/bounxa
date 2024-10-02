@@ -21,7 +21,6 @@ contract BounxaEventFactory {
         uint256 _ticketPrice,
         uint256 _ticketQuantity) external returns (address) {
         ++eventCount;
-        console.log('the event count', eventCount);
         BounxaEvent bounxaEvent = new BounxaEvent(
             _visibility, 
             _startTime, 
@@ -37,7 +36,6 @@ contract BounxaEventFactory {
         );
 
         deployedEvents[msg.sender].push(address(bounxaEvent));
-        console.log("new event address", address(bounxaEvent));
         
         return address(bounxaEvent);
     }
