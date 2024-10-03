@@ -2,7 +2,12 @@
 pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
+interface IBounxaInvitee {
+    function addEvent(address eventAddress, address userAddress) external;
+}
+
 contract BounxaEvent {
+    
 
     struct SoldTickets {
         address owner;
@@ -23,6 +28,8 @@ contract BounxaEvent {
     uint256 public ticketsRemaining;
     mapping(address => SoldTickets) public ticketsSold;
     bool public isActive = true;
+    address public inviteeManagementContractAddress = 0x32Be343B94f860124dC4fEe278FDCBD38C102D88;
+    IBounxaInvitee bounxaInviteeContract = IBounxaInvitee(inviteeManagementContractAddress);
 
     constructor(
         string memory _visibility,
@@ -73,6 +80,7 @@ contract BounxaEvent {
         ticketsRemaining = ticketsRemaining - quantity;
         ticketsSold[msg.sender].quantityOwned += quantity;
         ticketsSold[msg.sender].owner = msg.sender;
+        bounxaInviteeContract.addEvent(address(this), msg.sender);
         // address payable paymentAddress =payable(msg.sender);
         // paymentAddress.transfer(ticketPrice * quantity);
 
