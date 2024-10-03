@@ -1,0 +1,1 @@
+console.log('this is the smart contracts folder')

@@ -22,7 +22,7 @@ describe("BounxaEvent", function () {
   
     describe("Factory Deployment", function () {
       it("Should deploy a bounxa event successfully", async function () {
-        const { bounxaEventFactory, otherAccount } = await loadFixture(deployBounxaEventFactory);
+        const { bounxaEventFactory, otherAccount, owner } = await loadFixture(deployBounxaEventFactory);
         const initialEventCount = await bounxaEventFactory.eventCount();
         await bounxaEventFactory.connect(otherAccount).createBounxaEvent(
             "public",

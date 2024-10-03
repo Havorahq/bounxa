@@ -40,4 +40,8 @@ contract BounxaEventFactory {
         return address(bounxaEvent);
     }
 
+    function getEvents(address userAddress) public view returns (address[] memory) {
+        return deployedEvents[userAddress];
+    }
+
 }
