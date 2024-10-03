@@ -8,7 +8,7 @@ function AuthParent({ children }: { children: ReactNode }) {
     <div>
       <div className="flex items-center p-6 h-screen justify-between w-full">
         <section className="w-7/12 h-full relative">
-          <div className="absolute bottom-12 left-10 hidden">
+          <div className="absolute bottom-12 left-10">
             <h1 className="font-bold text-[64px] leading-[66px] w-[518px]">
               Event Hosting On The Blockchain
             </h1>
@@ -19,7 +19,7 @@ function AuthParent({ children }: { children: ReactNode }) {
             </div>
           </div>
           <img
-            src="/images/bg-holder.png"
+            src="/images/frame.png"
             className="h-full w-full object-cover rounded-[19px]"
             alt=""
           />
