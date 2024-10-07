@@ -7,14 +7,14 @@ import { CalendarDots, Plus } from "@phosphor-icons/react";
 
 export default function Home() {
   return (
-    <main className="flex flex-col background-image-div">
+    <main className="background-image-div flex flex-col">
       <Header />
       <Nav />
-      <div className="grow flex items-center justify-center">
+      <div className="flex grow items-center justify-center">
         <div className="flex flex-col items-center justify-center">
           <CalendarDots size={60} />
-          <h1 className="font-medium text-[32px] mt-5">No Upcoming Event</h1>
-          <p className="font-medium mt-1">
+          <h1 className="mt-5 text-[32px] font-medium">No Upcoming Event</h1>
+          <p className="mt-1 font-medium">
             You have no upcoming events. Why not host one?
           </p>
           <Button

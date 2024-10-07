@@ -9,16 +9,16 @@ function Login() {
   return (
     <main>
       <AuthParent>
-        <div className="h-full flex flex-col w-[353px] items-center m-auto justify-center">
+        <div className="m-auto flex h-full w-[353px] flex-col items-center justify-center">
           <h1 className="text-4xl font-bold">Welcome 👋🏼</h1>
           <p className="mt-1">Please Login to your account</p>
-          <div className="h-[0.1px] w-full opacity-40 my-6 bg-white"></div>
+          <div className="my-6 h-[0.1px] w-full bg-white opacity-40"></div>
           <p className="text-center">
             You will be redirected to the sign up page if you don’t have an
             account
           </p>
           <Button text={"Connect Wallet"} className="mt-5 w-full" />
-          <div className="flex items-center gap-1 mt-10">
+          <div className="mt-10 flex items-center gap-1">
             <p>Need to create an account?</p>
             <Link href={"signup"} className="font-medium">
               Sign up

@@ -12,7 +12,7 @@ function Button(props: ButtonType) {
   return (
     <button
       onClick={props.onClick}
-      className={`${props.className} bg-white text-black py-2 font-medium px-6 rounded-[20px] flex items-center justify-center`}
+      className={`${props.className} flex items-center justify-center rounded-[20px] bg-white px-6 py-2 font-medium text-black`}
     >
       {props.text}
     </button>

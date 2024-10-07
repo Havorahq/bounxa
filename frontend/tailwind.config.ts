@@ -13,6 +13,14 @@ const config: Config = {
       //   foreground: "var(--foreground)",
       // },
     },
+    screens: {
+      'xl': '1280px',
+      'lg': '1024px',
+      'tablet': '850px',
+      'md': '768px',
+      'sm': '640px',
+      'phone': '450px'
+    },
     fontFamily: {
       urbanist: ['var(--font-urbanist)'],
     }
