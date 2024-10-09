@@ -1,6 +1,6 @@
 //
 
-import EventCard from "@/components/EventCard";
+import EventCard from "@/components/event/EventCard";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import React from "react";

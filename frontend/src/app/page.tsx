@@ -1,33 +1,59 @@
-// import Image from "next/image";
+//
 "use client";
-import Button from "@/components/Button";
+import EventsCard2 from "@/components/event/EventsCard2";
 import Header from "@/components/Header";
-import Nav from "@/components/Nav";
-import { CalendarDots, Plus } from "@phosphor-icons/react";
+import { Compass } from "@phosphor-icons/react";
+import Link from "next/link";
+import React from "react";
 
-export default function Home() {
+function LandingPage() {
   return (
-    <main className="background-image-div flex flex-col">
-      <Header />
-      <Nav />
-      <div className="flex grow items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
-          <CalendarDots size={60} />
-          <h1 className="mt-5 text-[32px] font-medium">No Upcoming Event</h1>
-          <p className="mt-1 font-medium">
-            You have no upcoming events. Why not host one?
-          </p>
-          <Button
-            className="mt-5"
-            text={
-              <div className="flex items-center gap-2">
-                <Plus />
-                <p>Create Event</p>
-              </div>
-            }
-          />
+    <main className="">
+      <header className="m-auto flex w-[90%] justify-between py-8 tablet:w-[1020px]">
+        <img src="/icons/Logo.svg" alt="" />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 font-medium">
+            {" "}
+            <Compass color="white" size={20} /> <p>Explore Events</p>
+          </div>
+          <div className="rounded-full bg-white px-6 py-2 font-medium text-black">
+            <p>Get Started</p>
+          </div>
+        </div>
+      </header>
+      <div className="m-auto mt-10 flex w-[1020px] items-center justify-center">
+        <div className="flex w-full items-center justify-between">
+          <div>
+            <h1 className="w-[530px] text-[80px] font-medium leading-[75px]">
+              Event Hosting On The Blockchain
+            </h1>
+            <p className="mt-5 w-[350px] text-[#FFFFFFCC]">
+              Set up an event page, invite friends and sell tickets. Host a
+              memorable event today.
+            </p>
+            <div className="mt-8 flex items-center gap-2">
+              <Link href={""}>
+                <button className="rounded-full bg-white px-6 py-2 font-medium text-black">
+                  Get Started
+                </button>
+              </Link>
+
+              <Link href={""}>
+                <button className="rounded-full border border-white px-6 py-2 font-medium text-white">
+                  <div className="flex items-center gap-1 font-medium">
+                    <Compass color="white" size={20} /> <p>Explore Events</p>
+                  </div>
+                </button>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <img src="/images/ticket.svg" className="h-[500px]" alt="" />
+          </div>
         </div>
       </div>
     </main>
   );
 }
+
+export default LandingPage;
