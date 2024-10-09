@@ -45,8 +45,10 @@ describe("BounxaEvent", function () {
         it("the number of remaining tickets should be less than the number of available tickets by the value purchased", async function () {
           const { bounxaEvent, otherAccount } = await loadFixture(deployBounxaEvent);
           await bounxaEvent.connect(otherAccount).buyTickets(2, {value: 200});
-    
-          expect(await bounxaEvent.ticketsRemaining()).to.be.below(await bounxaEvent.ticketQuantity());
+
+          const ticketsRemaining = await bounxaEvent.ticketsRemaining();
+          const ticketQuantity = await bounxaEvent.ticketQuantity();
+          expect(ticketsRemaining).to.be.below(ticketQuantity);
         });
       });
   });

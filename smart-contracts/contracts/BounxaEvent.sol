@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 import "hardhat/console.sol";
+import "./Ticket.sol";
 
 interface IBounxaInvitee {
     function addEvent(address eventAddress, address userAddress) external;
@@ -30,6 +31,7 @@ contract BounxaEvent {
     bool public isActive = true;
     address public inviteeManagementContractAddress = 0x32Be343B94f860124dC4fEe278FDCBD38C102D88;
     IBounxaInvitee bounxaInviteeContract = IBounxaInvitee(inviteeManagementContractAddress);
+    address public ticketNftMinterAddress;
 
     constructor(
         string memory _visibility,
@@ -44,6 +46,7 @@ contract BounxaEvent {
         uint256 _eventId,
         address _owner
     ) {
+        // TODO: modify to deploy NFT contracts for tickets on creation
         visibility = _visibility;
         startTime = _startTime;
         endTime = _endTime;
@@ -56,6 +59,14 @@ contract BounxaEvent {
         ticketsRemaining = _ticketQuantity;
         owner = _owner;
         eventId = _eventId;
+        TicketNFT ticketNFT = new TicketNFT(
+            address(this), 
+            name, 
+            "BOUNXA",
+            _ticketQuantity
+        );
+        console.log("the minter", address(ticketNFT));
+        ticketNftMinterAddress = address(ticketNFT);
     }
 
     modifier onlyOwner() {
@@ -66,21 +77,21 @@ contract BounxaEvent {
         _;
     }
 
-    // TODO: FUNCTIONS TO IMPLEMENT
-    // BUY TICKET
-    // GET TICKETS SOLD
-    // CANCEL EVENT
-    // WITHDRAW FUNDS
-
     function buyTickets(uint256 quantity) external payable {
-        require(isActive, "Event has either been ended or cancelled");
+        require(isActive, "Event has either ended or cancelled");
         // require(block.timestamp >= startTime && block.timestamp <= endTime, "Event hasn't started or ended");
         require(msg.value >= ticketPrice * quantity, "Insufficient funds");
         require(ticketsRemaining >= quantity, "No tickets remaining");
         ticketsRemaining = ticketsRemaining - quantity;
+        TicketNFT ticketNft = TicketNFT(ticketNftMinterAddress);
+        // mint ticket here
+        for (uint256 i=0; i < quantity; i++) {  //for loop example
+            // mint to this address  
+            ticketNft.safeMint(msg.sender);      
+        }
         ticketsSold[msg.sender].quantityOwned += quantity;
         ticketsSold[msg.sender].owner = msg.sender;
-        bounxaInviteeContract.addEvent(address(this), msg.sender);
+        // bounxaInviteeContract.addEvent(address(this), msg.sender);
         // address payable paymentAddress =payable(msg.sender);
         // paymentAddress.transfer(ticketPrice * quantity);
 
