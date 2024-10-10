@@ -9,29 +9,45 @@ import { twMerge } from "tailwind-merge";
 function Nav() {
   const pathName = usePathname();
   const active = twMerge(
-    "border-[#E0E0E0] border-2 rounded-full bg-[#e0e0e065] text-black"
+    "border-[#E0E0E0] border-2 rounded-full bg-[#e0e0e065] text-black",
   );
   const notActive = twMerge("text-[#7D7D7D]");
+
+  const navLinks = [
+    {
+      path: "/",
+      icon: <HouseSimple />,
+      active: pathName === "/",
+      name: "Home",
+    },
+    {
+      path: "/calendar",
+      icon: <CalendarBlank />,
+      active: pathName === "/calendar",
+      name: "calendar",
+    },
+    {
+      path: "/explore",
+      icon: <Compass />,
+      active: pathName === "/explore",
+      name: "explore",
+    },
+  ];
   return (
-    <nav className="w-[48px] flex flex-col items-center gap-2 py-1 bg-[#FAFAFA] rounded-[48px] border-2 border-[#E0E0E0] fixed left-4 top-1/2 -translate-y-1/2">
-      <Link
-        href={""}
-        className={`${pathName === "/" ? active : notActive}  p-2`}
-      >
-        <HouseSimple size={20} />
-      </Link>
-      <Link
-        href={""}
-        className={`${pathName === "/c" ? active : notActive}  p-2`}
-      >
-        <CalendarBlank size={20} />
-      </Link>
-      <Link
-        href={""}
-        className={`${pathName === "/c" ? active : notActive}  p-2`}
-      >
-        <Compass size={20} />
-      </Link>
+    <nav className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-[48px] border-2 border-[#E0E0E0] bg-[#FAFAFA] px-1 py-1 sm:bottom-auto sm:left-4 sm:top-1/2 sm:w-[48px] sm:-translate-x-0 sm:-translate-y-1/2 sm:flex-col sm:px-0">
+      {navLinks.map((obj, inde: number) => (
+        <Link
+          href={obj.path}
+          className={`${obj.active ? active : notActive} p-2 text-xl`}
+        >
+          <div className="flex items-center gap-1">
+            {obj.icon}
+            {obj.active && (
+              <p className="text-sm font-medium sm:hidden">{obj.name}</p>
+            )}
+          </div>
+        </Link>
+      ))}
     </nav>
   );
 }

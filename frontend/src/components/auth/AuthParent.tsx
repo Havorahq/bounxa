@@ -6,13 +6,13 @@ import React, { ReactNode } from "react";
 function AuthParent({ children }: { children: ReactNode }) {
   return (
     <div>
-      <div className="flex items-center p-6 h-screen justify-between w-full">
-        <section className="w-7/12 h-full relative">
+      <div className="flex h-screen w-full items-center justify-between gap-3 p-6">
+        <section className="relative hidden h-full w-7/12 md:block">
           <div className="absolute bottom-12 left-10">
-            <h1 className="font-bold text-[64px] leading-[66px] w-[518px]">
+            <h1 className="text-[40px] font-bold leading-[66px] tablet:w-[400px] tablet:text-[50px] lg:w-[518px] lg:text-[64px]">
               Event Hosting On The Blockchain
             </h1>
-            <div className="flex gap-1 mt-12">
+            <div className="mt-12 flex gap-1">
               <div className="h-[6px] w-10 rounded-[64px] bg-white"></div>
               <div className="h-[6px] w-5 rounded-[64px] bg-white"></div>
               <div className="h-[6px] w-5 rounded-[64px] bg-white"></div>
@@ -20,11 +20,11 @@ function AuthParent({ children }: { children: ReactNode }) {
           </div>
           <img
             src="/images/frame.png"
-            className="h-full w-full object-cover rounded-[19px]"
+            className="h-full w-full rounded-[19px] object-cover"
             alt=""
           />
         </section>
-        <section className="w-5/12 h-screen flex items-center justify-center">
+        <section className="m-auto flex h-screen w-[95%] items-center justify-center phone:w-[450px] md:m-0 md:w-5/12">
           {children}
         </section>
       </div>

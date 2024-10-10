@@ -18,63 +18,63 @@ function EventDetail() {
     <main className="background-image-div">
       <Header auth={true} />
       <Nav />
-      <div className="flex gap-8 items-center justify-center mt-8">
+      <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
         <div>
           <img
             src="/images/events.png"
             alt=""
-            className="w-[475px] h-[539px] object-cover rounded-xl"
+            className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
           />
         </div>
-        <div className="w-[400px]">
+        <div className="w-[90%] phone:w-[400px] tablet:w-[380px]">
           {/* <div className="flex items-center gap-6">
             <div className="bg-white text-black font-medium py-1 px-5 rounded-[36px]">
               Public
             </div>
             <div className="font-medium">Private</div>
           </div> */}
-          <h1 className="w-full text-[36px]">Concert Party</h1>
-          <div className="flex gap-2 mt-4">
-            <div className="bg-[#FFFFFFCC] p-1 rounded-lg grow">
+          <h1 className="mt-2 w-full text-3xl phone:text-4xl">Concert Party</h1>
+          <div className="mt-4 flex gap-2">
+            <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
               <div className="flex gap-2">
-                <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg grow">
+                <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
                   Sunday 29 Sept
                 </p>
-                <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg">
+                <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
                   12:30
                 </p>
               </div>
-              <div className="flex gap-2 mt-1">
-                <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg grow">
+              <div className="mt-1 flex gap-2">
+                <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
                   Sunday 29 Sept
                 </p>
-                <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg">
+                <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
                   12:30
                 </p>
               </div>
             </div>
-            <div className="bg-[#FFFFFFCC] p-3 rounded-lg flex flex-col justify-between w-[90px]">
+            <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
               <Globe color="black" size={25} />
-              <p className="text-black font-medium">GMT</p>
-              <p className="text-black opacity-80 text-sm font-medium">
+              <p className="font-medium text-black">GMT</p>
+              <p className="text-sm font-medium text-black opacity-80">
                 London
               </p>
             </div>
           </div>
-          <div className="flex bg-[#FFFFFFCC] p-3 rounded-lg text-black gap-2 mt-3">
+          <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
             <MapPinLine size={20} className="mt-1" />
             <div>
               <p className="font-medium">Add Event Location</p>
               <p className="font-medium opacity-80">02 Arena, London</p>
             </div>
           </div>
-          <div className="flex bg-[#FFFFFFCC] p-3 items-center rounded-lg text-black gap-2 mt-3">
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
             Welcome to the biggest music fest this year!
           </div>
 
           <div className="mt-4">
-            <h1 className="font-medium text-xl">Event Details</h1>
-            <div className="flex items-center bg-[#FFFFFFCC] rounded-lg text-black p-3 mt-4 justify-between">
+            <h1 className="text-xl font-medium">Event Details</h1>
+            <div className="mt-4 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
               <div className="flex items-center gap-2">
                 <Ticket size={20} className="" />
                 <div>
@@ -83,7 +83,7 @@ function EventDetail() {
               </div>
               <p>$20</p>
             </div>
-            <div className="flex items-center bg-[#FFFFFFCC] rounded-lg text-black p-3 mt-2 justify-between">
+            <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
               <div className="flex items-center gap-2">
                 <UsersThree size={20} className="" />
                 <div>
@@ -94,7 +94,7 @@ function EventDetail() {
             </div>
           </div>
 
-          <Button className="w-full mt-4" text={"Buy Ticket"} />
+          <Button className="mt-4 w-full" text={"Buy Ticket"} />
         </div>
       </div>
     </main>

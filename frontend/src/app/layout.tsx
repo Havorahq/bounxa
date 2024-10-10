@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.variable} antialiased text-white`}>
+      <body className={`${urbanist.variable} text-white antialiased`}>
         {children}
       </body>
     </html>
