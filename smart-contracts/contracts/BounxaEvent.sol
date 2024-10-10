@@ -91,7 +91,7 @@ contract BounxaEvent {
         }
         ticketsSold[msg.sender].quantityOwned += quantity;
         ticketsSold[msg.sender].owner = msg.sender;
-        // bounxaInviteeContract.addEvent(address(this), msg.sender);
+        bounxaInviteeContract.addEvent(address(this), msg.sender);
         // address payable paymentAddress =payable(msg.sender);
         // paymentAddress.transfer(ticketPrice * quantity);
 
