@@ -4,8 +4,11 @@ import EventCard from "@/components/event/EventCard";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import React from "react";
+import { getAllEvent } from "../api/helper-function";
 
-function Calendar() {
+async function Calendar() {
+  const { data, error } = await getAllEvent();
+  console.log({data})
   return (
     <main className="background-image-div">
       <Header />

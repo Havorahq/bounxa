@@ -4,25 +4,36 @@
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import React from "react";
+import Image from "next/image";
 import {
   Globe,
   MapPinLine,
-  Plus,
+  // Plus,
   Ticket,
   UsersThree,
 } from "@phosphor-icons/react";
 import Button from "@/components/Button";
+import { joinEvent } from "@/app/api/helper-function";
+import { useAccount } from "@particle-network/connectkit";
 
-function EventDetail() {
+function EventDetail({ params }: { params: { slug: string } }) {
+  const { address } = useAccount();
+  const eventId = params.slug;
+
+  const handleJoinEvent = async () => {
+    await joinEvent(eventId, address as string);
+  };
   return (
     <main className="background-image-div">
       <Header auth={true} />
       <Nav />
       <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
         <div>
-          <img
+          <Image
             src="/images/events.png"
             alt=""
+            width={450}
+            height={539}
             className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
           />
         </div>
@@ -94,7 +105,11 @@ function EventDetail() {
             </div>
           </div>
 
-          <Button className="mt-4 w-full" text={"Buy Ticket"} />
+          <Button
+            onClick={handleJoinEvent}
+            className="mt-4 w-full"
+            text={"Buy Ticket"}
+          />
         </div>
       </div>
     </main>
