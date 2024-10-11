@@ -27,7 +27,6 @@ const getTodayDate = () => {
 
 function CreateEvent() {
   const { address } = useAccount();
-
   const [showPrice, setShowPrice] = useState(false);
   const [showCapacity, setShowCapacity] = useState(false);
   const startDRef = useRef<HTMLInputElement | null>(null);
