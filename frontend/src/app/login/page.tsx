@@ -1,24 +1,56 @@
-//
-
+"use client";
 import AuthParent from "@/components/auth/AuthParent";
 import Button from "@/components/Button";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
+import { createUser } from "../api/helper-function";
 
 function Login() {
+  const { address, isConnected, chainId } = useAccount();
+  useEffect(() => {
+    const handleUserCreation = async () => {
+      if (address) {
+        try {
+          const { data, error } = await createUser(address);
+          console.log({ data, error });
+          // Handle the result here
+        } catch (error) {
+          console.error("Error creating user:", error);
+        }
+      }
+    };
+
+    handleUserCreation();
+  }, [address]);
+
+
+  const {disconnect} = useDisconnect();
   return (
     <main>
       <AuthParent>
-        <div className="h-full flex flex-col w-[353px] items-center m-auto justify-center">
+        <div className="m-auto flex h-full w-[353px] flex-col items-center justify-center">
           <h1 className="text-4xl font-bold">Welcome 👋🏼</h1>
           <p className="mt-1">Please Login to your account</p>
-          <div className="h-[0.1px] w-full opacity-40 my-6 bg-white"></div>
+          <div className="my-6 h-[0.1px] w-full bg-white opacity-40"> </div>
           <p className="text-center">
             You will be redirected to the sign up page if you don’t have an
             account
           </p>
-          <Button text={"Connect Wallet"} className="mt-5 w-full" />
-          <div className="flex items-center gap-1 mt-10">
+          <div className="mt-10">
+            {isConnected ? (
+              <>
+                <h2>Address: {address}</h2>
+                <h2>Chain ID: {chainId}</h2>
+                {/* <button onClick={() => disconnect()}>Disconnect</button> */}
+                <Button onClick={() => disconnect()} text={"Disconnect"} className="mt-5 w-full" />
+              </>
+            ) : (
+              <ConnectButton />
+            )}
+          </div>
+          {/* <Button text={"Connect Wallet"} className="mt-5 w-full" /> */}
+          <div className="mt-10 flex items-center gap-1">
             <p>Need to create an account?</p>
             <Link href={"signup"} className="font-medium">
               Sign up

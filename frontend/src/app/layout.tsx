@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Urbanist } from "next/font/google";
+import { ParticleConnectkit } from "@/components/Connectkit";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -21,8 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.variable} antialiased text-white`}>
-        {children}
+      <body className={`${urbanist.variable} text-white antialiased`}>
+        <ParticleConnectkit>{children}</ParticleConnectkit>
       </body>
     </html>
   );
