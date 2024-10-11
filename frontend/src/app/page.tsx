@@ -1,7 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 //
 "use client";
-import EventsCard2 from "@/components/event/EventsCard2";
-import Header from "@/components/Header";
 import { Compass } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
@@ -9,6 +8,7 @@ import React from "react";
 function LandingPage() {
   return (
     <main className="">
+      <div className="bgg"></div>
       <header className="m-auto flex w-[90%] justify-between py-8 tablet:w-[1020px]">
         <img src="/icons/Logo.svg" alt="" />
         <div className="flex items-center gap-4">
