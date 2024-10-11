@@ -1,12 +1,31 @@
 "use client";
 import AuthParent from "@/components/auth/AuthParent";
-// import Button from "@/components/Button";
+import Button from "@/components/Button";
 import Link from "next/link";
-import React from "react";
-import { ConnectButton, useAccount } from "@particle-network/connectkit";
+import React, { useEffect } from "react";
+import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
+import { createUser } from "../api/helper-function";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
+  useEffect(() => {
+    const handleUserCreation = async () => {
+      if (address) {
+        try {
+          const { data, error } = await createUser(address);
+          console.log({ data, error });
+          // Handle the result here
+        } catch (error) {
+          console.error("Error creating user:", error);
+        }
+      }
+    };
+
+    handleUserCreation();
+  }, [address]);
+
+
+  const {disconnect} = useDisconnect();
   return (
     <main>
       <AuthParent>
@@ -23,6 +42,8 @@ function Login() {
               <>
                 <h2>Address: {address}</h2>
                 <h2>Chain ID: {chainId}</h2>
+                {/* <button onClick={() => disconnect()}>Disconnect</button> */}
+                <Button onClick={() => disconnect()} text={"Disconnect"} className="mt-5 w-full" />
               </>
             ) : (
               <ConnectButton />

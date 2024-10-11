@@ -12,7 +12,8 @@ import {
   UsersThree,
 } from "@phosphor-icons/react";
 import Button from "@/components/Button";
-
+import { createEvent } from "../api/helper-function";
+import { useAccount } from "@particle-network/connectkit";
 const getTodayDate = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -22,6 +23,8 @@ const getTodayDate = () => {
 };
 
 function CreateEvent() {
+  const { address } = useAccount();
+  
   const [showPrice, setShowPrice] = useState(false);
   const startDRef = useRef<HTMLInputElement | null>(null);
   const endDRef = useRef<HTMLInputElement | null>(null);
@@ -31,9 +34,17 @@ function CreateEvent() {
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [location, setLocation] = useState("");
+  const [capacity, setCapacity] = useState(0);  
+  const [type, setType] = useState("public");
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
+  };
+
+  const handleCreateEvent = async () => {
+   await createEvent(address as string, location, capacity,eventName, startDate, endDate,type)
   };
   return (
     <main className="background-image-div">
@@ -213,7 +224,7 @@ function CreateEvent() {
             </div>
           </div>
 
-          <Button
+          <Button onClick={handleCreateEvent}
             className="mt-4 w-full"
             text={
               <div className="flex items-center gap-2">
