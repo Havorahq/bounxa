@@ -1,13 +1,19 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 //
 
 import React from "react";
+import date from "date-and-time";
 
-function EventCard() {
+function EventCard({ data }: any) {
+  const dateFormat = new Date(data?.start_date);
   return (
     <div className="m-auto flex w-[90%] flex-col items-start justify-between gap-3 phone:w-[400px] sm:w-[600px] sm:flex-row sm:gap-0 md:w-[700px]">
-      <div>
-        <p className="font-medium">06</p>
-        <p className="text-[26px] font-medium">Monday</p>
+      <div className="sm:w-[100px]">
+        <p className="font-medium">{date.format(dateFormat, "DD")}</p>
+        <p className="text-[26px] font-medium">
+          {date.format(dateFormat, "dddd")}
+        </p>
       </div>
       <div className="hidden flex-col items-center sm:flex">
         <div className="h-[12px] w-[12px] rounded-full bg-white"></div>
@@ -15,16 +21,18 @@ function EventCard() {
       </div>
       <div className="group flex w-full justify-between rounded-xl bg-white p-3 text-black hover:bg-[#6637ED] hover:text-white phone:w-[420px]">
         <div className="flex flex-col items-start">
-          <p className="text-xs font-medium phone:text-base">17:00</p>
-          <p className="text-lg font-medium phone:text-2xl">Virtual Tour</p>
-          <p className="text-sm font-medium phone:text-base">02 Arena</p>
+          <p className="text-xs font-medium phone:text-base">
+            {date.format(dateFormat, "hh:mm")}
+          </p>
+          <p className="text-lg font-medium phone:text-2xl">{data.name}</p>
+          <p className="text-sm font-medium phone:text-base">{data.location}</p>
           <div className="mt-3 flex items-center gap-2">
             <img
               src="/images/events.png"
               className="h-[18px] w-[18px] rounded-full"
               alt=""
             />
-            <p className="text-sm font-medium">By Block</p>
+            <p className="text-sm font-medium capitalize">{data.host_name}</p>
           </div>
           <div
             className={

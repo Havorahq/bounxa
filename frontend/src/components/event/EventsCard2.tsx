@@ -1,26 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 //
 
 import React from "react";
+import date from "date-and-time";
+import Link from "next/link";
+import { useAccount } from "@particle-network/connectkit";
 
-function EventsCard2() {
+function EventsCard2({ data }: any) {
+  const dateFormat = new Date(data?.start_date);
+  const { address } = useAccount();
   return (
-    <div className="flex w-[320px] flex-col items-start gap-3">
+    <Link
+      href={data.host === address! ? "/analytics" : `/event/${data.id}`}
+      className="flex w-[320px] flex-col items-start gap-3"
+    >
       <div>
-        <p className="font-medium">06</p>
-        <p className="text-[26px] font-medium">Monday</p>
+        <p className="font-medium">{date.format(dateFormat, "DD")}</p>
+        <p className="text-[26px] font-medium">
+          {date.format(dateFormat, "dddd")}
+        </p>
       </div>
       <div className="group flex w-full justify-between rounded-xl bg-white p-3 text-black hover:bg-[#6637ED] hover:text-white">
         <div className="flex flex-col items-start">
-          <p className="text-xs font-medium phone:text-base">17:00</p>
-          <p className="text-lg font-medium phone:text-2xl">Virtual Tour</p>
-          <p className="text-sm font-medium phone:text-base">02 Arena</p>
+          <p className="text-xs font-medium phone:text-base">
+            {date.format(dateFormat, "hh:mm")}
+          </p>
+          <p className="text-lg font-medium phone:text-2xl">{data.name}</p>
+          <p className="text-sm font-medium phone:text-base">{data.location}</p>
           <div className="mt-3 flex items-center gap-2">
             <img
               src="/images/events.png"
               className="h-[18px] w-[18px] rounded-full"
               alt=""
             />
-            <p className="text-sm font-medium">By Block</p>
+            <p className="text-sm font-medium capitalize">{data.host_name}</p>
           </div>
           <div
             className={
@@ -36,7 +50,7 @@ function EventsCard2() {
           alt=""
         />
       </div>
-    </div>
+    </Link>
   );
 }
 

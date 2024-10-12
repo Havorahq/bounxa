@@ -8,8 +8,6 @@ interface IBounxaInvitee {
 }
 
 contract BounxaEvent {
-    
-
     struct SoldTickets {
         address owner;
         uint256 quantityOwned;
@@ -29,7 +27,7 @@ contract BounxaEvent {
     uint256 public ticketsRemaining;
     mapping(address => SoldTickets) public ticketsSold;
     bool public isActive = true;
-    address public inviteeManagementContractAddress = 0x32Be343B94f860124dC4fEe278FDCBD38C102D88;
+    address public inviteeManagementContractAddress = 0x814a35AF277a9a19051Fc9FD5C646277C4D0D91a;
     IBounxaInvitee bounxaInviteeContract = IBounxaInvitee(inviteeManagementContractAddress);
     address public ticketNftMinterAddress;
 
