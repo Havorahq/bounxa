@@ -9,6 +9,7 @@ contract BounxaEventFactory {
     uint256 public eventCount = 0;
     mapping(address => address[]) public deployedEvents;
 
+    event newEventCreated(address indexed newEventAddress);
 
     function createBounxaEvent(
         string memory _visibility,
@@ -36,7 +37,7 @@ contract BounxaEventFactory {
         );
 
         deployedEvents[msg.sender].push(address(bounxaEvent));
-        
+        emit newEventCreated(address(bounxaEvent));
         return address(bounxaEvent);
     }
 
