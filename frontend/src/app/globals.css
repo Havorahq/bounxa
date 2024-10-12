@@ -23,3 +23,13 @@ body {
   height: 100vh;
   overflow-y: scroll;
   }
+
+.bgg {
+  width: 200px;
+  height: 200px;
+  background: rgba(64, 21, 255, 1);
+  /* border-radius: 999px; */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(500px);
+  position: absolute;
+}

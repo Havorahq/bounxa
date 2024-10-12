@@ -15,9 +15,9 @@ function Nav() {
 
   const navLinks = [
     {
-      path: "/",
+      path: "/home",
       icon: <HouseSimple />,
-      active: pathName === "/",
+      active: pathName === "/home",
       name: "Home",
     },
     {

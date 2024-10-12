@@ -1,8 +1,9 @@
 //
-
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 function Header({ auth = false }: { auth?: boolean }) {
+  const [show, setShow] = useState("upcoming");
   return (
     <header className="m-auto flex w-[90%] justify-between py-8 tablet:w-[800px]">
       <h1 className="text-2xl font-medium sm:text-3xl">Events</h1>
@@ -13,10 +14,18 @@ function Header({ auth = false }: { auth?: boolean }) {
         </div>
       ) : (
         <div className="flex items-center gap-6">
-          <div className="rounded-[36px] bg-white px-3 py-2 font-medium text-black">
+          <div
+            onClick={() => setShow("upcoming")}
+            className={`${show === "upcoming" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+          >
             Upcoming
           </div>
-          <div className="font-medium">Past</div>
+          <div
+            onClick={() => setShow("past")}
+            className={`${show === "past" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+          >
+            Past
+          </div>
         </div>
       )}
     </header>
