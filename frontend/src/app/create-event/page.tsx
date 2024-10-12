@@ -17,11 +17,11 @@ import { createEvent } from "../api/helper-function";
 import { useAccount } from "@particle-network/connectkit";
 import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
-const getTodayDate = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
+
+const getTodayDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -42,6 +42,9 @@ function CreateEvent() {
   const [capacity, setCapacity] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("public");
+  const [description, setDescriotion] = useState("");
+  const [tz, setTz] = useState("");
+  const [creator, setCreator] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -56,9 +59,12 @@ function CreateEvent() {
       location,
       parseInt(capacity),
       eventName,
-      startDate,
-      endDate,
+      `${startDate}T${startTime}`,
+      `${endDate}T${endTime}`,
       type,
+      description,
+      tz,
+      creator,
     );
 
     if (response.error) {
@@ -159,7 +165,7 @@ function CreateEvent() {
                     name=""
                     id=""
                     onChange={startDateChange}
-                    min={getTodayDate()}
+                    min={getTodayDate(new Date())}
                   />
                   <p
                     onClick={() => startDRef.current?.showPicker()}
@@ -194,10 +200,9 @@ function CreateEvent() {
                   <input
                     type="date"
                     className="mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
-                    name=""
-                    id=""
                     ref={endDRef}
                     onChange={(e) => setEndDate(e.target.value)}
+                    min={getTodayDate(new Date(startDate))}
                   />
                   <p
                     onClick={() => endDRef.current?.showPicker()}
@@ -215,12 +220,12 @@ function CreateEvent() {
                     className="mt-10 h-[0px] w-[0px] opacity-0"
                     onChange={(e) => setEndTime(e.target.value)}
                   />
-                  <p
+                  <div
                     onClick={() => endTRef.current?.showPicker()}
-                    className="rounded-lg bg-white p-2 font-medium text-black opacity-80"
+                    className="cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
                   >
                     {endTime || "12:00"}
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,18 +249,35 @@ function CreateEvent() {
               ></input>
             </div>
           </div>
-          <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+          <div className="mt-3 flex items-start gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
             <MapPinLine size={20} className="" />
-            <div>
+            <div className="w-full">
               <p className="font-medium">Add Description</p>
+              <input
+                placeholder="Enter event description"
+                className="w-full bg-transparent font-medium opacity-80 outline-none"
+                value={description}
+                onChange={(e) => setDescriotion(e.target.value)}
+              ></input>
             </div>
           </div>
 
           <div className="mt-4">
             <h1 className="text-xl font-medium">Event Options</h1>
+            <div className="mt-4 flex cursor-pointer items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+              <input
+                type="text"
+                className="w-full bg-transparent outline-none"
+                name=""
+                id=""
+                placeholder="Creator alias"
+                value={creator}
+                onChange={(e) => setCreator(e.target.value)}
+              />
+            </div>
             <div
               onClick={() => setShowPrice(true)}
-              className="mt-4 flex cursor-pointer items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black"
+              className="mt-2 flex cursor-pointer items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black"
             >
               <div className="flex items-center gap-2">
                 <Ticket size={20} className="" />
@@ -287,6 +309,8 @@ function CreateEvent() {
               location === "" ||
               startDate === "" ||
               endDate === "" ||
+              description === "" ||
+              creator === "" ||
               loading
             }
             className="mt-4 w-full"
