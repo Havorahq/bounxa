@@ -24,7 +24,7 @@ describe("BounxaEvent", function () {
       it("Should deploy a bounxa event successfully", async function () {
         const { bounxaEventFactory, otherAccount, owner } = await loadFixture(deployBounxaEventFactory);
         const initialEventCount = await bounxaEventFactory.eventCount();
-        await bounxaEventFactory.connect(otherAccount).createBounxaEvent(
+        const creationResponce = await bounxaEventFactory.connect(otherAccount).createBounxaEvent(
             "public",
             1234,
             4321,
@@ -35,6 +35,7 @@ describe("BounxaEvent", function () {
             100,
             1000,
         )
+        console.log(creationResponce, 'the creation responce')
         expect(await bounxaEventFactory.eventCount()).to.be.above(initialEventCount);
       });
     });
