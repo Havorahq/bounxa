@@ -35,7 +35,7 @@ function Explore() {
       filter = data.filter((obj: any) => new Date(obj.end_date) > todayNow);
     }
     setFilter(filter);
-  }, [data, show]);
+  }, [data, show, address]);
 
   useEffect(() => {
     getAll();

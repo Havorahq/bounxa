@@ -74,6 +74,7 @@ function CreateEvent() {
       toast.success("Event created", { position: "top-right" });
     }
     setLoading(false);
+    setTz("");
   };
   return (
     <main className="background-image-div">
