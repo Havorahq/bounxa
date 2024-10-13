@@ -13,7 +13,7 @@ function EventsCard2({ data }: any) {
   return (
     <Link
       href={data.host === address! ? "/analytics" : `/event/${data.id}`}
-      className="flex w-[320px] flex-col items-start gap-3"
+      className="event_card flex flex-col items-start gap-3"
     >
       <div>
         <p className="font-medium">{date.format(dateFormat, "DD")}</p>
