@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 //
 "use client";
+import { useAccount } from "@particle-network/connectkit";
 import {
   Compass,
   Globe,
@@ -9,9 +10,43 @@ import {
   UsersThree,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { getSingleEvent } from "@/app/api/helper-function";
+import { toast } from "sonner";
 
 function Analytics() {
+  const { slug } = useParams();
+  const { address } = useAccount();
+  const eventId = slug;
+  const [data, setData] = useState<any>({});
+  const [loading, setLoading] = useState(true);
+  const [dateF, setDate] = useState<Date>();
+  const [dateE, setDateE] = useState<Date>();
+
+  const getEventData = async () => {
+    setLoading(true);
+    const res = await getSingleEvent(eventId as string);
+    if (res.error) {
+      toast.error(res.error, { position: "top-right" });
+    }
+    if (res.data) {
+      setData(res.data[0]);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getEventData();
+  }, []);
+
+  useEffect(() => {
+    const format = new Date(data?.start_date);
+    const formatE = new Date(data?.end_date);
+    setDate(format);
+    setDateE(formatE);
+  }, [data]);
+
   return (
     <main className="flex h-screen flex-col">
       <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">

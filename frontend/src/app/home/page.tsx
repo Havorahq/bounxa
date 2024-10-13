@@ -2,35 +2,52 @@
 //
 
 "use client";
-import Button from "@/components/Button";
+import EmptyState from "@/components/event/EmptyState";
 import Header from "@/components/Header";
+import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
-import { CalendarDots, Plus } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getAllEvent } from "../api/helper-function";
+import EventsCard2 from "@/components/event/EventsCard2";
 
 export default function Home() {
-  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>([]);
+  const getAll = async () => {
+    setLoading(true);
+    const res = await getAllEvent();
+    if (res.data) {
+      setData(res.data);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getAll();
+  }, []);
   return (
-    <main className="background-image-div flex flex-col">
-      <Header />
-      <Nav />
-      <div className="flex grow items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
-          <CalendarDots size={60} />
-          <h1 className="mt-5 text-[32px] font-medium">No Upcoming Event</h1>
-          <p className="mt-1 text-center font-medium">
-            You have no upcoming events. Why not host one?
-          </p>
-          <Button
-            className="mt-5"
-            onClick={() => router.push("/create-event")}
-            text={
-              <div className="flex items-center gap-2">
-                <Plus />
-                <p>Create Event</p>
+    <main className="background-image-div">
+      <div className="flex flex-col items-start justify-start">
+        <Header auth={true} />
+        <Nav />
+        <div className="m-auto w-[95%] lg:w-[1000px]">
+          <div className="events_con mt-10">
+            {loading ? (
+              <div className="flex w-full items-center justify-center">
+                <Loader color={"white"} heignt={"100px"} />
               </div>
-            }
-          />
+            ) : data.length !== 0 ? (
+              <EmptyState />
+            ) : (
+              data.map(
+                (obj: any, index: number) =>
+                  obj.type === "public" && (
+                    <EventsCard2 key={index} data={obj} />
+                  ),
+              )
+            )}
+            {/* <EventsCard2 /> */}
+          </div>
         </div>
       </div>
     </main>

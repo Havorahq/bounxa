@@ -13,7 +13,13 @@
 body {
   color: #fff ;
   background: #000;
+  background-image: url('/images/BG.svg');
+  background-size: cover; 
+ 
+  background-repeat: no-repeat; 
 }
+
+
 
 .background-image-div {
   background-image: url('/images/bg-image.svg');
@@ -67,5 +73,11 @@ body {
   .event_card {
     width: 90%;
     margin: auto;
+  }
+}
+
+@media (max-width: 640px) { 
+  body {
+ background-position: right; 
   }
 }

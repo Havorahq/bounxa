@@ -10,6 +10,7 @@ import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import { useAccount } from "@particle-network/connectkit";
 import Link from "next/link";
+import EmptyState from "@/components/event/EmptyState";
 
 function Explore() {
   const { address } = useAccount();
@@ -77,6 +78,8 @@ function Explore() {
             <div className="flex w-full items-center justify-center">
               <Loader color={"white"} heignt={"100px"} />
             </div>
+          ) : filter.length === 0 ? (
+            <EmptyState />
           ) : (
             filter.map(
               (obj: any, index: number) =>
