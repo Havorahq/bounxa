@@ -36,7 +36,7 @@ export default function Home() {
               <div className="flex w-full items-center justify-center">
                 <Loader color={"white"} heignt={"100px"} />
               </div>
-            ) : data.length !== 0 ? (
+            ) : data.length === 0 ? (
               <EmptyState />
             ) : (
               data.map(

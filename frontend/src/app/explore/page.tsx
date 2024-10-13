@@ -16,7 +16,7 @@ function Explore() {
   const { address } = useAccount();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>([]);
-  const [show, setShow] = useState("my event");
+  const [show, setShow] = useState("upcoming");
   const [filter, setFilter] = useState<any>([]);
   const todayNow = new Date();
   const getAll = async () => {
@@ -61,16 +61,16 @@ function Explore() {
       <div className="m-auto w-[95%] lg:w-[1000px]">
         <div className="flex items-center gap-6">
           <div
-            onClick={() => setShow("my event")}
-            className={`${show === "my event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
-          >
-            My Event
-          </div>
-          <div
             onClick={() => setShow("upcoming")}
             className={`${show === "upcoming" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
           >
             Upcoming Events
+          </div>
+          <div
+            onClick={() => setShow("my event")}
+            className={`${show === "my event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+          >
+            My Event
           </div>
         </div>
         <div className="events_con mt-10">
