@@ -48,7 +48,7 @@ const config = createConfig({
   walletConnectors: [
     evmWalletConnectors({
       metadata: { name: "My App", icon: "", description: "", url: "" },
-      walletConnectProjectId: process.env.NEXT_PUBLIC_PROJECT_ID!,
+      walletConnectProjectId: process.env.NEXT_PUBLIC_APP_ID!,
       connectorFns: [passkeySmartWallet()],
     }),
     authWalletConnectors({
