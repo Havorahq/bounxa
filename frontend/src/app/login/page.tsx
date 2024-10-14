@@ -5,9 +5,12 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
+import { useKlater } from "../hooks/kaster/useKlasterTransaction";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
+  const {initialiseKlaster, initiateKlasterTransaction} = useKlater()
+
   useEffect(() => {
     const handleUserCreation = async () => {
       if (address) {
@@ -43,13 +46,20 @@ function Login() {
                 <h2>Address: {address}</h2>
                 <h2>Chain ID: {chainId}</h2>
                 {/* <button onClick={() => disconnect()}>Disconnect</button> */}
-                <Button onClick={() => disconnect()} text={"Disconnect"} className="mt-5 w-full" />
+                <Button onClick={
+                  // () => disconnect()
+                  ()=>initialiseKlaster()
+                } text={"Disconnect"} className="mt-5 w-full" />
               </>
             ) : (
               <ConnectButton />
             )}
           </div>
-          {/* <Button text={"Connect Wallet"} className="mt-5 w-full" /> */}
+          <Button text={"do transaction"} className="mt-5 w-full"
+            onClick={()=>{
+              initiateKlasterTransaction(1)
+            }}
+          />
           <div className="mt-10 flex items-center gap-1">
             <p>Need to create an account?</p>
             <Link href={"signup"} className="font-medium">

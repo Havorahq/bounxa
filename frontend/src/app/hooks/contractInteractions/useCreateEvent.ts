@@ -61,7 +61,7 @@ export const useCreateEvent =()=>{
 
             }
         } catch(e){
-            alert(e)
+            throw new Error(JSON.stringify(e))
         }
         
     }
