@@ -9,10 +9,11 @@ import Nav from "@/components/Nav";
 import { useEffect, useState } from "react";
 import { getAllEvent } from "../api/helper-function";
 import EventsCard2 from "@/components/event/EventsCard2";
+import { EventType } from "@/utils/dataType";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<EventType[]>([]);
   const getAll = async () => {
     setLoading(true);
     const res = await getAllEvent();
@@ -40,7 +41,7 @@ export default function Home() {
               <EmptyState />
             ) : (
               data.map(
-                (obj: any, index: number) =>
+                (obj: EventType, index: number) =>
                   obj.type === "public" && (
                     <EventsCard2 key={index} data={obj} />
                   ),

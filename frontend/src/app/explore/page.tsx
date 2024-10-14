@@ -3,7 +3,6 @@
 //
 "use client";
 import EventsCard2 from "@/components/event/EventsCard2";
-import { Compass } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { getAllEvent } from "../api/helper-function";
 import Loader from "@/components/Loader";

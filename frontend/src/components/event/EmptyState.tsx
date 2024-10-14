@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "../Button";
-import { CalendarDots, Plus } from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
 function EmptyState() {

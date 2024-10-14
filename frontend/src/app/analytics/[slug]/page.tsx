@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 //
 "use client";
-import { useAccount } from "@particle-network/connectkit";
+// import { useAccount } from "@particle-network/connectkit";
 import {
   Compass,
   Globe,
@@ -14,12 +14,29 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getSingleEvent } from "@/app/api/helper-function";
 import { toast } from "sonner";
+import Loader from "@/components/Loader";
+import date from "date-and-time";
+import { EventType } from "@/utils/dataType";
 
 function Analytics() {
   const { slug } = useParams();
-  const { address } = useAccount();
+  // const { address } = useAccount();
   const eventId = slug;
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<EventType>({
+    id: "",
+    created_at: "",
+    host: "",
+    host_name: "",
+    location: "",
+    start_date: "",
+    capacity: "",
+    end_date: "",
+    description: "",
+    type: "",
+    timezone: "",
+    name: "",
+    price: "",
+  });
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
@@ -69,90 +86,101 @@ function Analytics() {
         </div>
       </header>
 
-      <div className="flex h-full grow items-center justify-center">
-        <div className="w-[90%] sm:w-[550px]">
-          <div className="flex gap-2">
-            <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              <div className="flex items-center gap-2">
-                <Ticket size={20} />
-                <div>
-                  <p className="font-medium">Tickets</p>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="flex h-full grow items-center justify-center">
+          <div className="w-[90%] sm:w-[550px]">
+            <div className="flex gap-2">
+              <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                <div className="flex items-center gap-2">
+                  <Ticket size={20} />
+                  <div>
+                    <p className="font-medium">Tickets</p>
+                  </div>
                 </div>
+                <p className="mt-3 text-2xl">
+                  {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
+                </p>
               </div>
-              <p className="mt-3 text-2xl">100</p>
-            </div>
-            <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              <div className="flex items-center gap-2">
-                <Ticket size={20} />
-                <div>
-                  <p className="font-medium">Cost per Ticket</p>
+              <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                <div className="flex items-center gap-2">
+                  <Ticket size={20} />
+                  <div>
+                    <p className="font-medium">Cost per Ticket</p>
+                  </div>
                 </div>
+                <p className="mt-3 text-2xl">
+                  {data.price ? <p>${data.price}</p> : "Free"}
+                </p>
               </div>
-              <p className="mt-3 text-2xl">$100</p>
             </div>
-          </div>
 
-          <div className="flex gap-2">
-            <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              <div className="flex items-center gap-2">
-                <UsersThree size={20} />
-                <div>
-                  <p className="font-medium">Capacity</p>
+            <div className="flex gap-2">
+              <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                <div className="flex items-center gap-2">
+                  <UsersThree size={20} />
+                  <div>
+                    <p className="font-medium">
+                      {" "}
+                      {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-3 text-2xl">100</p>
+              </div>
+              <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                <div className="flex items-center gap-2">
+                  <Ticket size={20} />
+                  <div>
+                    <p className="font-medium">Cost per Ticket</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-2xl">$100</p>
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
+                <div className="flex gap-2">
+                  <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                    {dateF && date.format(dateF! as Date, "dddd D MMM")}
+                  </p>
+                  <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                    {dateF && date.format(dateF! as Date, "hh:mm")}
+                  </p>
+                </div>
+                <div className="mt-1 flex gap-2">
+                  <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                    {dateE && date.format(dateE! as Date, "dddd D MMM")}
+                  </p>
+                  <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                    {dateE && date.format(dateE! as Date, "hh:mm")}
+                  </p>
                 </div>
               </div>
-              <p className="mt-3 text-2xl">100</p>
-            </div>
-            <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              <div className="flex items-center gap-2">
-                <Ticket size={20} />
-                <div>
-                  <p className="font-medium">Cost per Ticket</p>
-                </div>
+              <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
+                <Globe color="black" size={25} />
+                <p className="font-medium text-black">GMT</p>
+                <p className="text-sm font-medium text-black opacity-80">
+                  London
+                </p>
               </div>
-              <p className="mt-3 text-2xl">$100</p>
             </div>
-          </div>
 
-          <div className="mt-4 flex gap-2">
-            <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
-              <div className="flex gap-2">
-                <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                  Sunday 29 Sept
-                </p>
-                <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                  12:30
-                </p>
-              </div>
-              <div className="mt-1 flex gap-2">
-                <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                  Sunday 29 Sept
-                </p>
-                <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                  12:30
-                </p>
+            <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+              <MapPinLine size={20} className="mt-1" />
+              <div>
+                <p className="font-medium">Add Event Location</p>
+                <p className="font-medium opacity-80">{data.location}</p>
               </div>
             </div>
-            <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
-              <Globe color="black" size={25} />
-              <p className="font-medium text-black">GMT</p>
-              <p className="text-sm font-medium text-black opacity-80">
-                London
-              </p>
+            <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+              {data.description}
             </div>
-          </div>
-
-          <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-            <MapPinLine size={20} className="mt-1" />
-            <div>
-              <p className="font-medium">Add Event Location</p>
-              <p className="font-medium opacity-80">02 Arena, London</p>
-            </div>
-          </div>
-          <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-            Welcome to the biggest music fest this year!
           </div>
         </div>
-      </div>
+      )}
     </main>
   );
 }
