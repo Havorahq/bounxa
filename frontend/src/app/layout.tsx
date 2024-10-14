@@ -3,6 +3,7 @@ import "./globals.css";
 import { Urbanist } from "next/font/google";
 import { ParticleConnectkit } from "@/components/Connectkit";
 import { Toaster } from "sonner";
+import ClientWrapper from "@/components/ClientWrapper";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -25,7 +26,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${urbanist.variable} text-white antialiased`}>
         <Toaster richColors />
-        <ParticleConnectkit>{children}</ParticleConnectkit>
+        <ParticleConnectkit>
+          <ClientWrapper>{children}</ClientWrapper>
+        </ParticleConnectkit>
       </body>
     </html>
   );

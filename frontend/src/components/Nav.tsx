@@ -3,6 +3,7 @@
 import { HouseSimple, CalendarBlank, Compass } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
+
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
@@ -33,6 +34,7 @@ function Nav() {
       name: "explore",
     },
   ];
+
   return (
     <nav className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-[48px] border-2 border-[#E0E0E0] bg-[#FAFAFA] px-1 py-1 sm:bottom-auto sm:left-4 sm:top-1/2 sm:w-[48px] sm:-translate-x-0 sm:-translate-y-1/2 sm:flex-col sm:px-0">
       {navLinks.map((obj, index: number) => (
