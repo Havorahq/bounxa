@@ -3,7 +3,11 @@ import AuthParent from "@/components/auth/AuthParent";
 import Button from "@/components/Button";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
+import {
+  ConnectButton,
+  useAccount,
+  useDisconnect,
+} from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
 
 function Login() {
@@ -24,8 +28,7 @@ function Login() {
     handleUserCreation();
   }, [address]);
 
-
-  const {disconnect} = useDisconnect();
+  const { disconnect } = useDisconnect();
   return (
     <main>
       <AuthParent>
@@ -43,7 +46,11 @@ function Login() {
                 <h2>Address: {address}</h2>
                 <h2>Chain ID: {chainId}</h2>
                 {/* <button onClick={() => disconnect()}>Disconnect</button> */}
-                <Button onClick={() => disconnect()} text={"Disconnect"} className="mt-5 w-full" />
+                <Button
+                  onClick={() => disconnect()}
+                  text={"Disconnect"}
+                  className="mt-5 w-full"
+                />
               </>
             ) : (
               <ConnectButton />
