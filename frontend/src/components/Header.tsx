@@ -1,16 +1,27 @@
 //
 "use client";
 import React, { useState } from "react";
+import { useAccount } from "@particle-network/connectkit";
+import { truncateString } from "@/utils/function.helper";
+import Link from "next/link";
 
 function Header({ auth = false }: { auth?: boolean }) {
   const [show, setShow] = useState("upcoming");
+  const { address } = useAccount();
   return (
-    <header className="m-auto flex w-[90%] justify-between py-8 tablet:w-[800px]">
+    <header className="m-auto flex w-[90%] justify-between py-8 lg:w-[1000px]">
       <h1 className="text-2xl font-medium sm:text-3xl">Events</h1>
       {auth ? (
         <div className="flex items-center gap-4">
-          <div className="font-medium sm:text-xl">John Paul</div>
-          <div className="h-[40px] w-[40px] rounded-full bg-white font-medium sm:h-[50px] sm:w-[50px]"></div>
+          <div className="hidden font-medium lowercase phone:block sm:text-xl">
+            {truncateString(address!, 10)}
+          </div>
+          <Link
+            href={"/create-event"}
+            className="rounded-full bg-white px-3 py-2 font-medium text-black"
+          >
+            Create event
+          </Link>
         </div>
       ) : (
         <div className="flex items-center gap-6">

@@ -4,6 +4,7 @@
 
 import React from "react";
 import date from "date-and-time";
+import { truncateString } from "@/utils/function.helper";
 
 function EventCard({ data }: any) {
   const dateFormat = new Date(data?.start_date);
@@ -24,7 +25,9 @@ function EventCard({ data }: any) {
           <p className="text-xs font-medium phone:text-base">
             {date.format(dateFormat, "hh:mm")}
           </p>
-          <p className="text-lg font-medium phone:text-2xl">{data.name}</p>
+          <p className="text-lg font-medium phone:text-2xl">
+            {truncateString(data.name, 9)}
+          </p>
           <p className="text-sm font-medium phone:text-base">{data.location}</p>
           <div className="mt-3 flex items-center gap-2">
             <img

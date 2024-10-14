@@ -135,7 +135,7 @@ function EventDetail() {
                     <p className="font-medium">Tickets</p>
                   </div>
                 </div>
-                {data.price ? <p>$20</p> : "Free"}
+                {data.price ? <p>${data.price}</p> : "Free"}
               </div>
               <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
                 <div className="flex items-center gap-2">
