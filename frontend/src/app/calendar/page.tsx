@@ -9,10 +9,13 @@ import Nav from "@/components/Nav";
 import React, { useEffect, useState } from "react";
 import { getAllEvent } from "../api/helper-function";
 import Loader from "@/components/Loader";
+import { EventType } from "@/utils/dataType";
+import EmptyState from "@/components/event/EmptyState";
 
 function Calendar() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<EventType[]>([]);
+  const [arranged, setArranged] = useState<EventType[]>([]);
   const getAll = async () => {
     setLoading(true);
     const res = await getAllEvent();
@@ -27,6 +30,14 @@ function Calendar() {
     getAll();
   }, []);
 
+  useEffect(() => {
+    const filtered = data.sort(function (a, b) {
+      return a.start_date.localeCompare(b.start_date);
+    });
+
+    setArranged(filtered);
+  }, [data]);
+
   return (
     <main className="background-image-div">
       <Header />
@@ -36,9 +47,11 @@ function Calendar() {
           <div className="flex w-full items-center justify-center">
             <Loader color={"white"} heignt={"100px"} />
           </div>
+        ) : arranged.length === 0 ? (
+          <EmptyState />
         ) : (
-          data.map(
-            (obj: any, index: number) =>
+          arranged.map(
+            (obj, index: number) =>
               obj.type === "public" && <EventCard key={index} data={obj} />,
           )
         )}
