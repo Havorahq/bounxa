@@ -67,8 +67,8 @@ export const useKlater =()=>{
             setMultiChainClient(mcClient)
 
             const mcUSDC = buildTokenMapping([
-                deployment(sepolia.id, "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"),
-                deployment(421614, "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"),
+                deployment(sepolia.id, "0x779877A7B0D9E8603169DdbD7836e478b4624789"),
+                deployment(421614, "0xb1D4538B4571d411F07960EF2838Ce337FE1E80E"),
             ]);
             setMultichainToken(mcUSDC)
 

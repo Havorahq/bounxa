@@ -18,7 +18,7 @@ function dateToUint256(dateInput: string) {
 export const useCreateEvent =()=>{
     const [primaryWallet] = useWallets();
     const { address, isConnected, } = useAccount();
-    const [transactionStatus, setTransactionStatus] = useState<string|null>(null)
+    const [transactionStatus, setTransactionStatus] = useState<string|null>(null) // pending | confirmed
     const [newEventAddress, setNewEventAddress] = useState<string|null>(null)
     
 

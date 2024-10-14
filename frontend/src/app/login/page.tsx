@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
 import { useKlater } from "../hooks/kaster/useKlasterTransaction";
+import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
