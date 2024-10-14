@@ -73,9 +73,9 @@ const config = createConfig({
     }),
   ],
   chains: [
+    sepolia,
     bscTestnet,
     mainnet,
-    sepolia,
     bsc,
     linea,
     lineaSepolia,

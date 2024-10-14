@@ -7,12 +7,12 @@ const config: HardhatUserConfig = {
     // for testnet
     'bnb': {
       url: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
-      accounts: ['94408cb11d639ad62a0100ee08d8d025a9eee8ebf402823cf489233d67057093'],
+      accounts: [''],
       gasPrice: 1000000000,
     },
     'sepolia': {
       url: 'https://eth-sepolia.g.alchemy.com/v2/qokf832tk1LMYpfbOwozWXwmpfTfJ9FI',
-      accounts: ['94408cb11d639ad62a0100ee08d8d025a9eee8ebf402823cf489233d67057093'],
+      accounts: [''],
       gasPrice: 1000000000,
     },
   },

@@ -7,10 +7,16 @@ import { ConnectButton, useAccount, useDisconnect } from "@particle-network/conn
 import { createUser } from "../api/helper-function";
 import { useKlater } from "../hooks/kaster/useKlasterTransaction";
 import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
+import { initkkk } from "../hooks/kaster";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
   const {initialiseKlaster, initiateKlasterTransaction} = useKlater()
+
+  useEffect(()=>{
+    if (isConnected)
+    initkkk()
+  }, [isConnected])
 
   useEffect(() => {
     const handleUserCreation = async () => {

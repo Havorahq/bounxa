@@ -24,7 +24,8 @@ import { useAccount} from "@particle-network/connectkit";
 import { avalancheFuji, arbitrumSepolia, sepolia, optimismSepolia, base, liskSepolia, optimism} from '@particle-network/connectkit/chains';
 import { useState } from "react";
 import { liFiBrigePlugin } from "./helpers/lifiPlugin";
-import { encodeFunctionData, erc20Abi } from "viem";
+import { createWalletClient, custom, encodeFunctionData, erc20Abi } from "viem";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 export const useKlater =()=>{
     // const [primaryWallet] = useWallets();
@@ -39,21 +40,29 @@ export const useKlater =()=>{
 
     const initialiseKlaster = async ()=>{
         console.log('hook called')
+        
         try{
             if (!isConnected) throw new Error("Wallet not connected")
             // const EOAprovider = await primaryWallet?.connector?.getProvider();
             // const web3Provider = new ethers.BrowserProvider(EOAprovider as unknown as Eip1193Provider);
             // const signer = await web3Provider.getSigner();
 
+            const signer = createWalletClient({
+                transport: custom((window as any).ethereum),
+            });
+
+            const [address] = await signer.getAddresses();
+
+            console.log('the signer address', address)
+
             if (!address) return
             const klaster = await initKlaster({
                 // accountInitData: loadBicoV2Account({
                 //   owner: (address as `0x${string}`), // Fetch
                 // }),
-                accountInitData: loadSafeV141Account({
-                    signers: ['0xE08686958FF334A5422df17FaF05dd989e779FfA'],
-                    threshold: BigInt(100),
-                  }),
+                accountInitData: loadBicoV2Account({
+                    owner: address, // Fetch
+                }),
                 nodeUrl: klasterNodeHost.default,
             });
 
@@ -67,8 +76,8 @@ export const useKlater =()=>{
             setMultiChainClient(mcClient)
 
             const mcUSDC = buildTokenMapping([
-                deployment(sepolia.id, "0x779877A7B0D9E8603169DdbD7836e478b4624789"),
-                deployment(421614, "0xb1D4538B4571d411F07960EF2838Ce337FE1E80E"),
+                deployment(sepolia.id, "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"),
+                deployment(421614, "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"),
             ]);
             setMultichainToken(mcUSDC)
 
@@ -84,6 +93,9 @@ export const useKlater =()=>{
             };
 
             const mUSDC = intersectTokenAndClients(mcUSDC, mcClient);
+
+
+            console.log('the klaster address', klaster.account.getAddress(sepolia.id))
 
             const uBalance = await mcClient.getUnifiedErc20Balance({
                 tokenMapping: mUSDC,
