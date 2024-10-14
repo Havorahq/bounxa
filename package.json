@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@lifi/sdk": "^3.2.3",
-    "klaster-sdk": "^0.5.11"
-  }
-}
