@@ -8,10 +8,12 @@ import { createUser } from "../api/helper-function";
 import { useKlater } from "../hooks/kaster/useKlasterTransaction";
 import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
 import { initkkk } from "../hooks/kaster";
+import { useParticleSmartAccount } from "../hooks/particle";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
   const {initialiseKlaster, initiateKlasterTransaction} = useKlater()
+  const {smartAccount, executeParticleTransaction} = useParticleSmartAccount()
 
   useEffect(()=>{
     if (isConnected)
@@ -64,7 +66,7 @@ function Login() {
           </div>
           <Button text={"do transaction"} className="mt-5 w-full"
             onClick={()=>{
-              initiateKlasterTransaction(1)
+              executeParticleTransaction({amount: 0.01})
             }}
           />
           <div className="mt-10 flex items-center gap-1">
