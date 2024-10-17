@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getSingleEvent } from "@/app/api/helper-function";
+import { getEventAttendee, getSingleEvent } from "@/app/api/helper-function";
 import { toast } from "sonner";
 import Loader from "@/components/Loader";
 import date from "date-and-time";
@@ -40,10 +40,19 @@ function Analytics() {
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
+  const [attendee, setAttendee] = useState([]);
+
+  const getAttendee = async () => {
+    const res = await getEventAttendee(eventId as string);
+    if (res.data) {
+      setAttendee(res.data as never[]);
+    }
+  };
 
   const getEventData = async () => {
     setLoading(true);
     const res = await getSingleEvent(eventId as string);
+    getAttendee();
     if (res.error) {
       toast.error(res.error, { position: "top-right" });
     }
@@ -65,7 +74,7 @@ function Analytics() {
   }, [data]);
 
   return (
-    <main className="flex h-screen flex-col">
+    <main className="h-screen">
       <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">
         <Link href={"/"}>
           <img src="/icons/Logo.svg" alt="" className="h-10 phone:h-auto" />
@@ -87,9 +96,9 @@ function Analytics() {
       </header>
 
       {loading ? (
-        <Loader />
+        <Loader color={"white"} />
       ) : (
-        <div className="flex h-full grow items-center justify-center">
+        <div className="mt-16 flex items-center justify-center">
           <div className="w-[90%] sm:w-[550px]">
             <div className="flex gap-2">
               <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
@@ -99,9 +108,7 @@ function Analytics() {
                     <p className="font-medium">Tickets</p>
                   </div>
                 </div>
-                <p className="mt-3 text-2xl">
-                  {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
-                </p>
+                <p className="mt-3 text-2xl">{attendee.length}</p>
               </div>
               <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
                 <div className="flex items-center gap-2">
@@ -121,13 +128,13 @@ function Analytics() {
                 <div className="flex items-center gap-2">
                   <UsersThree size={20} />
                   <div>
-                    <p className="font-medium">
-                      {" "}
-                      {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
-                    </p>
+                    <p className="font-medium">Capacity</p>
                   </div>
                 </div>
-                <p className="mt-3 text-2xl">100</p>
+                <p className="mt-3 text-2xl">
+                  {" "}
+                  {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
+                </p>
               </div>
               <div className="mt-4 w-1/2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
                 <div className="flex items-center gap-2">
@@ -136,7 +143,10 @@ function Analytics() {
                     <p className="font-medium">Cost per Ticket</p>
                   </div>
                 </div>
-                <p className="mt-3 text-2xl">$100</p>
+                <p className="mt-3 text-2xl">
+                  {" "}
+                  {data.price ? <p>${data.price}</p> : "Free"}
+                </p>
               </div>
             </div>
 

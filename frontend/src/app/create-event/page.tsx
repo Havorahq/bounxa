@@ -3,7 +3,7 @@
 "use client";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ReactNode } from "react";
 import {
   Globe,
   MapPinLine,
@@ -17,6 +17,8 @@ import { createEvent } from "../api/helper-function";
 import { useAccount } from "@particle-network/connectkit";
 import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
+import timezones from "timezones-list";
+import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
 
 const getTodayDate = (date: Date) => {
   const year = date.getFullYear();
@@ -44,9 +46,12 @@ function CreateEvent() {
   const [type, setType] = useState("public");
   const [description, setDescriotion] = useState("");
   const [tz, setTz] = useState("");
+  const [utc, setUtc] = useState("");
   const [creator, setCreator] = useState("");
-
+  const [showTz, setShowtz] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { createEvent: blockCReate, newEventAddress } = useCreateEvent();
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -54,27 +59,48 @@ function CreateEvent() {
 
   const handleCreateEvent = async () => {
     setLoading(true);
-    const response = await createEvent(
-      address as string,
-      location,
-      parseInt(capacity),
-      eventName,
-      `${startDate}T${startTime}`,
-      `${endDate}T${endTime}`,
-      type,
-      description,
-      tz,
-      creator,
-    );
 
-    if (response.error) {
-      toast.error(response.error, { position: "top-right" });
+    try {
+      await blockCReate({
+        visibility: type,
+        startDate: `${startDate}T${startTime}`,
+        endDate: `${endDate}T${endTime}`,
+        location: location,
+        imageUrl: "",
+        description: description,
+        ticketPrice: price ? parseInt(price) : 0,
+        ticketQuantity: capacity ? parseInt(capacity) : 0,
+      });
+    } catch (e: unknown) {
+      toast.error(e as ReactNode);
+      return e;
     }
-    if (response.data) {
-      toast.success("Event created", { position: "top-right" });
+
+    if (newEventAddress) {
+      const response = await createEvent(
+        address as string,
+        location,
+        parseInt(capacity),
+        eventName,
+        `${startDate}T${startTime}`,
+        `${endDate}T${endTime}`,
+        type,
+        description,
+        tz,
+        creator,
+        utc,
+        newEventAddress!,
+        parseInt(price),
+      );
+      if (response.error) {
+        toast.error(response.error, { position: "top-right" });
+      }
+      if (response.data) {
+        toast.success("Event created", { position: "top-right" });
+      }
     }
+
     setLoading(false);
-    setTz("");
   };
   return (
     <main className="background-image-div">
@@ -93,7 +119,6 @@ function CreateEvent() {
           placeHolder={"Ticket price"}
         />
       )}
-
       {showCapacity && (
         <EventModal
           title={"Max Capacity"}
@@ -125,6 +150,32 @@ function CreateEvent() {
           }
         />
       )}
+
+      {showTz && (
+        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC]">
+          <div
+            className="w-[95%] rounded-2xl bg-white p-5 text-black phone:w-[340px]"
+            // ref={ref!}
+          >
+            <div className="h-[400px] w-full overflow-y-scroll">
+              {timezones.map((obj, index: number) => (
+                <div
+                  onClick={() => {
+                    setTz(obj.tzCode);
+                    setUtc(obj.utc);
+                    setShowtz(false);
+                  }}
+                  key={index}
+                  className="cursor-pointer border-b border-[#96969686] py-1 text-sm"
+                >
+                  {obj.tzCode}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
         <div>
           <img
@@ -230,12 +281,13 @@ function CreateEvent() {
                 </div>
               </div>
             </div>
-            <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
+            <div
+              onClick={() => setShowtz(true)}
+              className="flex w-[90px] cursor-pointer flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3"
+            >
               <Globe color="black" size={25} />
               <p className="font-medium text-black">GMT</p>
-              <p className="text-sm font-medium text-black opacity-80">
-                London
-              </p>
+              <p className="text-sm font-medium text-black opacity-80">{utc}</p>
             </div>
           </div>
           <div className="mt-3 flex w-full gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
@@ -312,6 +364,7 @@ function CreateEvent() {
               endDate === "" ||
               description === "" ||
               creator === "" ||
+              tz === "" ||
               loading
             }
             className="mt-4 w-full"
