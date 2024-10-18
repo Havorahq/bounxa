@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import date from "date-and-time";
 import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
+import { fetchPrice } from "../../seda/helper";
 
 function EventDetail() {
   const { slug } = useParams();
@@ -87,6 +88,14 @@ function EventDetail() {
     setDate(format);
     setDateE(formatE);
   }, [data]);
+
+  const buyTicket = async () => {
+    const data = await fetchPrice();
+    if (data) {
+      handleJoinEvent();
+    }
+    console.log(data);
+  };
 
   return (
     <main className="background-image-div">
@@ -184,7 +193,7 @@ function EventDetail() {
             </div>
 
             <Button
-              onClick={handleJoinEvent}
+              onClick={buyTicket}
               className="mt-4 w-full"
               text={"Buy Ticket"}
             />

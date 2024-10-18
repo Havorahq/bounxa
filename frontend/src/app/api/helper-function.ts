@@ -19,7 +19,10 @@ export const createUser = async (public_address: string) => {
 
     // User doesn't exist, create a new user
     const newUser = { public_address };
-    const { data, error } = await supabase.from("users").insert([newUser]).select();
+    const { data, error } = await supabase
+      .from("users")
+      .insert([newUser])
+      .select();
 
     if (error) {
       throw new Error(error.message);
@@ -49,7 +52,10 @@ export const createEvent = async (host: string, location: string, capacity: numb
 export const joinEvent = async (event_id: string, attendee_id: string) => {
   try {
     const joinedEvent = { event_id, attendee_id };
-    const { data, error } = await supabase.from("attendees").insert([joinedEvent]).select();
+    const { data, error } = await supabase
+      .from("attendees")
+      .insert([joinedEvent])
+      .select();
 
     if (error) {
       throw new Error(error.message);
@@ -63,9 +69,7 @@ export const joinEvent = async (event_id: string, attendee_id: string) => {
 
 export const getAllEvent = async () => {
   try {
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
+    const { data, error } = await supabase.from("events").select("*");
     if (error) {
       throw new Error(error.message);
     }
@@ -78,24 +82,30 @@ export const getAllEvent = async () => {
 
 export const getSingleEvent = async (event_id: string) => {
   try {
-    const { data, error } = await supabase.from('events').select('*').eq('id', event_id)
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("id", event_id);
     if (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-    return { data, error: null }
+    return { data, error: null };
   } catch (e) {
     return { data: null, error: `An error occurred: ${e}` };
   }
-}
+};
 
 export const getEventAttendee = async (event_id: string) => {
   try {
-    const { data, error } = await supabase.from('attendees').select('*').eq('event_id', event_id)
+    const { data, error } = await supabase
+      .from("attendees")
+      .select("*")
+      .eq("event_id", event_id);
     if (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-    return { data, error: null }
+    return { data, error: null };
   } catch (e) {
     return { data: null, error: `An error occurred: ${e}` };
   }
-}
+};
