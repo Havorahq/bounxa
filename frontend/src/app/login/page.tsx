@@ -9,11 +9,14 @@ import {
   useDisconnect,
 } from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
+// import { fetchPrice } from "../seda/helper";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
+
   useEffect(() => {
     const handleUserCreation = async () => {
+      // console.log({ data });
       if (address) {
         try {
           const { data, error } = await createUser(address);

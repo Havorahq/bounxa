@@ -16,29 +16,59 @@ import {
   UsersThree,
 } from "@phosphor-icons/react";
 import Button from "@/components/Button";
-import { getSingleEvent, joinEvent } from "@/app/api/helper-function";
+import {
+  getEventAttendee,
+  getSingleEvent,
+  joinEvent,
+} from "@/app/api/helper-function";
 import { useAccount } from "@particle-network/connectkit";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import date from "date-and-time";
 import Loader from "@/components/Loader";
+import { EventType } from "@/utils/dataType";
+import { fetchPrice } from "../../seda/helper";
 
 function EventDetail() {
   const { slug } = useParams();
   const { address } = useAccount();
   const eventId = slug;
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<EventType>({
+    id: "",
+    created_at: "",
+    host: "",
+    host_name: "",
+    location: "",
+    start_date: "",
+    capacity: "",
+    end_date: "",
+    description: "",
+    type: "",
+    timezone: "",
+    name: "",
+    price: "",
+  });
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
+  const [attendee, setAttendee] = useState<any[]>([]);
 
   const handleJoinEvent = async () => {
     await joinEvent(eventId as string, address as string);
+    getAttendee();
+  };
+
+  const getAttendee = async () => {
+    const res = await getEventAttendee(eventId as string);
+    if (res.data) {
+      setAttendee(res.data);
+    }
   };
 
   const getEventData = async () => {
     setLoading(true);
     const res = await getSingleEvent(eventId as string);
+    getAttendee();
     if (res.error) {
       toast.error(res.error, { position: "top-right" });
     }
@@ -58,6 +88,14 @@ function EventDetail() {
     setDate(format);
     setDateE(formatE);
   }, [data]);
+
+  const buyTicket = async () => {
+    const data = await fetchPrice();
+    if (data) {
+      handleJoinEvent();
+    }
+    console.log(data);
+  };
 
   return (
     <main className="background-image-div">
@@ -144,12 +182,18 @@ function EventDetail() {
                     <p className="font-medium">Capacity</p>
                   </div>
                 </div>
-                {data.capacity ? <p>10/100</p> : "Unlimited"}
+                {data.capacity ? (
+                  <p>
+                    {attendee.length}/{data.capacity}
+                  </p>
+                ) : (
+                  "Unlimited"
+                )}
               </div>
             </div>
 
             <Button
-              onClick={handleJoinEvent}
+              onClick={buyTicket}
               className="mt-4 w-full"
               text={"Buy Ticket"}
             />

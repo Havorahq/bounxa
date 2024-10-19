@@ -43,7 +43,7 @@ function Explore() {
   }, []);
 
   return (
-    <main>
+    <main className="h-screen">
       <Nav />
       <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">
         <Link href={"/"}>
