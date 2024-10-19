@@ -21,7 +21,7 @@ import {
 // import { useWallets } from '@particle-network/connectkit';
 import { useAccount} from "@particle-network/connectkit";
 // import { Eip1193Provider, ethers } from "ethers";
-import { sepolia} from '@particle-network/connectkit/chains';
+import { arbitrumSepolia, sepolia} from '@particle-network/connectkit/chains';
 import { useState } from "react";
 import { liFiBrigePlugin } from "./helpers/lifiPlugin";
 import { createWalletClient, custom, encodeFunctionData, erc20Abi, parseUnits } from "viem";
@@ -108,17 +108,17 @@ export const useKlater =()=>{
         }
     }
 
-    const initiateKlasterTransaction =async(amount: number)=>{
+    const initiateKlasterTransaction =async(amount: number, receiverAddress: `0x${string}`)=>{
         try{
             if (!klasterObj || !multiChainClient || !unifiedBalance) return
             console.log(klasterObj.account, 'klasteraccount')
             const bridgingOps = await encodeBridgingOps({
                 tokenMapping: multichainToken,
                 account: klasterObj.account,
-                amount: parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
+                amount: BigInt(amount * 1*10^unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
                 bridgePlugin: liFiBrigePlugin,
                 client: multiChainClient,
-                destinationChainId: sepolia.id,
+                destinationChainId: arbitrumSepolia.id,
                 unifiedBalance: unifiedBalance,
             });
 
@@ -128,17 +128,17 @@ export const useKlater =()=>{
                 data: encodeFunctionData({
                 abi: erc20Abi,
                 functionName: "transfer",
-                args: ['0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5', bridgingOps.totalReceivedOnDestination],
+                args: [receiverAddress, bridgingOps.totalReceivedOnDestination],
                 }),
             });
 
             const iTx = buildItx({
                 // BridgingOPs + Execution on the destination chain
                 // added as steps to the iTx
-                steps: bridgingOps.steps.concat(singleTx(sepolia.id, sendERC20Op)),
+                steps: bridgingOps.steps.concat(singleTx(arbitrumSepolia.id, sendERC20Op)),
                 // Klaster works with cross-chain gas abstraction. This instructs the Klaster
                 // nodes to take USDC on Optimism as tx fee payment.
-                feeTx: klasterObj.encodePaymentFee(sepolia.id, "USDC"),
+                feeTx: klasterObj.encodePaymentFee(arbitrumSepolia.id, "USDC"),
             });
 
             const quote = await klasterObj.getQuote(iTx);

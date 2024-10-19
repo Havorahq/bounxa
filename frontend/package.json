@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.2.3",
+    "@lifi/sdk": "^3.3.0",
     "@particle-network/aa": "^2.0.2",
     "@particle-network/authkit": "^2.0.5",
     "@particle-network/connectkit": "^2.0.9",
@@ -25,7 +25,7 @@
     "react-dom": "^18",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
-    "viem": "^2.21.25"
+    "viem": "^2.21.29"
   },
   "devDependencies": {
     "@types/node": "^20",

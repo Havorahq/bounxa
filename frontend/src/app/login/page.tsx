@@ -5,15 +5,10 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { ConnectButton, useAccount, useDisconnect } from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
-import { useKlater } from "../hooks/kaster/useKlasterTransaction";
-import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
 import { initkkk } from "../hooks/kaster";
-import { useParticleSmartAccount } from "../hooks/particle";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
-  const {initialiseKlaster, initiateKlasterTransaction} = useKlater()
-  const {smartAccount, executeParticleTransaction} = useParticleSmartAccount()
 
   useEffect(()=>{
     if (isConnected)
@@ -56,19 +51,13 @@ function Login() {
                 <h2>Chain ID: {chainId}</h2>
                 {/* <button onClick={() => disconnect()}>Disconnect</button> */}
                 <Button onClick={
-                  // () => disconnect()
-                  ()=>initialiseKlaster()
+                  () => disconnect()
                 } text={"Disconnect"} className="mt-5 w-full" />
               </>
             ) : (
               <ConnectButton />
             )}
           </div>
-          <Button text={"do transaction"} className="mt-5 w-full"
-            onClick={()=>{
-              executeParticleTransaction({amount: 0.01})
-            }}
-          />
           <div className="mt-10 flex items-center gap-1">
             <p>Need to create an account?</p>
             <Link href={"signup"} className="font-medium">

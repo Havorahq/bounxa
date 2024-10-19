@@ -41,22 +41,27 @@ export const initializeSmartAccount = async (args: {
                     ],
                 },
                 paymasterApiKeys: [{ // Optional
-                    chainId: 11155111,  
+                    chainId: sepolia.id,  
                     apiKey: process.env.NEXT_PUBLIC_BICONOMY_PAYMASTER_API_KEY || '',
-                }]
+                },
+                { // Optional
+                    chainId: arbitrumSepolia.id,  
+                    apiKey: process.env.NEXT_PUBLIC_BICONOMY_API_KEY_ARBITRUM_SEPOLIA || '',
+                },
+            ]
             }, 
         });
         
         smartAccount.setSmartAccountContract({ name: 'BICONOMY', version: '2.0.0' });
 
         const address = await smartAccount.getAddress(); 
-        console.log('the smart account address', address)
+        console.log('the particle smart account address', address)
     
         const ownerAddress = await smartAccount.getOwner();
-        console.log('smart account owner address', ownerAddress)
+        console.log('particle smart account owner address', ownerAddress)
 
         const accountInfo = await smartAccount.getAccount();
-        console.log('smart account info', accountInfo)
+        console.log('particle smart account info', accountInfo)
         return {
             smartAccount
         }
