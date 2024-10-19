@@ -1,4 +1,4 @@
-import { useAccount} from "@particle-network/connectkit";
+import { useAccount } from "@particle-network/connectkit";
 import { Eip1193Provider, ethers } from "ethers";
 import eventFactoryAbi from '../../../lib/contractinfo/EventFactoryAbi.json'
 import { useWallets } from '@particle-network/connectkit';
@@ -15,14 +15,14 @@ function dateToUint256(dateInput: string) {
 }
 
 
-export const useCreateEvent =()=>{
+export const useCreateEvent = () => {
     const [primaryWallet] = useWallets();
     const { address, isConnected, } = useAccount();
     const [transactionStatus, setTransactionStatus] = useState<string|null>(null) // pending | confirmed
     const [newEventAddress, setNewEventAddress] = useState<string|null>(null)
     
 
-    const createEvent =async (args:{
+    const createEvent = async (args: {
         visibility: string,
         startDate: string,
         endDate: string,
@@ -31,13 +31,13 @@ export const useCreateEvent =()=>{
         description: string,
         ticketPrice: number,
         ticketQuantity: number
-    })=>{
-        try{
+    }) => {
+        try {
             if (!isConnected) throw new Error("Wallet not connected")
             const EOAprovider = await primaryWallet?.connector?.getProvider();
             const web3Provider = new ethers.BrowserProvider(EOAprovider as unknown as Eip1193Provider);
             const signer = await web3Provider.getSigner();
-            if (address){
+            if (address) {
                 const bounxaEventFactory = new ethers.Contract('0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA', eventFactoryAbi, signer);
                 setTransactionStatus('pending')
                 const eventCreationTx = await bounxaEventFactory.createBounxaEvent(
@@ -56,14 +56,14 @@ export const useCreateEvent =()=>{
 
                 const deployedEvents: string[] = await bounxaEventFactory.getEvents(address)
 
-                const mostRecentEvent = deployedEvents[deployedEvents.length -1]
+                const mostRecentEvent = deployedEvents[deployedEvents.length - 1]
                 setNewEventAddress(mostRecentEvent)
 
             }
         } catch(e){
             throw new Error(JSON.stringify(e))
         }
-        
+
     }
 
     return {
