@@ -10,7 +10,6 @@ import {
 } from "@particle-network/connectkit";
 import { createUser } from "../api/helper-function";
 // import { fetchPrice } from "../seda/helper";
-import { initkkk } from "../hooks/kaster";
 
 function Login() {
   const { address, isConnected, chainId } = useAccount();
