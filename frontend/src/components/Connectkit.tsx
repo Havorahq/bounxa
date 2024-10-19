@@ -14,6 +14,7 @@ import {
   polygonAmoy,
   solana,
   solanaTestnet,
+  arbitrumSepolia
 } from "@particle-network/connectkit/chains";
 import {
   evmWalletConnectors,
@@ -82,6 +83,7 @@ const config = createConfig({
     polygonAmoy,
     solana,
     solanaTestnet,
+    arbitrumSepolia
   ],
 });
 

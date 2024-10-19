@@ -59,7 +59,6 @@ function Login() {
               <ConnectButton />
             )}
           </div>
-          {/* <Button text={"Connect Wallet"} className="mt-5 w-full" /> */}
           <div className="mt-10 flex items-center gap-1">
             <p>Need to create an account?</p>
             <Link href={"signup"} className="font-medium">

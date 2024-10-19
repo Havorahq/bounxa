@@ -18,9 +18,9 @@ function dateToUint256(dateInput: string) {
 export const useCreateEvent = () => {
     const [primaryWallet] = useWallets();
     const { address, isConnected, } = useAccount();
-    const [transactionStatus, setTransactionStatus] = useState<string | null>(null)
-    const [newEventAddress, setNewEventAddress] = useState<string | null>(null)
-
+    const [transactionStatus, setTransactionStatus] = useState<string|null>(null) // pending | confirmed
+    const [newEventAddress, setNewEventAddress] = useState<string|null>(null)
+    
 
     const createEvent = async (args: {
         visibility: string,
@@ -60,9 +60,8 @@ export const useCreateEvent = () => {
                 setNewEventAddress(mostRecentEvent)
 
             }
-        } catch (e) {
-            alert(e)
-            return e
+        } catch(e){
+            throw new Error(JSON.stringify(e))
         }
 
     }
