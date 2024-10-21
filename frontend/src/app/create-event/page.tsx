@@ -38,8 +38,8 @@ function CreateEvent() {
   const endTRef = useRef<HTMLInputElement | null>(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState("12:00");
+  const [endTime, setEndTime] = useState("13:00");
   const [eventName, setEventName] = useState("");
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
