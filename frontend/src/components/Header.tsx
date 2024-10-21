@@ -15,7 +15,7 @@ function Header({ auth = false }: { auth?: boolean }) {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   return (
-    <header className="m-auto flex w-[90%] justify-between py-8 lg:w-[1000px]">
+    <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1000px]">
       <h1 className="text-2xl font-medium sm:text-3xl">Events</h1>
       {auth ? (
         <div className="flex items-center gap-4">

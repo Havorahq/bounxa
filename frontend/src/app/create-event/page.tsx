@@ -19,6 +19,7 @@ import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
 import timezones from "timezones-list";
 import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
+import "react-calendar/dist/Calendar.css";
 
 const getTodayDate = (date: Date) => {
   const year = date.getFullYear();
@@ -209,18 +210,19 @@ function CreateEvent() {
           <div className="mt-4 flex gap-2">
             <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
               <div className="flex gap-2">
-                <div className="flex grow">
+                <div className="relative flex grow">
                   <input
                     ref={startDRef}
                     type="date"
-                    className="mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
+                    className="absolute mt-10 max-h-0 max-w-0 bg-white font-medium text-black opacity-0"
                     name=""
                     id=""
                     onChange={startDateChange}
                     min={getTodayDate(new Date())}
                   />
+
                   <p
-                    onClick={() => startDRef.current?.showPicker()}
+                    onClick={() => startDRef!.current?.showPicker()}
                     className="grow cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
                   >
                     {startDate
@@ -232,11 +234,11 @@ function CreateEvent() {
                 {/* <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg grow">
                   Sunday 29 Sept
                 </p> */}
-                <div className="flex">
+                <div className="relative flex">
                   <input
                     ref={startTRef}
                     type="time"
-                    className="mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
                     onChange={(e) => setStartTime(e.target.value)}
                   />
                   <p
@@ -248,10 +250,10 @@ function CreateEvent() {
                 </div>
               </div>
               <div className="mt-1 flex gap-2">
-                <div className="flex grow">
+                <div className="relative flex grow">
                   <input
                     type="date"
-                    className="mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
+                    className="absolute mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
                     ref={endDRef}
                     onChange={(e) => setEndDate(e.target.value)}
                     min={getTodayDate(new Date(startDate))}
@@ -265,11 +267,11 @@ function CreateEvent() {
                       : "Start date"}
                   </p>
                 </div>
-                <div className="flex">
+                <div className="relative flex">
                   <input
                     ref={endTRef}
                     type="time"
-                    className="mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
                     onChange={(e) => setEndTime(e.target.value)}
                   />
                   <div
