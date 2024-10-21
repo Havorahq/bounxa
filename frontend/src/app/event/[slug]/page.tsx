@@ -33,6 +33,7 @@ function EventDetail() {
   const { slug } = useParams();
   const { address } = useAccount();
   const eventId = slug;
+  // const [chain, setChain] = useState('')
   const [data, setData] = useState<EventType>({
     id: "",
     created_at: "",
@@ -191,10 +192,24 @@ function EventDetail() {
                 )}
               </div>
             </div>
+            <div className="relative w-full">
+              <select
+                className="mt-4 w-full rounded-lg bg-[#FFFFFFCC] p-3 font-medium text-black outline-none"
+                name=""
+                id=""
+              >
+                <option value="">Select a coin</option>
+                <option value="">Bnb</option>
+                <option value="">Btc</option>
+              </select>
+              {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <p>icon</p>
+              </div> */}
+            </div>
 
             <Button
               onClick={buyTicket}
-              className="mt-4 w-full"
+              className="mt-2 w-full"
               text={"Buy Ticket"}
             />
           </div>
