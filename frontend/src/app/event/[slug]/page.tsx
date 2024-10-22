@@ -22,6 +22,7 @@ import date from "date-and-time";
 import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
 import { fetchPrice } from "../../seda/helper";
+import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 
 function EventDetail() {
   const { slug } = useParams();
@@ -42,6 +43,7 @@ function EventDetail() {
     name: "",
     price: "",
   });
+  console.log('event data', data)
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
@@ -50,6 +52,11 @@ function EventDetail() {
   const [selectedChain, setSelectedChain] = useState<string>("arbitrium");
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
+
+
+
+  const {initiateKlasterTransaction, klasterAddress} = useKlater()
+  console.log(klasterAddress, 'the klaster object')
 
   const handleJoinEvent = async () => {
     await joinEvent(eventId as string, address as string);
@@ -96,18 +103,14 @@ function EventDetail() {
     // console.log(data);
   };
 
-  const handleChainChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedChain(event.target.value);
-    // Optionally, update the price based on the selected chain
-  };
-
-  const handleTokenChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedToken(event.target.value);
-    // Optionally, update the price based on the selected token
-  };
-
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+    // const data = await fetchPrice();
+    // if (data) {
+    //   handleJoinEvent();
+    // }
+    // console.log(data);
+    await initiateKlasterTransaction(1, '0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5')
   };
 
   return (

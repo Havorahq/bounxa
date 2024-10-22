@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     BiconomyV2AccountInitData,
@@ -22,7 +23,7 @@ import {
 import { useAccount} from "@particle-network/connectkit";
 // import { Eip1193Provider, ethers } from "ethers";
 import { arbitrumSepolia, sepolia} from '@particle-network/connectkit/chains';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { liFiBrigePlugin } from "./helpers/lifiPlugin";
 import { createWalletClient, custom, encodeFunctionData, erc20Abi, parseUnits } from "viem";
 
@@ -34,6 +35,7 @@ export const useKlater =()=>{
     const [multiChainClient, setMultiChainClient] = useState<MultichainClient | null>(null)
     const [unifiedBalance, setUnifiedBalance] = useState<UnifiedBalanceResult | null>(null)
     const [signer, setSigner] = useState<any>(null)
+    const [klasterAddress, setKlasterAddress] = useState<`0x${string}` | null>(null)
 
     const initialiseKlaster = async ()=>{
         
@@ -92,6 +94,7 @@ export const useKlater =()=>{
 
 
             console.log('the klaster address', klaster.account.getAddress(sepolia.id))
+            setKlasterAddress(klaster?.account?.getAddress(sepolia.id) as `0x${string}`)
 
             const uBalance = await mcClient.getUnifiedErc20Balance({
                 tokenMapping: mUSDC,
@@ -103,19 +106,24 @@ export const useKlater =()=>{
             console.log(uBalance, 'the united obj')
             setKlaterObj(klaster)
         } catch (e){
-            alert(e)
+            // alert(e)
             console.log('error in klaster transaction', e)
         }
     }
 
+    useEffect(()=>{
+        initialiseKlaster()
+    }, [isConnected])
+
     const initiateKlasterTransaction =async(amount: number, receiverAddress: `0x${string}`)=>{
+        console.log('function getting in use')
         try{
             if (!klasterObj || !multiChainClient || !unifiedBalance) return
             console.log(klasterObj.account, 'klasteraccount')
             const bridgingOps = await encodeBridgingOps({
                 tokenMapping: multichainToken,
                 account: klasterObj.account,
-                amount: BigInt(amount * 1*10^unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
+                amount: parseUnits("15", unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
                 bridgePlugin: liFiBrigePlugin,
                 client: multiChainClient,
                 destinationChainId: arbitrumSepolia.id,
@@ -124,7 +132,7 @@ export const useKlater =()=>{
 
             const sendERC20Op = rawTx({
                 gasLimit: BigInt(1000000),
-                to:   '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',//destChainTokenAddress,
+                to:   '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
                 data: encodeFunctionData({
                 abi: erc20Abi,
                 functionName: "transfer",
@@ -166,6 +174,7 @@ export const useKlater =()=>{
 
     return {
         initialiseKlaster,
-        initiateKlasterTransaction
+        initiateKlasterTransaction,
+        klasterAddress
     }
 }
