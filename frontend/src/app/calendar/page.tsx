@@ -22,7 +22,6 @@ function Calendar() {
     if (res.data) {
       setData(res.data);
     }
-    console.log(res);
     setLoading(false);
   };
 

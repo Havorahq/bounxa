@@ -26,8 +26,8 @@ const config: Config = {
     },
 
     animation: {
-      marquee: "marquee 25s linear infinite",
-      marquee2: "marquee2 25s linear infinite",
+      marquee: "marquee 100s linear infinite",
+      marquee2: "marquee2 100s linear infinite",
     },
     keyframes: {
       marquee: {

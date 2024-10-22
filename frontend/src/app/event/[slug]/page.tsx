@@ -43,20 +43,15 @@ function EventDetail() {
     name: "",
     price: "",
   });
-  console.log('event data', data)
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
   const [attendee, setAttendee] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedChain, setSelectedChain] = useState<string>("arbitrium");
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
 
-
-
-  const {initiateKlasterTransaction, klasterAddress} = useKlater()
-  console.log(klasterAddress, 'the klaster object')
+  const { initiateKlasterTransaction, klasterAddress } = useKlater();
 
   const handleJoinEvent = async () => {
     await joinEvent(eventId as string, address as string);
@@ -100,17 +95,19 @@ function EventDetail() {
       console.log({ data });
       // handleJoinEvent();
     }
-    // console.log(data);
   };
 
-  const toggleModal = () => {
+  const toggleModal = async () => {
     setIsModalOpen(!isModalOpen);
     // const data = await fetchPrice();
     // if (data) {
     //   handleJoinEvent();
     // }
-    // console.log(data);
-    await initiateKlasterTransaction(1, '0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5')
+
+    await initiateKlasterTransaction(
+      1,
+      "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
+    );
   };
 
   return (
