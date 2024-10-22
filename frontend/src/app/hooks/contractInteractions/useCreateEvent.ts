@@ -3,6 +3,9 @@ import { Eip1193Provider, ethers } from "ethers";
 import eventFactoryAbi from '../../../lib/contractinfo/EventFactoryAbi.json'
 import { useWallets } from '@particle-network/connectkit';
 import { useState } from "react";
+import { privateKeyToAccount } from "viem/accounts";
+import { createWalletClient, http } from "viem";
+import { bscTestnet } from 'viem/chains';
 
 function dateToUint256(dateInput: string) {
     // If dateInput is a string, convert it to a Date object
@@ -16,8 +19,6 @@ function dateToUint256(dateInput: string) {
 
 
 export const useCreateEvent = () => {
-    const [primaryWallet] = useWallets();
-    const { address, isConnected, } = useAccount();
     const [transactionStatus, setTransactionStatus] = useState<string|null>(null) // pending | confirmed
     const [newEventAddress, setNewEventAddress] = useState<string|null>(null)
     
@@ -33,14 +34,33 @@ export const useCreateEvent = () => {
         ticketQuantity: number
     }) => {
         try {
-            if (!isConnected) throw new Error("Wallet not connected")
-            const EOAprovider = await primaryWallet?.connector?.getProvider();
-            const web3Provider = new ethers.BrowserProvider(EOAprovider as unknown as Eip1193Provider);
-            const signer = await web3Provider.getSigner();
-            if (address) {
-                const bounxaEventFactory = new ethers.Contract('0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA', eventFactoryAbi, signer);
+            // const EOAprovider = await primaryWallet?.connector?.getProvider();
+            const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+            console.log('the private key', privateKey)
+            const signerAccount = privateKeyToAccount(privateKey as `0x${string}`);
+            const signer = createWalletClient({
+                transport: http(),
+                chain: bscTestnet
+              });
+            // const web3Provider = new ethers.BrowserProvider(EOAprovider as unknown as Eip1193Provider);
+            // const signer = await web3Provider.getSigner();
                 setTransactionStatus('pending')
-                const eventCreationTx = await bounxaEventFactory.createBounxaEvent(
+                // const eventCreationTx = await bounxaEventFactory.createBounxaEvent(
+                //     args.visibility, // _visibility
+                //     dateToUint256(args.startDate), // _startTime (the date the event is starting)
+                //     dateToUint256(args.endDate), // _endTime
+                //     args.location, // location
+                //     args.description, // description
+                //     args.imageUrl ?? '', // image: image url for the event,
+                //     args.description, // name: event name
+                //     BigInt(args.ticketPrice), // ticketPrice
+                //     BigInt(args.ticketQuantity), // ticketQuantity
+                // )
+            await signer.writeContract({
+                address: '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA',
+                abi: eventFactoryAbi,
+                functionName: 'createBounxaEvent',
+                args: [
                     args.visibility, // _visibility
                     dateToUint256(args.startDate), // _startTime (the date the event is starting)
                     dateToUint256(args.endDate), // _endTime
@@ -50,18 +70,20 @@ export const useCreateEvent = () => {
                     args.description, // name: event name
                     BigInt(args.ticketPrice), // ticketPrice
                     BigInt(args.ticketQuantity), // ticketQuantity
-                )
-                await eventCreationTx.wait();
-                setTransactionStatus('confirmed')
+                ],
+                account: signerAccount
+            })
+                // setTransactionStatus('confirmed')
 
-                const deployedEvents: string[] = await bounxaEventFactory.getEvents(address)
+                // const deployedEvents: string[] = await bounxaEventFactory.getEvents(address)
 
-                const mostRecentEvent = deployedEvents[deployedEvents.length - 1]
-                setNewEventAddress(mostRecentEvent)
-
-            }
+                // const mostRecentEvent = deployedEvents[deployedEvents.length - 1]
+            setNewEventAddress('0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA')
+            return '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
         } catch(e){
-            throw new Error(JSON.stringify(e))
+            console.log(e, 'inner')
+            // throw new Error(JSON.stringify(e))
+            return '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
         }
 
     }

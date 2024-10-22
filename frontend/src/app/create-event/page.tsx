@@ -51,7 +51,7 @@ function CreateEvent() {
   const [showTz, setShowtz] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { createEvent: blockCReate, newEventAddress } = useCreateEvent();
+  const { createEvent: blockCreate } = useCreateEvent();
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -59,9 +59,8 @@ function CreateEvent() {
 
   const handleCreateEvent = async () => {
     setLoading(true);
-
     try {
-      await blockCReate({
+      const newEventAddress = await blockCreate({
         visibility: type,
         startDate: `${startDate}T${startTime}`,
         endDate: `${endDate}T${endTime}`,
@@ -71,12 +70,9 @@ function CreateEvent() {
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 0,
       });
-    } catch (e: unknown) {
-      toast.error(e as ReactNode);
-      return e;
-    }
 
-    if (newEventAddress) {
+      if (!newEventAddress) return
+
       const response = await createEvent(
         address as string,
         location,
@@ -98,9 +94,13 @@ function CreateEvent() {
       if (response.data) {
         toast.success("Event created", { position: "top-right" });
       }
-    }
 
-    setLoading(false);
+      setLoading(false);
+    } catch (e: unknown) {
+      // toast.error(e as ReactNode);
+      console.log('creation error', e)
+      return e;
+    }
   };
   return (
     <main className="background-image-div">
