@@ -110,8 +110,6 @@ function EventDetail() {
     setIsModalOpen(!isModalOpen);
   };
 
-  // Modal Component
-
   return (
     <>
       {isModalOpen && (
@@ -119,29 +117,6 @@ function EventDetail() {
           <div className="w-[50%] items-center justify-center rounded-lg bg-white p-6 text-center">
             <h2 className="text-lg font-semibold">Confirm Purchase</h2>
             <p>Are you sure you want to buy a ticket?</p>
-            <select
-              id="chainSelect"
-              value={selectedChain}
-              onChange={handleChainChange}
-              className="mb-4 mt-2"
-            >
-              <option value="">Select Chain</option>
-              <option value="arbitrium">Arbitrium</option>
-              <option value="sepolia">Sepolia</option>
-              <option value="bsc">BSC</option>
-            </select>
-
-            <select
-              id="tokenSelect"
-              value={selectedToken}
-              onChange={handleTokenChange}
-              className="mb-4 mt-2"
-            >
-              <option value="">Select Token</option>
-              <option value="token1">Token 1</option>
-              <option value="token2">Token 2</option>
-              <option value="token3">Token 3</option>
-            </select>
 
             <p className="mt-2">
               Price: {price !== null ? `$${price}` : "Loading..."}
