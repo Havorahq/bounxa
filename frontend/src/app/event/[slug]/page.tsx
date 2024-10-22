@@ -8,13 +8,7 @@ import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  Globe,
-  MapPinLine,
-  // Plus,
-  Ticket,
-  UsersThree,
-} from "@phosphor-icons/react";
+import { Globe, MapPinLine, Ticket, UsersThree } from "@phosphor-icons/react";
 import Button from "@/components/Button";
 import {
   getEventAttendee,
@@ -52,6 +46,10 @@ function EventDetail() {
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
   const [attendee, setAttendee] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedChain, setSelectedChain] = useState<string>("arbitrium");
+  const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
+  const [price, setPrice] = useState<number | null>(null); // Price state
 
   const handleJoinEvent = async () => {
     await joinEvent(eventId as string, address as string);
@@ -90,117 +88,176 @@ function EventDetail() {
   }, [data]);
 
   const buyTicket = async () => {
-    const data = await fetchPrice();
+    const data = await fetchPrice(selectedToken);
     if (data) {
-      handleJoinEvent();
+      console.log({ data });
+      // handleJoinEvent();
     }
-    console.log(data);
+    // console.log(data);
   };
 
+  const handleChainChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedChain(event.target.value);
+    // Optionally, update the price based on the selected chain
+  };
+
+  const handleTokenChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedToken(event.target.value);
+    // Optionally, update the price based on the selected token
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  // Modal Component
+
   return (
-    <main className="background-image-div">
-      <Header auth={true} />
-      <Nav />
-      {loading ? (
-        <div className="flex w-full items-center justify-center">
-          <Loader color={"white"} heignt={"100px"} />
-        </div>
-      ) : (
-        <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
-          <div>
-            <Image
-              src="/images/events.png"
-              alt=""
-              width={450}
-              height={539}
-              className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
-            />
+    <>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
+          <div className="w-[50%] items-center justify-center rounded-lg bg-white p-6 text-center">
+            <h2 className="text-lg font-semibold">Confirm Purchase</h2>
+            <p>Are you sure you want to buy a ticket?</p>
+            <select
+              id="chainSelect"
+              value={selectedChain}
+              onChange={handleChainChange}
+              className="mb-4 mt-2"
+            >
+              <option value="">Select Chain</option>
+              <option value="arbitrium">Arbitrium</option>
+              <option value="sepolia">Sepolia</option>
+              <option value="bsc">BSC</option>
+            </select>
+
+            <select
+              id="tokenSelect"
+              value={selectedToken}
+              onChange={handleTokenChange}
+              className="mb-4 mt-2"
+            >
+              <option value="">Select Token</option>
+              <option value="token1">Token 1</option>
+              <option value="token2">Token 2</option>
+              <option value="token3">Token 3</option>
+            </select>
+
+            <p className="mt-2">
+              Price: {price !== null ? `$${price}` : "Loading..."}
+            </p>
+
+            <div className="mt-4 flex justify-end">
+              <Button onClick={toggleModal} text="Cancel" className="mr-2" />
+              <Button onClick={buyTicket} text="Confirm" />
+            </div>
           </div>
-          <div className="w-[90%] phone:w-[400px] tablet:w-[380px]">
-            {/* <div className="flex items-center gap-6">
+        </div>
+      )}
+      <main className="background-image-div">
+        <Header auth={true} />
+        <Nav />
+        {loading ? (
+          <div className="flex w-full items-center justify-center">
+            <Loader color={"white"} heignt={"100px"} />
+          </div>
+        ) : (
+          <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
+            <div>
+              <Image
+                src="/images/events.png"
+                alt=""
+                width={450}
+                height={539}
+                className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+              />
+            </div>
+            <div className="w-[90%] phone:w-[400px] tablet:w-[380px]">
+              {/* <div className="flex items-center gap-6">
             <div className="bg-white text-black font-medium py-1 px-5 rounded-[36px]">
               Public
             </div>
             <div className="font-medium">Private</div>
           </div> */}
-            <h1 className="mt-2 w-full text-3xl capitalize phone:text-4xl">
-              {data.name}
-            </h1>
-            <div className="mt-4 flex gap-2">
-              <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
-                <div className="flex gap-2">
-                  <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                    {dateF && date.format(dateF! as Date, "dddd D MMM")}
-                  </p>
-                  <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                    {dateF && date.format(dateF! as Date, "hh:mm")}
-                  </p>
-                </div>
-                <div className="mt-1 flex gap-2">
-                  <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                    {dateE && date.format(dateE! as Date, "dddd D MMM")}
-                  </p>
-                  <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
-                    {dateE && date.format(dateE! as Date, "hh:mm")}
-                  </p>
-                </div>
-              </div>
-              <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
-                <Globe color="black" size={25} />
-                <p className="font-medium text-black">GMT</p>
-                <p className="text-sm font-medium text-black opacity-80">
-                  London
-                </p>
-              </div>
-            </div>
-            <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              <MapPinLine size={20} className="mt-1" />
-              <div>
-                <p className="font-medium">Add Event Location</p>
-                <p className="font-medium opacity-80">{data.location}</p>
-              </div>
-            </div>
-            <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-              {data.description}
-            </div>
-
-            <div className="mt-4">
-              <h1 className="text-xl font-medium">Event Details</h1>
-              <div className="mt-4 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-                <div className="flex items-center gap-2">
-                  <Ticket size={20} className="" />
-                  <div>
-                    <p className="font-medium">Tickets</p>
+              <h1 className="mt-2 w-full text-3xl capitalize phone:text-4xl">
+                {data.name}
+              </h1>
+              <div className="mt-4 flex gap-2">
+                <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
+                  <div className="flex gap-2">
+                    <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                      {dateF && date.format(dateF! as Date, "dddd D MMM")}
+                    </p>
+                    <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                      {dateF && date.format(dateF! as Date, "hh:mm")}
+                    </p>
+                  </div>
+                  <div className="mt-1 flex gap-2">
+                    <p className="grow rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                      {dateE && date.format(dateE! as Date, "dddd D MMM")}
+                    </p>
+                    <p className="rounded-lg bg-white p-2 font-medium text-black opacity-80">
+                      {dateE && date.format(dateE! as Date, "hh:mm")}
+                    </p>
                   </div>
                 </div>
-                {data.price ? <p>${data.price}</p> : "Free"}
-              </div>
-              <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
-                <div className="flex items-center gap-2">
-                  <UsersThree size={20} className="" />
-                  <div>
-                    <p className="font-medium">Capacity</p>
-                  </div>
-                </div>
-                {data.capacity ? (
-                  <p>
-                    {attendee.length}/{data.capacity}
+                <div className="flex w-[90px] flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3">
+                  <Globe color="black" size={25} />
+                  <p className="font-medium text-black">GMT</p>
+                  <p className="text-sm font-medium text-black opacity-80">
+                    London
                   </p>
-                ) : (
-                  "Unlimited"
-                )}
+                </div>
               </div>
-            </div>
+              <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                <MapPinLine size={20} className="mt-1" />
+                <div>
+                  <p className="font-medium">Add Event Location</p>
+                  <p className="font-medium opacity-80">{data.location}</p>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                {data.description}
+              </div>
 
-            <Button
-              onClick={buyTicket}
-              className="mt-4 w-full"
-              text={"Buy Ticket"}
-            />
+              <div className="mt-4">
+                <h1 className="text-xl font-medium">Event Details</h1>
+                <div className="mt-4 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                  <div className="flex items-center gap-2">
+                    <Ticket size={20} className="" />
+                    <div>
+                      <p className="font-medium">Tickets</p>
+                    </div>
+                  </div>
+                  {data.price ? <p>${data.price}</p> : "Free"}
+                </div>
+                <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FFFFFFCC] p-3 text-black">
+                  <div className="flex items-center gap-2">
+                    <UsersThree size={20} className="" />
+                    <div>
+                      <p className="font-medium">Capacity</p>
+                    </div>
+                  </div>
+                  {data.capacity ? (
+                    <p>
+                      {attendee.length}/{data.capacity}
+                    </p>
+                  ) : (
+                    "Unlimited"
+                  )}
+                </div>
+              </div>
+
+              <Button
+                onClick={toggleModal}
+                className="mt-4 w-full"
+                text={"Buy Ticket"}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </main>
+        )}
+      </main>
+    </>
   );
 }
 
