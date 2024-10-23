@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -44,18 +45,15 @@ function EventDetail() {
     name: "",
     price: "",
   });
-  console.log("event data", data);
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
   const [dateE, setDateE] = useState<Date>();
   const [attendee, setAttendee] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedChain, setSelectedChain] = useState<string>("arbitrium");
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
 
   const { initiateKlasterTransaction, klasterAddress } = useKlater();
-  console.log(klasterAddress, "the klaster object");
 
   const handleJoinEvent = async () => {
     await joinEvent(eventId as string, address as string);
@@ -99,7 +97,6 @@ function EventDetail() {
       console.log({ data });
       // handleJoinEvent();
     }
-    // console.log(data);
   };
 
   const toggleModal = async () => {

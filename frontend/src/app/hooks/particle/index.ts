@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SmartAccount } from '@particle-network/aa';
 import { arbitrumSepolia, sepolia} from '@particle-network/connectkit/chains';
-import { useEthereum } from '@particle-network/authkit';
 import { useEffect, useState } from 'react';
 import { useAccount, useWallets } from '@particle-network/connectkit';
 
@@ -40,15 +41,15 @@ export const initializeSmartAccount = async (args: {
                         }
                     ],
                 },
-                paymasterApiKeys: [{ // Optional
-                    chainId: sepolia.id,  
-                    apiKey: process.env.NEXT_PUBLIC_BICONOMY_PAYMASTER_API_KEY || '',
-                },
-                { // Optional
-                    chainId: arbitrumSepolia.id,  
-                    apiKey: process.env.NEXT_PUBLIC_BICONOMY_API_KEY_ARBITRUM_SEPOLIA || '',
-                },
-            ]
+            //     paymasterApiKeys: [{ // Optional
+            //         chainId: sepolia.id,  
+            //         apiKey: process.env.NEXT_PUBLIC_BICONOMY_PAYMASTER_API_KEY || '',
+            //     },
+            //     { // Optional
+            //         chainId: arbitrumSepolia.id,  
+            //         apiKey: process.env.NEXT_PUBLIC_BICONOMY_API_KEY_ARBITRUM_SEPOLIA || '',
+            //     },
+            // ]
             }, 
         });
         

@@ -11,6 +11,7 @@ import React from "react";
 import Marquee from "./Marque";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 
 function Nav() {
   const pathName = usePathname();
@@ -18,6 +19,7 @@ function Nav() {
     "border-[#E0E0E0] border-2 rounded-full bg-[#e0e0e065] text-black",
   );
   const notActive = twMerge("text-[#7D7D7D]");
+  const { klasterAddress } = useKlater();
 
   const navLinks = [
     {
@@ -64,14 +66,20 @@ function Nav() {
           </Link>
         ))}
       </nav>
-      <Marquee>
-        <span className="mx-4">Your content here</span>
-        <span className="mx-4">More content</span>
-        <span className="mx-4">More content</span>
-        <span className="mx-4">More content</span>
-        <span className="mx-4">More content</span>
-        <span className="mx-4">More content</span>
-      </Marquee>
+      {klasterAddress && (
+        <Marquee>
+          <span className="mx-4 text-red-500">
+            To use the Account Absrtaction Feature
+          </span>
+          <span className="mx-4 text-orange-500">
+            Send USDC to this address
+          </span>
+          <span className="mx-4 text-yellow-500">{klasterAddress}</span>
+          <span className="mx-4 text-green-500">{klasterAddress}</span>
+          <span className="mx-4 text-blue-500">{klasterAddress}</span>
+          <span className="mx-4 text-indigo-500">{klasterAddress}</span>
+        </Marquee>
+      )}
     </>
   );
 }

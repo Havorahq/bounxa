@@ -3,7 +3,7 @@
 "use client";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import React, { useState, useRef, ReactNode } from "react";
+import React, { useState, useRef } from "react";
 import {
   Globe,
   Image,
