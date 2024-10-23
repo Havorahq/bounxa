@@ -14,16 +14,31 @@ const config: Config = {
       // },
     },
     screens: {
-      'xl': '1280px',
-      'lg': '1024px',
-      'tablet': '850px',
-      'md': '768px',
-      'sm': '640px',
-      'phone': '450px'
+      xl: "1280px",
+      lg: "1024px",
+      tablet: "850px",
+      md: "768px",
+      sm: "640px",
+      phone: "450px",
     },
     fontFamily: {
-      urbanist: ['var(--font-urbanist)'],
-    }
+      urbanist: ["var(--font-urbanist)"],
+    },
+
+    animation: {
+      marquee: "marquee 25s linear infinite",
+      marquee2: "marquee2 25s linear infinite",
+    },
+    keyframes: {
+      marquee: {
+        "0%": { transform: "translateX(0%)" },
+        "100%": { transform: "translateX(-100%)" },
+      },
+      marquee2: {
+        "0%": { transform: "translateX(100%)" },
+        "100%": { transform: "translateX(0%)" },
+      },
+    },
   },
 
   plugins: [],

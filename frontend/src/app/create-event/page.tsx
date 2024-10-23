@@ -56,12 +56,14 @@ function CreateEvent() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
-  const { createEvent: blockCReate, newEventAddress } = useCreateEvent();
+  const { createEvent: blockCreate, newEventAddress } = useCreateEvent();
+  const [value, setValue] = useState<File | null>(null);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
   };
 
+  const formData = new FormData();
   const uploadImage = async () => {
     formData.append("formData", value!);
     const res = await axios.post("/api/upload/", formData, {
@@ -75,9 +77,8 @@ function CreateEvent() {
 
   const handleCreateEvent = async () => {
     setLoading(true);
-
     try {
-      await blockCReate({
+      const newEventAddress = await blockCreate({
         visibility: type,
         startDate: `${startDate}T${startTime}`,
         endDate: `${endDate}T${endTime}`,
@@ -87,48 +88,47 @@ function CreateEvent() {
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 0,
       });
+
+      if (newEventAddress) {
+        await uploadImage();
+      }
+
+      if (image !== "") {
+        const response = await createEvent(
+          address as string,
+          location,
+          parseInt(capacity),
+          eventName,
+          `${startDate}T${startTime}`,
+          `${endDate}T${endTime}`,
+          type,
+          description,
+          tz,
+          creator,
+          utc,
+          newEventAddress!,
+          parseInt(price),
+          image,
+          chain,
+        );
+        if (response.error) {
+          toast.error(response.error, { position: "top-right" });
+        }
+        if (response.data) {
+          toast.success("Event created", { position: "top-right" });
+        }
+
+        setLoading(false);
+      }
     } catch (e: unknown) {
-      toast.error(e as ReactNode);
+      // toast.error(e as ReactNode);
+      console.log("creation error", e);
       return e;
     }
-
-    if (newEventAddress) {
-      await uploadImage();
-    }
-
-    if (image !== "") {
-      const response = await createEvent(
-        address as string,
-        location,
-        parseInt(capacity),
-        eventName,
-        `${startDate}T${startTime}`,
-        `${endDate}T${endTime}`,
-        type,
-        description,
-        tz,
-        creator,
-        utc,
-        newEventAddress!,
-        parseInt(price),
-        image,
-        chain,
-      );
-      if (response.error) {
-        toast.error(response.error, { position: "top-right" });
-      }
-      if (response.data) {
-        toast.success("Event created", { position: "top-right" });
-      }
-    }
-
-    setLoading(false);
   };
 
   const [imagePreview, setImagePreview] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState<File | null>(null);
-  const formData = new FormData();
 
   const handleFileSelect = () => {
     fileInputRef.current!.click();
