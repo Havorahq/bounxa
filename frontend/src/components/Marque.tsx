@@ -1,6 +1,6 @@
 "use client";
 
-const Marquee = ({ children }) => {
+const Marquee = ({ children }:{children: unknown}) => {
   return (
     <div className="relative flex overflow-x-hidden">
       {/* First scroll container */}
