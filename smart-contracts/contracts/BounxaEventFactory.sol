@@ -12,28 +12,16 @@ contract BounxaEventFactory {
     event newEventCreated(address indexed newEventAddress);
 
     function createBounxaEvent(
-        string memory _visibility,
-        uint256 _startTime,
-        uint256 _endTime,
-        string memory _location,
-        string memory _description,
-        string memory _image,
         string memory _name,
         uint256 _ticketPrice,
-        uint256 _ticketQuantity) external returns (address) {
+        uint256 _ticketQuantity,
+        address _owner) external returns (address) {
         ++eventCount;
         BounxaEvent bounxaEvent = new BounxaEvent(
-            _visibility, 
-            _startTime, 
-            _endTime, 
-            _location, 
-            _description, 
-            _image, 
             _name, 
             _ticketPrice, 
             _ticketQuantity, 
-            eventCount,
-            msg.sender
+            _owner
         );
 
         deployedEvents[msg.sender].push(address(bounxaEvent));

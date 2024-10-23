@@ -14,14 +14,8 @@ contract BounxaEvent {
     }
 
     address public owner;
-    uint256 public eventId;
     string public visibility;
     string public name;
-    uint256 public startTime;
-    uint256 public endTime;
-    string public location;
-    string public description;
-    string public image;
     uint256 public ticketPrice;
     uint256 public ticketQuantity;
     uint256 public ticketsRemaining;
@@ -32,31 +26,17 @@ contract BounxaEvent {
     address public ticketNftMinterAddress;
 
     constructor(
-        string memory _visibility,
-        uint256 _startTime,
-        uint256 _endTime,
-        string memory _location,
-        string memory _description,
-        string memory _image,
         string memory _name,
         uint256 _ticketPrice,
         uint256 _ticketQuantity,
-        uint256 _eventId,
         address _owner
     ) {
         // TODO: modify to deploy NFT contracts for tickets on creation
-        visibility = _visibility;
-        startTime = _startTime;
-        endTime = _endTime;
-        location = _location;
-        description = _description;
-        image = _image;
         name = _name;
         ticketPrice = _ticketPrice;
         ticketQuantity = _ticketQuantity;
         ticketsRemaining = _ticketQuantity;
         owner = _owner;
-        eventId = _eventId;
         TicketNFT ticketNFT = new TicketNFT(
             address(this), 
             name, 

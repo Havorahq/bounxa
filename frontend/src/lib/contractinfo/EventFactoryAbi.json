@@ -58,6 +58,11 @@
           "internalType": "uint256",
           "name": "_ticketQuantity",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
         }
       ],
       "name": "createBounxaEvent",

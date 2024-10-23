@@ -58,7 +58,7 @@ function CreateEvent() {
   };
 
   const handleCreateEvent = async () => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const newEventAddress = await blockCreate({
         visibility: type,

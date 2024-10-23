@@ -25,17 +25,12 @@ describe("BounxaEvent", function () {
         const { bounxaEventFactory, otherAccount, owner } = await loadFixture(deployBounxaEventFactory);
         const initialEventCount = await bounxaEventFactory.eventCount();
         const creationResponce = await bounxaEventFactory.connect(otherAccount).createBounxaEvent(
-            "public",
-            1234,
-            4321,
-            "behind the bleachers",
-            "the best concert you will ever experience",
-            "https://bouxa.com/imgdoesnotexist",
             "bounxa flagship event",
             100,
             1000,
+            '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
         )
-        console.log(creationResponce, 'the creation responce')
+        // console.log(creationResponce, 'the creation responce')
         expect(await bounxaEventFactory.eventCount()).to.be.above(initialEventCount);
       });
     });

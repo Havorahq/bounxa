@@ -12,6 +12,7 @@ import {
     klasterNodeHost,
     KlasterSDK,
     loadBicoV2Account,
+    loadSafeV141Account,
     MultichainClient,
     MultichainTokenMapping,
     rawTx,
@@ -60,8 +61,9 @@ export const useKlater =()=>{
                 // accountInitData: loadBicoV2Account({
                 //   owner: (address as `0x${string}`), // Fetch
                 // }),
-                accountInitData: loadBicoV2Account({
-                    owner: address, // Fetch
+                accountInitData: loadSafeV141Account({
+                    signers: [address],
+                    threshold: BigInt(1),
                 }),
                 nodeUrl: klasterNodeHost.default,
             });
