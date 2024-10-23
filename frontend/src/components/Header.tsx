@@ -9,10 +9,8 @@ import {
 import { truncateString } from "@/utils/function.helper";
 // import Link from "next/link";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 
 function Header({ auth = false }: { auth?: boolean }) {
-  const router = useRouter();
   const [show, setShow] = useState("upcoming");
   const { address } = useAccount();
   const { disconnect } = useDisconnect();

@@ -56,7 +56,7 @@ function CreateEvent() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
-  const { createEvent: blockCreate, newEventAddress } = useCreateEvent();
+  const { createEvent: blockCreate} = useCreateEvent();
   const [value, setValue] = useState<File | null>(null);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
