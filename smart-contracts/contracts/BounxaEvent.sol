@@ -14,15 +14,14 @@ contract BounxaEvent {
     }
 
     address public owner;
-    string public visibility;
     string public name;
     uint256 public ticketPrice;
     uint256 public ticketQuantity;
     uint256 public ticketsRemaining;
     mapping(address => SoldTickets) public ticketsSold;
     bool public isActive = true;
-    address public inviteeManagementContractAddress = 0x814a35AF277a9a19051Fc9FD5C646277C4D0D91a;
-    IBounxaInvitee bounxaInviteeContract = IBounxaInvitee(inviteeManagementContractAddress);
+    // address public inviteeManagementContractAddress = 0x814a35AF277a9a19051Fc9FD5C646277C4D0D91a;
+    // IBounxaInvitee bounxaInviteeContract = IBounxaInvitee(inviteeManagementContractAddress);
     address public ticketNftMinterAddress;
 
     constructor(
@@ -69,7 +68,7 @@ contract BounxaEvent {
         }
         ticketsSold[msg.sender].quantityOwned += quantity;
         ticketsSold[msg.sender].owner = msg.sender;
-        bounxaInviteeContract.addEvent(address(this), msg.sender);
+        // bounxaInviteeContract.addEvent(address(this), msg.sender);
         // address payable paymentAddress =payable(msg.sender);
         // paymentAddress.transfer(ticketPrice * quantity);
 

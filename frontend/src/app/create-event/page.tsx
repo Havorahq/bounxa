@@ -3,7 +3,7 @@
 "use client";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import React, { useState, useRef, ReactNode } from "react";
+import React, { useState, useRef } from "react";
 import {
   Globe,
   MapPinLine,
@@ -18,7 +18,7 @@ import { useAccount } from "@particle-network/connectkit";
 import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
 import timezones from "timezones-list";
-import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
+import { usePaymaster } from "../hooks/contractInteractions/usePayMaster";
 
 const getTodayDate = (date: Date) => {
   const year = date.getFullYear();
@@ -51,24 +51,20 @@ function CreateEvent() {
   const [showTz, setShowtz] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { createEvent: blockCreate } = useCreateEvent();
+  const { createEvent: blockCreate } = usePaymaster();
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
   };
 
   const handleCreateEvent = async () => {
-    // setLoading(true);
+    setLoading(true);
     try {
       const newEventAddress = await blockCreate({
-        visibility: type,
-        startDate: `${startDate}T${startTime}`,
-        endDate: `${endDate}T${endTime}`,
-        location: location,
-        imageUrl: "",
-        description: description,
+        name: eventName,
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 0,
+        owner: '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
       });
 
       if (!newEventAddress) return

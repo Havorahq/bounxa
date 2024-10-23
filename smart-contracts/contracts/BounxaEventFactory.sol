@@ -24,7 +24,7 @@ contract BounxaEventFactory {
             _owner
         );
 
-        deployedEvents[msg.sender].push(address(bounxaEvent));
+        deployedEvents[_owner].push(address(bounxaEvent));
         emit newEventCreated(address(bounxaEvent));
         return address(bounxaEvent);
     }
