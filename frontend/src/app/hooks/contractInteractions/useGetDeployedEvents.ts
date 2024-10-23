@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAccount, useWallets } from "@particle-network/connectkit";
 import { Eip1193Provider, ethers } from "ethers";
 import eventFactoryAbi from "../../../lib/contractinfo/EventFactoryAbi.json";

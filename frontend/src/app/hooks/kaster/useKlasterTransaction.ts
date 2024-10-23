@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
@@ -26,8 +27,6 @@ import { arbitrumSepolia, sepolia } from "@particle-network/connectkit/chains";
 import { useEffect, useState } from "react";
 import { liFiBrigePlugin } from "./helpers/lifiPlugin";
 import {
-  createWalletClient,
-  custom,
   encodeFunctionData,
   erc20Abi,
   parseUnits,
@@ -73,7 +72,7 @@ export const useKlater = () => {
         //   owner: (address as `0x${string}`), // Fetch
         // }),
         accountInitData: loadBicoV2Account({
-          owner: address, // Fetch
+          owner: address as `0x${string}`, // Fetch
         }),
         nodeUrl: klasterNodeHost.default,
       });

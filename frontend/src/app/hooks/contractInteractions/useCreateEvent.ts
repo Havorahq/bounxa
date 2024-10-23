@@ -1,7 +1,4 @@
-import { useAccount } from "@particle-network/connectkit";
-import { Eip1193Provider, ethers } from "ethers";
 import eventFactoryAbi from "../../../lib/contractinfo/EventFactoryAbi.json";
-import { useWallets } from "@particle-network/connectkit";
 import { useState } from "react";
 import { privateKeyToAccount } from "viem/accounts";
 import { createWalletClient, http } from "viem";
