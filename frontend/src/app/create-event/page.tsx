@@ -19,7 +19,7 @@ import { useAccount } from "@particle-network/connectkit";
 import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
 import timezones from "timezones-list";
-import { useCreateEvent } from "../hooks/contractInteractions/useCreateEvent";
+import { usePaymaster } from "../hooks/contractInteractions/usePayMaster";
 import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
 import axios from "axios";
@@ -56,7 +56,7 @@ function CreateEvent() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
-  const { createEvent: blockCreate} = useCreateEvent();
+  const { createEvent: blockCreate} = usePaymaster();
   const [value, setValue] = useState<File | null>(null);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,14 +79,10 @@ function CreateEvent() {
     setLoading(true);
     try {
       const newEventAddress = await blockCreate({
-        visibility: type,
-        startDate: `${startDate}T${startTime}`,
-        endDate: `${endDate}T${endTime}`,
-        location: location,
-        imageUrl: "",
-        description: description,
+        name: eventName,
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 0,
+        owner: '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
       });
 
       if (newEventAddress) {
@@ -470,5 +466,7 @@ function CreateEvent() {
     </main>
   );
 }
+
+// 0x0c9bB8849Dc2c2ED63662ff846f6760554b03BAA
 
 export default CreateEvent;

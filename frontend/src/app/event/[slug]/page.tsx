@@ -14,20 +14,18 @@ import Button from "@/components/Button";
 import {
   getEventAttendee,
   getSingleEvent,
-  joinEvent,
 } from "@/app/api/helper-function";
-import { useAccount } from "@particle-network/connectkit";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import date from "date-and-time";
 import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
-import { fetchPrice } from "../../seda/helper";
 import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
+import { fetchPrice } from "@/app/seda/helper";
 
 function EventDetail() {
   const { slug } = useParams();
-  const { address } = useAccount();
+  // const { address } = useAccount();
   const eventId = slug;
   // const [chain, setChain] = useState('')
   const [data, setData] = useState<EventType>({
@@ -55,10 +53,10 @@ function EventDetail() {
 
   const { initiateKlasterTransaction, klasterAddress } = useKlater();
 
-  const handleJoinEvent = async () => {
-    await joinEvent(eventId as string, address as string);
-    getAttendee();
-  };
+  // const handleJoinEvent = async () => {
+  //   await joinEvent(eventId as string, address as string);
+  //   getAttendee();
+  // };
 
   const getAttendee = async () => {
     const res = await getEventAttendee(eventId as string);
