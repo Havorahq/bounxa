@@ -14,6 +14,7 @@ import {
   polygonAmoy,
   solana,
   solanaTestnet,
+  arbitrumSepolia,
 } from "@particle-network/connectkit/chains";
 import {
   evmWalletConnectors,
@@ -41,6 +42,8 @@ const config = createConfig({
     theme: {
       "--pcm-accent-color": "#ff4d4f",
     },
+    // logo: "https://ibb.co/4sRd46B",
+    logo: "/images/logo.png",
     filterCountryCallingCode: (countries) => {
       return countries.filter((item) => item === "US");
     },
@@ -82,6 +85,7 @@ const config = createConfig({
     polygonAmoy,
     solana,
     solanaTestnet,
+    arbitrumSepolia,
   ],
 });
 
