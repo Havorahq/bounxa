@@ -1,6 +1,11 @@
 //
 "use client";
-import { HouseSimple, CalendarBlank, Compass } from "@phosphor-icons/react";
+import {
+  HouseSimple,
+  CalendarBlank,
+  Compass,
+  Plus,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
 
@@ -32,6 +37,12 @@ function Nav() {
       icon: <Compass />,
       active: pathName === "/explore",
       name: "explore",
+    },
+    {
+      path: "/create-event",
+      icon: <Plus />,
+      active: pathName === "/create-event",
+      name: "create",
     },
   ];
 

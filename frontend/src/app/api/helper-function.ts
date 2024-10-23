@@ -34,9 +34,9 @@ export const createUser = async (public_address: string) => {
   }
 };
 
-export const createEvent = async (host: string, location: string, capacity: number, name: string, start_date: string, end_date: string, type: string, description: string, timezone: string, host_name: string, timezone_utc: string, blockchain_address: string, price: number) => {
+export const createEvent = async (host: string, location: string, capacity: number, name: string, start_date: string, end_date: string, type: string, description: string, timezone: string, host_name: string, timezone_utc: string, blockchain_address: string, price: number, image_url: string, chain: string) => {
   try {
-    const newEvent = { host, location, capacity, name, start_date, end_date, type, description, timezone, timezone_utc, host_name, price, blockchain_address };
+    const newEvent = { host, location, capacity, name, start_date, end_date, type, description, timezone, timezone_utc, host_name, price, blockchain_address, image_url, chain };
     const { data, error } = await supabase.from("events").insert([newEvent]).select();
 
     if (error) {
