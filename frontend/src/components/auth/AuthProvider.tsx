@@ -7,7 +7,7 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-const protectedRoutes = ["/home", "create-event", "calendar"];
+const protectedRoutes = ["/home", "/create-event", "/calendar", "/analytics"];
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { isConnected } = useAccount();
