@@ -21,11 +21,13 @@ import date from "date-and-time";
 import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
 import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
+import { fetchPrice } from "@/app/seda/helper";
 
 function EventDetail() {
   const { slug } = useParams();
   // const { address } = useAccount();
   const eventId = slug;
+  // const [chain, setChain] = useState('')
   const [data, setData] = useState<EventType>({
     id: "",
     created_at: "",
@@ -101,7 +103,7 @@ function EventDetail() {
     // if (data) {
     //   handleJoinEvent();
     // }
-
+    // console.log(data);
     await initiateKlasterTransaction(
       1,
       "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",

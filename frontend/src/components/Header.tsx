@@ -7,7 +7,7 @@ import {
   ConnectButton,
 } from "@particle-network/connectkit";
 import { truncateString } from "@/utils/function.helper";
-import Link from "next/link";
+// import Link from "next/link";
 import Button from "@/components/Button";
 
 function Header({ auth = false }: { auth?: boolean }) {
@@ -15,7 +15,7 @@ function Header({ auth = false }: { auth?: boolean }) {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   return (
-    <header className="m-auto flex w-[90%] justify-between py-8 lg:w-[1000px]">
+    <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1000px]">
       <h1 className="text-2xl font-medium sm:text-3xl">Events</h1>
       {auth ? (
         <div className="flex items-center gap-4">
@@ -24,17 +24,20 @@ function Header({ auth = false }: { auth?: boolean }) {
           </div>
           <div>
             <Button
-              onClick={() => disconnect()}
+              onClick={() => {
+                disconnect();
+                // router.push("/login");
+              }}
               text={"Disconnect"}
               className="rounded-full bg-white px-3 py-2 font-medium text-black"
             />
           </div>
-          <Link
+          {/* <Link
             href={"/create-event"}
             className="rounded-full bg-white px-3 py-2 font-medium text-black"
           >
             Create event
-          </Link>
+          </Link> */}
         </div>
       ) : (
         <div className="flex items-center gap-6">

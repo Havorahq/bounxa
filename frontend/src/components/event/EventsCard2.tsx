@@ -46,7 +46,7 @@ function EventsCard2({ data }: any) {
               "mt-3 w-auto rounded-md bg-black p-1 text-[12px] font-medium text-white group-hover:bg-white group-hover:text-black"
             }
           >
-            Invited
+            View event
           </div>
         </div>
         <img

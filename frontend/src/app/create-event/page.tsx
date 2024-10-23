@@ -6,6 +6,7 @@ import Nav from "@/components/Nav";
 import React, { useState, useRef } from "react";
 import {
   Globe,
+  Image,
   MapPinLine,
   Plus,
   Ticket,
@@ -19,6 +20,9 @@ import EventModal from "./_components/EventModal";
 import { toast } from "sonner";
 import timezones from "timezones-list";
 import { usePaymaster } from "../hooks/contractInteractions/usePayMaster";
+import "react-calendar/dist/Calendar.css";
+import { resizeFile } from "@/config/resizer";
+import axios from "axios";
 
 const getTodayDate = (date: Date) => {
   const year = date.getFullYear();
@@ -37,24 +41,38 @@ function CreateEvent() {
   const endTRef = useRef<HTMLInputElement | null>(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState("12:00");
+  const [endTime, setEndTime] = useState("13:00");
   const [eventName, setEventName] = useState("");
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("public");
   const [description, setDescriotion] = useState("");
-  const [tz, setTz] = useState("");
-  const [utc, setUtc] = useState("");
+  const [tz, setTz] = useState("Europe/London");
+  const [utc, setUtc] = useState("+00:00");
   const [creator, setCreator] = useState("");
   const [showTz, setShowtz] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const { createEvent: blockCreate, buyTickets } = usePaymaster();
+  const [image, setImage] = useState("");
+  const [chain, setChain] = useState("");
+  const { createEvent: blockCreate} = usePaymaster();
+  const [value, setValue] = useState<File | null>(null);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
+  };
+
+  const formData = new FormData();
+  const uploadImage = async () => {
+    formData.append("formData", value!);
+    const res = await axios.post("/api/upload/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    setImage(res.data.url);
+    // console.log(res);
   };
 
   const handleCreateEvent = async () => {
@@ -67,35 +85,73 @@ function CreateEvent() {
         owner: '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
       });
 
-      if (!newEventAddress) return
-
-      const response = await createEvent(
-        address as string,
-        location,
-        parseInt(capacity),
-        eventName,
-        `${startDate}T${startTime}`,
-        `${endDate}T${endTime}`,
-        type,
-        description,
-        tz,
-        creator,
-        utc,
-        newEventAddress!,
-        parseInt(price),
-      );
-      if (response.error) {
-        toast.error(response.error, { position: "top-right" });
-      }
-      if (response.data) {
-        toast.success("Event created", { position: "top-right" });
+      if (newEventAddress) {
+        await uploadImage();
       }
 
-      setLoading(false);
+      if (image !== "") {
+        const response = await createEvent(
+          address as string,
+          location,
+          parseInt(capacity),
+          eventName,
+          `${startDate}T${startTime}`,
+          `${endDate}T${endTime}`,
+          type,
+          description,
+          tz,
+          creator,
+          utc,
+          newEventAddress!,
+          parseInt(price),
+          image,
+          chain,
+        );
+        if (response.error) {
+          toast.error(response.error, { position: "top-right" });
+        }
+        if (response.data) {
+          toast.success("Event created", { position: "top-right" });
+        }
+
+        setLoading(false);
+      }
     } catch (e: unknown) {
       // toast.error(e as ReactNode);
-      console.log('creation error', e)
+      console.log("creation error", e);
       return e;
+    }
+  };
+
+  const [imagePreview, setImagePreview] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = () => {
+    fileInputRef.current!.click();
+  };
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    let file: File | null = event.target.files![0];
+
+    if (file.size >= 524288 && file.size <= 1048576) {
+      file = await resizeFile(file, 70);
+    } else if (file.size >= 2000000 && file.size <= 3000000) {
+      file = await resizeFile(file, 50);
+    } else if (file.size >= 3000000 && file.size <= 5000000) {
+      file = await resizeFile(file, 50);
+    } else if (file.size > 5000000) {
+      file = null;
+      toast.error("File is more than 5mb", { position: "top-center" });
+    }
+    // const selectedFile: any = await resizeFile(File);
+    if (file) {
+      setValue(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -174,11 +230,22 @@ function CreateEvent() {
       )}
 
       <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
-        <div>
+        <div className="relative">
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <div className="absolute bottom-5 right-8 flex h-[50px] w-[50px] items-center justify-center rounded-full border border-[#7b7b7b8e] bg-white">
+            <Image alt="img" color="black" size={20} />
+          </div>
           <img
-            src="/images/events.png"
+            src={imagePreview || "/images/events.png"}
             alt=""
-            className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+            className="m-auto h-[320px] w-[90%] cursor-pointer rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+            onClick={handleFileSelect}
           />
         </div>
         <div className="w-[90%] phone:w-[400px] tablet:w-[380px]">
@@ -206,34 +273,35 @@ function CreateEvent() {
           <div className="mt-4 flex gap-2">
             <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
               <div className="flex gap-2">
-                <div className="flex grow">
+                <div className="relative flex grow">
                   <input
                     ref={startDRef}
                     type="date"
-                    className="mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
+                    className="absolute mt-10 max-h-0 max-w-0 bg-white font-medium text-black opacity-0"
                     name=""
                     id=""
                     onChange={startDateChange}
                     min={getTodayDate(new Date())}
                   />
+
                   <p
-                    onClick={() => startDRef.current?.showPicker()}
-                    className="grow cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
+                    onClick={() => startDRef!.current?.showPicker()}
+                    className="grow cursor-pointer rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                   >
                     {startDate
                       ? date.format(new Date(startDate), "dddd D MMM")
-                      : "Start date"}
+                      : "Select start date"}
                   </p>
                 </div>
 
                 {/* <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg grow">
                   Sunday 29 Sept
                 </p> */}
-                <div className="flex">
+                <div className="relative flex">
                   <input
                     ref={startTRef}
                     type="time"
-                    className="mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
                     onChange={(e) => setStartTime(e.target.value)}
                   />
                   <p
@@ -245,28 +313,28 @@ function CreateEvent() {
                 </div>
               </div>
               <div className="mt-1 flex gap-2">
-                <div className="flex grow">
+                <div className="relative flex grow">
                   <input
                     type="date"
-                    className="mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
+                    className="absolute mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
                     ref={endDRef}
                     onChange={(e) => setEndDate(e.target.value)}
                     min={getTodayDate(new Date(startDate))}
                   />
                   <p
                     onClick={() => endDRef.current?.showPicker()}
-                    className="grow cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
+                    className="grow cursor-pointer rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                   >
                     {endDate
                       ? date.format(new Date(endDate), "dddd D MMM")
-                      : "Start date"}
+                      : "Select End date"}
                   </p>
                 </div>
-                <div className="flex">
+                <div className="relative flex">
                   <input
                     ref={endTRef}
                     type="time"
-                    className="mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
                     onChange={(e) => setEndTime(e.target.value)}
                   />
                   <div
@@ -320,7 +388,7 @@ function CreateEvent() {
                 className="w-full bg-transparent outline-none"
                 name=""
                 id=""
-                placeholder="Creator alias"
+                placeholder="Host Name"
                 value={creator}
                 onChange={(e) => setCreator(e.target.value)}
               />
@@ -350,6 +418,25 @@ function CreateEvent() {
               <p>{capacity === "" ? "Unlimited" : capacity}</p>
             </div>
           </div>
+          <div className="relative w-full">
+            <select
+              className="mt-1 w-full rounded-lg bg-[#FFFFFFCC] p-3 font-medium text-black outline-none"
+              name=""
+              id=""
+              value={chain}
+              onChange={(e) => setChain(e.target.value)}
+            >
+              <option className="text-[#0000003e]" value="">
+                --Select a chain--
+              </option>
+              <option value="Ethereum sepolia">Ethereum sepolia</option>
+              <option value="Ethereum sepolia">Airbitrun sepolia</option>
+              <option value="Ethereum sepolia">Optimism sepolia</option>
+            </select>
+            {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <p>icon</p>
+              </div> */}
+          </div>
 
           <Button
             loading={loading}
@@ -362,9 +449,11 @@ function CreateEvent() {
               description === "" ||
               creator === "" ||
               tz === "" ||
+              chain === "" ||
+              value === null ||
               loading
             }
-            className="mt-4 w-full"
+            className="mt-4 w-full disabled:bg-[#ffffff6f] disabled:text-[#000000b0]"
             text={
               <div className="flex items-center gap-2">
                 <Plus />
