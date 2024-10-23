@@ -372,22 +372,6 @@ function CreateEvent() {
               </div>
             }
           />
-
-          <Button
-            loading={loading}
-            onClick={()=> buyTickets({
-              eventContractAddress: '0x56aE76916dD7941C2ab3F4C575c503a68A17C5D3',
-              userAddress: '0xE08686958FF334A5422df17FaF05dd989e779FfA',
-              quantity: 2
-            })}
-            className="mt-4 w-full"
-            text={
-              <div className="flex items-center gap-2">
-                <Plus />
-                <p>Buy Ticket</p>
-              </div>
-            }
-          />
         </div>
       </div>
     </main>
