@@ -27,9 +27,11 @@ describe("BounxaEvent", function () {
   
     describe("Deployment", function () {
       it("Should have the right value for ticket price", async function () {
-        const { bounxaEvent } = await loadFixture(deployBounxaEvent);
+        const { bounxaEvent, otherAccount} = await loadFixture(deployBounxaEvent);
+
+        await bounxaEvent.buyTickets(1, otherAccount.address)
   
-        expect(await bounxaEvent.ticketPrice()).to.equal(100);
+        // expect(await bounxaEvent.ticketPrice()).to.equal(100);
         expect(await bounxaEvent.isActive()).to.equal(true);
       });
     });

@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol";
 
 contract TicketNFT is ERC721, ERC721Burnable, Ownable {
 
@@ -28,10 +29,12 @@ contract TicketNFT is ERC721, ERC721Burnable, Ownable {
         public
         onlyOwner
     {
+        console.log('minting...');
         require(minted < maxSupply, "Tickets are sold out"); 
         uint256 newTokenId = minted + 1;   
         _safeMint(to, newTokenId);
         minted = newTokenId;
+        console.log('minted', minted, to);
     }
 
     // The following functions are overrides required by Solidity.

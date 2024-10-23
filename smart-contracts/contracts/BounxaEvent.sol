@@ -54,20 +54,18 @@ contract BounxaEvent {
         _;
     }
 
-    function buyTickets(uint256 quantity) external payable {
+    function buyTickets(uint256 quantity, address userAddress) external payable {
         require(isActive, "Event has either ended or cancelled");
-        // require(block.timestamp >= startTime && block.timestamp <= endTime, "Event hasn't started or ended");
-        require(msg.value >= ticketPrice * quantity, "Insufficient funds");
         require(ticketsRemaining >= quantity, "No tickets remaining");
         ticketsRemaining = ticketsRemaining - quantity;
         TicketNFT ticketNft = TicketNFT(ticketNftMinterAddress);
         // mint ticket here
         for (uint256 i=0; i < quantity; i++) {  //for loop example
             // mint to this address  
-            ticketNft.safeMint(msg.sender);      
+            ticketNft.safeMint(userAddress);      
         }
-        ticketsSold[msg.sender].quantityOwned += quantity;
-        ticketsSold[msg.sender].owner = msg.sender;
+        ticketsSold[userAddress].quantityOwned += quantity;
+        ticketsSold[userAddress].owner = userAddress;
         // bounxaInviteeContract.addEvent(address(this), msg.sender);
         // address payable paymentAddress =payable(msg.sender);
         // paymentAddress.transfer(ticketPrice * quantity);
@@ -78,8 +76,8 @@ contract BounxaEvent {
     }
 
 
-    function getTicketsSold() external view returns (uint256) {
-        return ticketsSold[msg.sender].quantityOwned;
+    function getTicketsSold(address userAddress) external view returns (uint256) {
+        return ticketsSold[userAddress].quantityOwned;
     }
 
     function withdraw() external payable {
@@ -89,6 +87,10 @@ contract BounxaEvent {
 
     function cancelEvent() external onlyOwner {
         isActive = false;
+    }
+
+    function getTicketNFTAddress() external view returns (address) {
+        return ticketNftMinterAddress;
     }
 
 }
