@@ -22,7 +22,7 @@ import {
 } from "klaster-sdk";
 // import eventFactoryAbi from '../../../lib/contractinfo/EventFactoryAbi.json'
 // import { useWallets } from '@particle-network/connectkit';
-import { useAccount } from "@particle-network/connectkit";
+import { useAccount, useWallets } from "@particle-network/connectkit";
 // import { Eip1193Provider, ethers } from "ethers";
 import { arbitrumSepolia, sepolia } from "@particle-network/connectkit/chains";
 import { useEffect, useState } from "react";
@@ -33,10 +33,16 @@ import {
   parseUnits,
 } from "viem";
 
+
+const usdcOnSupportedChains = [
+  {chainId: sepolia.id, coinAddress:"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"}, // eth sepolia
+  {chainId: 421614, coinAddress: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"}, // arbitrum sepolia
+  {chainId: 11155420, coinAddress: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7"}, // optimism sepolia
+]
+
 export const useKlater = () => {
   const blockchainAccount = useAccount();
   const { isConnected, address } = blockchainAccount;
-  console.log({ isConnected, address });
   const [multichainToken, setMultichainToken] =
     useState<MultichainTokenMapping>([]);
   const [klasterObj, setKlaterObj] =
@@ -50,28 +56,14 @@ export const useKlater = () => {
     null,
   );
 
+  const [primaryWallet] = useWallets();
+
   const initialiseKlaster = async () => {
     try {
       if (!isConnected) throw new Error("Wallet not connected");
-      // const EOAprovider = await primaryWallet?.connector?.getProvider();
-      // const web3Provider = new ethers.BrowserProvider(EOAprovider as unknown as Eip1193Provider);
-      // const signer = await web3Provider.getSigner();
-
-      //   const signer = createWalletClient({
-      //     transport: custom((window as any).ethereum),
-      //   });
-      //   console.log("testing signer", signer);
-      //   setSigner(signer);
-
-      //   const [address] = await signer.getAddresses();
-
-      //   console.log("the signer address", address);
 
       if (!address) return;
       const klaster = await initKlaster({
-        // accountInitData: loadBicoV2Account({
-        //   owner: (address as `0x${string}`), // Fetch
-        // }),
         accountInitData: loadSafeV141Account({
           signers: [address as `0x${string}`],
           threshold: BigInt(1),
@@ -84,14 +76,16 @@ export const useKlater = () => {
           sepolia.id,
           "https://eth-sepolia.g.alchemy.com/v2/qokf832tk1LMYpfbOwozWXwmpfTfJ9FI",
         ),
-        buildRpcInfo(421614, "https://sepolia-rollup.arbitrum.io/rpc"),
+        buildRpcInfo(421614, "https://sepolia-rollup.arbitrum.io/rpc"), // arbitrum sepolia
+        buildRpcInfo(11155420, "https://sepolia.optimism.io"), // optimism sepolia
       ]);
 
       setMultiChainClient(mcClient);
 
       const mcUSDC = buildTokenMapping([
         deployment(sepolia.id, "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"),
-        deployment(421614, "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"),
+        deployment(421614, "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"), // arbitrum sepolia
+        deployment(11155420, "0x5fd84259d66Cd46123540766Be93DFE6D43130D7"), // optimism sepolia
       ]);
       setMultichainToken(mcUSDC);
 
@@ -138,24 +132,25 @@ export const useKlater = () => {
   const initiateKlasterTransaction = async (
     amount: number,
     receiverAddress: `0x${string}`,
+    coinIndex: number,
   ) => {
-    console.log("function getting in use");
+    console.log("function getting in use", usdcOnSupportedChains[coinIndex]);
     try {
       if (!klasterObj || !multiChainClient || !unifiedBalance) return;
       console.log(klasterObj.account, "klasteraccount");
       const bridgingOps = await encodeBridgingOps({
         tokenMapping: multichainToken,
         account: klasterObj.account,
-        amount: parseUnits("15", unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
+        amount: parseUnits(amount.toString(), unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
         bridgePlugin: liFiBrigePlugin,
         client: multiChainClient,
-        destinationChainId: arbitrumSepolia.id,
+        destinationChainId: usdcOnSupportedChains[coinIndex].chainId,
         unifiedBalance: unifiedBalance,
       });
 
       const sendERC20Op = rawTx({
         gasLimit: BigInt(1000000),
-        to: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+        to: usdcOnSupportedChains[coinIndex].coinAddress as `0x${string}`,
         data: encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
@@ -167,7 +162,7 @@ export const useKlater = () => {
         // BridgingOPs + Execution on the destination chain
         // added as steps to the iTx
         steps: bridgingOps.steps.concat(
-          singleTx(arbitrumSepolia.id, sendERC20Op),
+          singleTx(usdcOnSupportedChains[coinIndex].chainId, sendERC20Op),
         ),
         // Klaster works with cross-chain gas abstraction. This instructs the Klaster
         // nodes to take USDC on Optimism as tx fee payment.
@@ -177,11 +172,12 @@ export const useKlater = () => {
       const quote = await klasterObj.getQuote(iTx);
       console.log("the quote", quote);
 
-      const signed = await signer.signMessage({
+      const walletClient = primaryWallet.getWalletClient();
+      const signed = await walletClient.signMessage({
         message: {
           raw: quote.itxHash,
         },
-        account: address,
+        account: address as `0x${string}`,
       });
 
       const result = await klasterObj.execute(quote, signed);
