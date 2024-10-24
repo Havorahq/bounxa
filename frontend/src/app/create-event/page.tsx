@@ -56,7 +56,7 @@ function CreateEvent() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
-  const { createEvent: blockCreate} = usePaymaster();
+  const { createEvent: blockCreate } = usePaymaster();
   const [value, setValue] = useState<File | null>(null);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +82,7 @@ function CreateEvent() {
         name: eventName,
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 0,
-        owner: '0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA'
+        owner: "0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA",
       });
 
       if (newEventAddress) {
@@ -277,7 +277,7 @@ function CreateEvent() {
                   <input
                     ref={startDRef}
                     type="date"
-                    className="absolute mt-10 max-h-0 max-w-0 bg-white font-medium text-black opacity-0"
+                    className="absolute inset-0 mt-10 opacity-0"
                     name=""
                     id=""
                     onChange={startDateChange}
@@ -301,7 +301,7 @@ function CreateEvent() {
                   <input
                     ref={startTRef}
                     type="time"
-                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute inset-0 mt-10 opacity-0"
                     onChange={(e) => setStartTime(e.target.value)}
                   />
                   <p
@@ -316,7 +316,7 @@ function CreateEvent() {
                 <div className="relative flex grow">
                   <input
                     type="date"
-                    className="absolute mt-10 h-[1px] w-[0px] bg-white font-medium text-black opacity-0"
+                    className="absolute inset-0 mt-10 opacity-0"
                     ref={endDRef}
                     onChange={(e) => setEndDate(e.target.value)}
                     min={getTodayDate(new Date(startDate))}
@@ -334,7 +334,7 @@ function CreateEvent() {
                   <input
                     ref={endTRef}
                     type="time"
-                    className="absolute mt-10 h-[0px] w-[0px] opacity-0"
+                    className="absolute inset-0 mt-10 opacity-0"
                     onChange={(e) => setEndTime(e.target.value)}
                   />
                   <div
