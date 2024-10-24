@@ -119,9 +119,11 @@ export const useKlater = () => {
 
       console.log(uBalance, "the united obj");
       setKlaterObj(klaster);
+      return {status: "success"}
     } catch (e) {
       // alert(e)
       console.log("error in klaster transaction", e);
+      return {status: "error"}
     }
   };
 
@@ -131,10 +133,10 @@ export const useKlater = () => {
 
   const initiateKlasterTransaction = async (
     amount: number,
-    receiverAddress: `0x${string}`,
-    coinIndex: number,
+    receiverAddress: `0x${string}`, // event address
+    chainIndex: number,
   ) => {
-    console.log("function getting in use", usdcOnSupportedChains[coinIndex]);
+    console.log("function getting in use", usdcOnSupportedChains[chainIndex]);
     try {
       if (!klasterObj || !multiChainClient || !unifiedBalance) return;
       console.log(klasterObj.account, "klasteraccount");
@@ -144,13 +146,13 @@ export const useKlater = () => {
         amount: parseUnits(amount.toString(), unifiedBalance.decimals), // parseUnits(amount.toString(), unifiedBalance.decimals), // Don't send entire balance
         bridgePlugin: liFiBrigePlugin,
         client: multiChainClient,
-        destinationChainId: usdcOnSupportedChains[coinIndex].chainId,
+        destinationChainId: usdcOnSupportedChains[chainIndex].chainId,
         unifiedBalance: unifiedBalance,
       });
 
       const sendERC20Op = rawTx({
         gasLimit: BigInt(1000000),
-        to: usdcOnSupportedChains[coinIndex].coinAddress as `0x${string}`,
+        to: usdcOnSupportedChains[chainIndex].coinAddress as `0x${string}`,
         data: encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
@@ -162,7 +164,7 @@ export const useKlater = () => {
         // BridgingOPs + Execution on the destination chain
         // added as steps to the iTx
         steps: bridgingOps.steps.concat(
-          singleTx(usdcOnSupportedChains[coinIndex].chainId, sendERC20Op),
+          singleTx(usdcOnSupportedChains[chainIndex].chainId, sendERC20Op),
         ),
         // Klaster works with cross-chain gas abstraction. This instructs the Klaster
         // nodes to take USDC on Optimism as tx fee payment.
