@@ -81,3 +81,10 @@ body {
  background-position: right; 
   }
 }
+
+input[type="datetime-local"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* padding: 8px; */
+}

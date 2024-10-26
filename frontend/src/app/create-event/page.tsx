@@ -289,7 +289,7 @@ function CreateEvent() {
                         setStart(true);
                       }}
                       min={getTodayDate(new Date())}
-                      value={startDate}
+                      value={startDate || ""}
                     />
                   ) : (
                     <p
@@ -328,7 +328,7 @@ function CreateEvent() {
                     <input
                       type="datetime-local"
                       className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      ref={endDRef}
+                      ref={endDRef || ""}
                       onChange={(e) => {
                         setEndDate(e.target.value);
                         setEnd(true);
@@ -341,7 +341,7 @@ function CreateEvent() {
                       className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                     >
                       {date.format(new Date(endDate), "dddd D MMM")}
-                      <PencilSimple size={20} onClick={() => setStart(false)} />
+                      <PencilSimple size={20} onClick={() => setEnd(false)} />
                     </p>
                   )}
                 </div>
