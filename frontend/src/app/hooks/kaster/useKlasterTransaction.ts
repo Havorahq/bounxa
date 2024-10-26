@@ -13,7 +13,7 @@ import {
   klasterNodeHost,
   KlasterSDK,
   loadBicoV2Account,
-    loadSafeV141Account,
+  loadSafeV141Account,
   MultichainClient,
   MultichainTokenMapping,
   rawTx,
@@ -185,11 +185,13 @@ export const useKlater = () => {
       });
 
       const result = await klasterObj.execute(quote, signed);
-
       console.log("the result", result);
+      return result
+
     } catch (e) {
       alert(e);
       console.log("tx error", e);
+      return e
     }
   };
 

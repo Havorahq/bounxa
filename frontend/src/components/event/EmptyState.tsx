@@ -11,7 +11,7 @@ function EmptyState() {
   return (
     <div className="mt-20 flex grow items-center justify-center">
       <div className="flex flex-col items-center justify-center">
-        <img src="/icons/desk_calendar.svg" alt="" />
+        <img src="/icons/desk_calendar.svg" alt="" className="h-10" />
         <h1 className="mt-5 text-[32px] font-medium">No Upcoming Event</h1>
         <p className="mt-1 text-center font-medium">
           You have no upcoming events. Why not host one?

@@ -92,11 +92,15 @@ function EventDetail() {
   }, [data]);
 
   const buyTicket = async () => {
-    const data = await fetchPrice(selectedToken);
-    if (data) {
-      console.log({ data });
-      // handleJoinEvent();
+    if (data.price) {
+      const result = initiateKlasterTransaction(data.price, `0x${data.host}`);
+      console.log(result);
     }
+    // const data = await fetchPrice(selectedToken);
+    // if (data) {
+    //   console.log({ data });
+    //   // handleJoinEvent();
+    // }
   };
 
   const toggleModal = async () => {
@@ -120,9 +124,7 @@ function EventDetail() {
             <h2 className="text-lg font-semibold">Confirm Purchase</h2>
             <p>Are you sure you want to buy a ticket?</p>
 
-            <p className="mt-2">
-              Price: {price !== null ? `$${price}` : "Loading..."}
-            </p>
+            <p className="mt-2">Price: ${data.price}</p>
 
             <div className="mt-4 flex justify-end">
               <Button onClick={toggleModal} text="Cancel" className="mr-2" />
