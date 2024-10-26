@@ -11,10 +11,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Globe, MapPinLine, Ticket, UsersThree } from "@phosphor-icons/react";
 import Button from "@/components/Button";
-import {
-  getEventAttendee,
-  getSingleEvent,
-} from "@/app/api/helper-function";
+import { getEventAttendee, getSingleEvent } from "@/app/api/helper-function";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import date from "date-and-time";
@@ -27,7 +24,7 @@ function EventDetail() {
   const { slug } = useParams();
   // const { address } = useAccount();
   const eventId = slug;
-  // const [chain, setChain] = useState('')
+  const [chain, setChain] = useState<number | null>(null);
   const [data, setData] = useState<EventType>({
     id: "",
     created_at: "",
@@ -42,6 +39,10 @@ function EventDetail() {
     timezone: "",
     name: "",
     price: "",
+    blockchain_address: "",
+    chain: "",
+    timezone_utc: "",
+    image_url: "",
   });
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
@@ -87,6 +88,7 @@ function EventDetail() {
     const formatE = new Date(data?.end_date);
     setDate(format);
     setDateE(formatE);
+    setChain(data.chain === "" ? 0 : data.chain === "" ? 1 : 2);
   }, [data]);
 
   const buyTicket = async () => {
