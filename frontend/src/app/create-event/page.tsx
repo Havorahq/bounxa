@@ -8,6 +8,7 @@ import {
   Globe,
   Image,
   MapPinLine,
+  PencilSimple,
   Plus,
   Ticket,
   UsersThree,
@@ -37,12 +38,12 @@ function CreateEvent() {
   const [showCapacity, setShowCapacity] = useState(false);
   const startDRef = useRef<HTMLInputElement | null>(null);
   const endDRef = useRef<HTMLInputElement | null>(null);
-  const startTRef = useRef<HTMLInputElement | null>(null);
-  const endTRef = useRef<HTMLInputElement | null>(null);
+  // const startTRef = useRef<HTMLInputElement | null>(null);
+  // const endTRef = useRef<HTMLInputElement | null>(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("12:00");
-  const [endTime, setEndTime] = useState("13:00");
+  // const [startTime, setStartTime] = useState("12:00");
+  // const [endTime, setEndTime] = useState("13:00");
   const [eventName, setEventName] = useState("");
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
@@ -58,6 +59,8 @@ function CreateEvent() {
   const [chain, setChain] = useState("");
   const { createEvent: blockCreate } = usePaymaster();
   const [value, setValue] = useState<File | null>(null);
+  const [start, setStart] = useState(false);
+  const [end, setEnd] = useState(false);
 
   const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -95,8 +98,8 @@ function CreateEvent() {
           location,
           parseInt(capacity),
           eventName,
-          `${startDate}T${startTime}`,
-          `${endDate}T${endTime}`,
+          `${startDate}`,
+          `${endDate}`,
           type,
           description,
           tz,
@@ -274,81 +277,95 @@ function CreateEvent() {
             <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
               <div className="flex gap-2">
                 <div className="relative flex grow">
-                  <input
-                    ref={startDRef}
-                    type="date"
-                    className="absolute inset-0 mt-10 opacity-0"
-                    name=""
-                    id=""
-                    onChange={startDateChange}
-                    min={getTodayDate(new Date())}
-                  />
-
-                  <p
-                    onClick={() => startDRef!.current?.showPicker()}
-                    className="grow cursor-pointer rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
-                  >
-                    {startDate
-                      ? date.format(new Date(startDate), "dddd D MMM")
-                      : "Select start date"}
-                  </p>
+                  {!start ? (
+                    <input
+                      ref={startDRef}
+                      type="datetime-local"
+                      className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      name=""
+                      id=""
+                      onChange={(e) => {
+                        startDateChange(e);
+                        setStart(true);
+                      }}
+                      min={getTodayDate(new Date())}
+                      value={startDate}
+                    />
+                  ) : (
+                    <p
+                      // onClick={() => startDRef!.current?.showPicker()}
+                      className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
+                    >
+                      {date.format(new Date(startDate), "dddd D MMM")}
+                      <PencilSimple size={20} onClick={() => setStart(false)} />
+                    </p>
+                  )}
                 </div>
 
                 {/* <p className="text-black opacity-80 font-medium bg-white p-2 rounded-lg grow">
                   Sunday 29 Sept
                 </p> */}
                 <div className="relative flex">
-                  <input
+                  {/* <input
                     ref={startTRef}
                     type="time"
                     className="absolute inset-0 mt-10 opacity-0"
                     onChange={(e) => setStartTime(e.target.value)}
-                  />
+                  /> */}
                   <p
-                    onClick={() => startTRef.current?.showPicker()}
-                    className="cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
+                    // onClick={() => startTRef.current?.showPicker()}
+                    className="cursor-pointer rounded-lg bg-white p-2 text-sm font-medium text-black opacity-80 phone:text-base"
                   >
-                    {startTime || "12:00"}
+                    {startDate
+                      ? date.format(new Date(startDate), "HH:mm")
+                      : "12:00"}
                   </p>
                 </div>
               </div>
               <div className="mt-1 flex gap-2">
                 <div className="relative flex grow">
-                  <input
-                    type="date"
-                    className="absolute inset-0 mt-10 opacity-0"
-                    ref={endDRef}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    min={getTodayDate(new Date(startDate))}
-                  />
-                  <p
-                    onClick={() => endDRef.current?.showPicker()}
-                    className="grow cursor-pointer rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
-                  >
-                    {endDate
-                      ? date.format(new Date(endDate), "dddd D MMM")
-                      : "Select End date"}
-                  </p>
+                  {!end ? (
+                    <input
+                      type="datetime-local"
+                      className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      ref={endDRef}
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                        setEnd(true);
+                      }}
+                      min={getTodayDate(new Date(startDate))}
+                    />
+                  ) : (
+                    <p
+                      // onClick={() => endDRef.current?.showPicker()}
+                      className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
+                    >
+                      {date.format(new Date(endDate), "dddd D MMM")}
+                      <PencilSimple size={20} onClick={() => setStart(false)} />
+                    </p>
+                  )}
                 </div>
                 <div className="relative flex">
-                  <input
+                  {/* <input
                     ref={endTRef}
                     type="time"
                     className="absolute inset-0 mt-10 opacity-0"
                     onChange={(e) => setEndTime(e.target.value)}
-                  />
+                  /> */}
                   <div
-                    onClick={() => endTRef.current?.showPicker()}
-                    className="cursor-pointer rounded-lg bg-white p-2 font-medium text-black opacity-80"
+                    // onClick={() => endTRef.current?.showPicker()}
+                    className="cursor-pointer rounded-lg bg-white p-2 text-sm font-medium text-black opacity-80 phone:text-base"
                   >
-                    {endTime || "12:00"}
+                    {endDate
+                      ? date.format(new Date(endDate), "HH:mm")
+                      : "13:00"}
                   </div>
                 </div>
               </div>
             </div>
             <div
               onClick={() => setShowtz(true)}
-              className="flex w-[90px] cursor-pointer flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3"
+              className="flex w-[70px] cursor-pointer flex-col justify-between rounded-lg bg-[#FFFFFFCC] p-3"
             >
               <Globe color="black" size={25} />
               <p className="font-medium text-black">GMT</p>
@@ -429,9 +446,9 @@ function CreateEvent() {
               <option className="text-[#0000003e]" value="">
                 --Select a chain--
               </option>
-              <option value="Ethereum sepolia">Ethereum sepolia</option>
-              <option value="Ethereum sepolia">Airbitrun sepolia</option>
-              <option value="Ethereum sepolia">Optimism sepolia</option>
+              <option value="Ethereum">Ethereum sepolia</option>
+              <option value="Airbitrun">Airbitrun sepolia</option>
+              <option value="Optimism">Optimism sepolia</option>
             </select>
             {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <p>icon</p>

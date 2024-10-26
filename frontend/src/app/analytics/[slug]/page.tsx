@@ -37,6 +37,10 @@ function Analytics() {
     timezone: "",
     name: "",
     price: "",
+    blockchain_address: "",
+    chain: "",
+    image_url: "",
+    timezone_utc: "",
   });
   const [loading, setLoading] = useState(true);
   const [dateF, setDate] = useState<Date>();
