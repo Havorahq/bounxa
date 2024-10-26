@@ -13,4 +13,8 @@ export type EventType = {
   timezone: string,
   name: string,
   price: string | null,
+  timezone_utc: string | null
+  blockchain_address: string | null
+  chain: string | null,
+  image_url: string | null,
 }
