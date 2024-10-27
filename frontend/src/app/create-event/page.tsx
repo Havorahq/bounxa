@@ -106,7 +106,7 @@ function CreateEvent() {
           creator,
           utc,
           newEventAddress!,
-          parseInt(price),
+          price ? parseInt(price) : 0,
           image,
           chain,
         );

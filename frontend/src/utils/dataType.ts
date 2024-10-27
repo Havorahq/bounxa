@@ -1,6 +1,7 @@
 // 
 export type EventType = {
   id: string,
+  address?: string,
   created_at: string,
   host: string,
   host_name: string
