@@ -100,7 +100,7 @@ function EventDetail() {
   };
 
   const toggleModal = async () => {
-    setIsModalOpen(!isModalOpen);
+    // setIsModalOpen(!isModalOpen);
     // const data = await fetchPrice();
     // if (data) {
     //   handleJoinEvent();
@@ -109,6 +109,7 @@ function EventDetail() {
     await initiateKlasterTransaction(
       1,
       "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
+      1
     );
   };
 

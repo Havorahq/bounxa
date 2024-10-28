@@ -56,8 +56,10 @@ export const usePaymaster = () => {
             const buyTicketTx = await eventContract.buyTickets(quantity, userAddress);
             buyTicketTx.wait();
             console.log('the buy ticket tx', buyTicketTx)
+            return {status: "success"}
         } catch(e){
             console.log('error buying ticket', e)
+            return {status: "error"}
         }
     }
 
