@@ -16,6 +16,7 @@ function Calendar() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<EventType[]>([]);
   const [arranged, setArranged] = useState<EventType[]>([]);
+  const [show, setShow] = useState("upcoming");
   const getAll = async () => {
     setLoading(true);
     const res = await getAllEvent();
@@ -34,13 +35,34 @@ function Calendar() {
       return a.start_date.localeCompare(b.start_date);
     });
 
-    setArranged(filtered);
-  }, [data]);
+    let more;
+    if (show === "upcoming") {
+      more = filtered.filter((obj) => new Date(obj.start_date) > new Date());
+    } else {
+      more = filtered.filter((obj) => new Date(obj.start_date) < new Date());
+    }
+
+    setArranged(more);
+  }, [data, show]);
 
   return (
     <main className="background-image-div">
       <Header />
       <Nav />
+      <div className="m-auto flex items-center gap-10 phone:w-[400px] sm:w-[600px] md:w-[700px]">
+        <div
+          onClick={() => setShow("upcoming")}
+          className={`${show === "upcoming" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+        >
+          Upcoming
+        </div>
+        <div
+          onClick={() => setShow("past")}
+          className={`${show === "past" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+        >
+          Past
+        </div>
+      </div>
       <div className="flex flex-col gap-5 sm:mt-20 sm:gap-0">
         {loading ? (
           <div className="flex w-full items-center justify-center">

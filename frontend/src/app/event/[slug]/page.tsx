@@ -55,7 +55,8 @@ function EventDetail() {
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
 
-  const { initiateKlasterTransaction, klasterAddress } = useKlater();
+  const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
+    useKlater();
   const { buyTickets: payTicket } = usePaymaster();
   const { address } = useAccount();
 
@@ -100,8 +101,9 @@ function EventDetail() {
     if (data.price) {
       const result = await initiateKlasterTransaction(
         data.price,
-        `0x${data.host}`,
-        data.chain === "Ethereum" ? 0 : data.chain === "Airbitrun" ? 1 : 2,
+        data.host as `0x${string}`,
+        // data.chain === "Ethereum" ? 0 : data.chain === "Airbitrun" ? 1 : 2,
+        1,
       );
       console.log(result);
     }
@@ -153,7 +155,7 @@ function EventDetail() {
         </div>
       )}
       <main className="background-image-div">
-        <Header auth={true} />
+        <Header />
         <Nav />
         {loading ? (
           <div className="flex w-full items-center justify-center">
@@ -163,7 +165,7 @@ function EventDetail() {
           <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
             <div>
               <Image
-                src="/images/events.png"
+                src={data.image_url || "/images/events.png"}
                 alt=""
                 width={450}
                 height={539}
@@ -203,7 +205,7 @@ function EventDetail() {
                   <Globe color="black" size={25} />
                   <p className="font-medium text-black">GMT</p>
                   <p className="text-sm font-medium text-black opacity-80">
-                    London
+                    {data.timezone_utc}
                   </p>
                 </div>
               </div>

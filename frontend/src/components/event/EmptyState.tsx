@@ -4,7 +4,7 @@ import React from "react";
 import Button from "../Button";
 import { Plus } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+// import Image from "next/image";
 
 function EmptyState() {
   const router = useRouter();

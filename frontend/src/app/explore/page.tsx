@@ -9,14 +9,14 @@ import { getAllEvent } from "../api/helper-function";
 import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import { useAccount } from "@particle-network/connectkit";
-import Link from "next/link";
 import EmptyState from "@/components/event/EmptyState";
+import Header from "@/components/Header";
 
 function Explore() {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>([]);
-  const [show, setShow] = useState("upcoming");
+  const [show, setShow] = useState("all event");
   const [filter, setFilter] = useState<any>([]);
   const todayNow = new Date();
   const getAll = async () => {
@@ -33,8 +33,11 @@ function Explore() {
     if (show === "my event") {
       filter = data.filter((obj: any) => obj.host === address);
     }
-    if (show === "upcoming") {
-      filter = data.filter((obj: any) => new Date(obj.end_date) > todayNow);
+    if (show === "all event") {
+      const first = data.filter(
+        (obj: any) => new Date(obj.end_date) > todayNow,
+      );
+      filter = first.filter((obj: any) => obj.host !== address);
     }
     setFilter(filter);
   }, [data, show, address]);
@@ -44,34 +47,33 @@ function Explore() {
   }, []);
 
   return (
-    <main className="h-screen">
+    <main className="h-screen overflow-y-scroll">
+      <Header />
       <Nav />
-      <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">
-        <Link href={"/"}>
-          <img src="/icons/Logo.svg" alt="" className="h-10 phone:h-auto" />
-        </Link>
-        <div className="flex items-center gap-2">
-          <Link href={"/login"}>
-            <button className="rounded-full bg-white px-6 py-2 font-medium text-black">
-              Get Started
-            </button>
-          </Link>
-        </div>
-      </header>
       <div className="m-auto w-[95%] lg:w-[1000px]">
         <div className="flex items-center gap-6">
           <div
-            onClick={() => setShow("upcoming")}
-            className={`${show === "upcoming" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+            onClick={() => setShow("all event")}
+            className={`${show === "all event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
           >
-            Upcoming Events
+            All Events
           </div>
-          <div
-            onClick={() => setShow("my event")}
-            className={`${show === "my event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
-          >
-            My Event
-          </div>
+          {isConnected && (
+            <div
+              onClick={() => setShow("my event")}
+              className={`${show === "my event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+            >
+              My Events
+            </div>
+          )}
+          {isConnected && (
+            <div
+              onClick={() => setShow("my ticket")}
+              className={`${show === "my ticket" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+            >
+              My Tickets
+            </div>
+          )}
         </div>
         <div className="events_con mt-10">
           {loading ? (
