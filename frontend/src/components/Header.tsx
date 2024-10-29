@@ -12,22 +12,15 @@ import {
 // import Link from "next/link";
 import Button from "@/components/Button";
 import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
-import { UnifiedBalanceResult } from "klaster-sdk";
 import Link from "next/link";
 
 function Header() {
   // const [show, setShow] = useState("upcoming");
   const [bal, setBal] = useState(false);
-  const [balance, setBalance] = useState<UnifiedBalanceResult | null>();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
   const { unifiedBalance } = useKlater();
-
-  useEffect(() => {
-    console.log(unifiedBalance);
-    setBalance(unifiedBalance!);
-  }, [unifiedBalance]);
 
   const ref: any = useRef(null);
   useEffect(() => {
@@ -54,15 +47,15 @@ function Header() {
             <p className="text-center font-medium">All your wallet ammount</p>
             <div className="flex items-center gap-2">
               <p className="font-medium">Ethereum sepolia: </p>
-              <p>${balance?.breakdown[0].amount}</p>
+              <p>${unifiedBalance?.breakdown[0].amount.toString()}</p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Airbitrun sepolia: </p>
-              <p>${balance?.breakdown[1].amount}</p>
+              <p>${unifiedBalance?.breakdown[1].amount.toString()}</p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Optimism sepolia: </p>
-              <p>${balance?.breakdown[2].amount}</p>
+              <p>${unifiedBalance?.breakdown[2].amount.toString()}</p>
             </div>
           </div>
         </div>
