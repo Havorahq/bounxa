@@ -29,7 +29,9 @@ export default function Home() {
   return (
     <main className="background-image-div">
       <div className="flex flex-col items-start justify-start">
-        <Header auth={true} />
+        <Header 
+        // auth={true} 
+        />
         <Nav />
         <div className="m-auto w-[95%] lg:w-[1000px]">
           <div className="events_con mt-10">
