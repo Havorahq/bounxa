@@ -96,4 +96,4 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 
 --- 
 
-For more information, please contact a [Bounxa Dev](princenchiba@gmail.com).
+For more information, please contact a [Bounxa Dev](mailto:princenchiba@gmail.com).
