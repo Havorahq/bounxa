@@ -17,7 +17,6 @@ cloudinary.config({
 
 export const UploadImage = async (imageBuffer: Buffer) => {
   return new Promise(async (resolve, reject) => {
-    // Use a Readable Stream for Node.js
     cloudinary.uploader.upload_stream(
       { folder: 'files' },
       (error: unknown, result: any) => {
@@ -27,14 +26,11 @@ export const UploadImage = async (imageBuffer: Buffer) => {
           reject(new Error('Upload failed'));
           throw new Error(error as string)
         } else {
-          resolve(result.secure_url); // Return the secure URL
+          resolve(result.secure_url);
         }
       }
     ).end(imageBuffer)
 
-    // Pipe the file to the upload stream
-    // const buffer = Buffer.from(await imageFile.arrayBuffer());
-    // stream.end(buffer);
   })
 
 }
