@@ -313,7 +313,7 @@ function CreateEvent() {
                         setStart(true);
                       }}
                       min={getTodayDate(new Date())}
-                      value={startDate || ""}
+                      value={startDate}
                     />
                   ) : (
                     <p
@@ -352,7 +352,7 @@ function CreateEvent() {
                     <input
                       type="datetime-local"
                       className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      ref={endDRef || ""}
+                      ref={endDRef}
                       onChange={(e) => {
                         setEndDate(e.target.value);
                         setEnd(true);
