@@ -69,7 +69,7 @@ export const joinEvent = async (event_id: string, attendee_id: string) => {
 
 export const getAllEvent = async () => {
   try {
-    const { data, error } = await supabase.from("events").select("*");
+    const { data, error } = await supabase.from("events").select("*")
     if (error) {
       throw new Error(error.message);
     }
@@ -109,3 +109,16 @@ export const getEventAttendee = async (event_id: string) => {
     return { data: null, error: `An error occurred: ${e}` };
   }
 };
+
+
+export const getUserTicket = async (user_address: string) => {
+  try {
+    const { data, error } = await supabase.from("attendees").select('*').eq("user_address", user_address);
+    if (error) {
+      throw new Error(error.message)
+    }
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: `An error occurred: ${e}` };
+  }
+}

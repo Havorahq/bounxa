@@ -47,15 +47,30 @@ function Header() {
             <p className="text-center font-medium">All your wallet ammount</p>
             <div className="flex items-center gap-2">
               <p className="font-medium">Ethereum sepolia: </p>
-              <p>${unifiedBalance?.breakdown[0].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[0].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Airbitrun sepolia: </p>
-              <p>${unifiedBalance?.breakdown[1].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[1].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Optimism sepolia: </p>
-              <p>${unifiedBalance?.breakdown[2].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[2].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
           </div>
         </div>
@@ -64,14 +79,20 @@ function Header() {
         <img src="/icons/Logo.svg" alt="" className="h-8 phone:h-10" />
       </Link>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1 phone:gap-3">
         {isConnected && (
-          <div
+          // <div
+          //   onClick={() => setBal(true)}
+          //   className="hidden cursor-pointer rounded-full border border-[#959595] px-3 py-2 font-medium lowercase phone:block sm:text-xl"
+          // >
+          //   View bal
+          // </div>
+
+          <Button
             onClick={() => setBal(true)}
-            className="hidden cursor-pointer rounded-full border border-[#959595] px-3 py-2 font-medium lowercase phone:block sm:text-xl"
-          >
-            View bal
-          </div>
+            className="phone:!containerpy-2 !px-2 !py-1 !text-sm phone:!px-6 phone:!py-2 phone:!text-base"
+            text={"View bal"}
+          />
         )}
         <div>
           {isConnected ? (
@@ -80,7 +101,7 @@ function Header() {
                 disconnect();
               }}
               text={"Disconnect"}
-              className="rounded-full bg-white px-3 py-2 font-medium text-black"
+              className="bg-white !px-2 !py-1 !text-sm font-medium text-black phone:!px-6 phone:!py-2 phone:!text-base"
             />
           ) : (
             <ConnectButton />

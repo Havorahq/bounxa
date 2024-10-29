@@ -39,7 +39,7 @@ function Explore() {
       );
       filter = first.filter((obj: any) => obj.host !== address);
     }
-    setFilter(filter);
+    setFilter(filter.reverse());
   }, [data, show, address]);
 
   useEffect(() => {
