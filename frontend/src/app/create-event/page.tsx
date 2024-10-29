@@ -13,6 +13,7 @@ import {
   Ticket,
   UploadSimple,
   UsersThree,
+  WarningCircle,
 } from "@phosphor-icons/react";
 import date from "date-and-time";
 import Button from "@/components/Button";
@@ -25,6 +26,7 @@ import { usePaymaster } from "../hooks/contractInteractions/usePayMaster";
 import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
 import axios from "axios";
+import { Tooltip } from "react-tooltip";
 
 function getTodayDate(date: Date) {
   const year = date.getFullYear();
@@ -71,17 +73,6 @@ function CreateEvent() {
   };
 
   const formData = new FormData();
-  // const uploadImage = async () => {
-  //   formData.append("formData", value!);
-  //   const res = await axios.post("/api/upload/", formData, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //   });
-  //   setImage(res.data.url);
-  //   console.log(res);
-  // };
-
   const handleCreateEvent = async () => {
     setLoading(true);
     try {
@@ -244,7 +235,7 @@ function CreateEvent() {
       )}
 
       <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
-        <div className="relative">
+        <div className="relative w-[90%] phone:w-auto">
           <input
             type="file"
             accept="image/*"
@@ -258,10 +249,10 @@ function CreateEvent() {
           {!imagePreview ? (
             <div
               onClick={handleFileSelect}
-              className="flex h-[320px] w-[90%] cursor-pointer items-center justify-center rounded-xl bg-[#CDCDD1] phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+              className="flex h-[320px] cursor-pointer items-center justify-center rounded-xl bg-[#CDCDD1] phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
             >
               <div className="flex flex-col items-center gap-4">
-                <p className="w-[284px] text-center text-3xl leading-7 text-black">
+                <p className="w-[200px] text-center text-xl leading-7 text-black">
                   Upload event image from device
                 </p>
                 <Button
@@ -279,7 +270,7 @@ function CreateEvent() {
             <img
               src={imagePreview}
               alt=""
-              className="m-auto h-[320px] w-[90%] cursor-pointer rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+              className="m-auto h-[320px] cursor-pointer rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
               onClick={handleFileSelect}
             />
           )}
@@ -322,7 +313,7 @@ function CreateEvent() {
                         setStart(true);
                       }}
                       min={getTodayDate(new Date())}
-                      value={startDate || ""}
+                      value={startDate}
                     />
                   ) : (
                     <p
@@ -361,7 +352,7 @@ function CreateEvent() {
                     <input
                       type="datetime-local"
                       className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      ref={endDRef || ""}
+                      ref={endDRef}
                       onChange={(e) => {
                         setEndDate(e.target.value);
                         setEnd(true);
@@ -468,7 +459,7 @@ function CreateEvent() {
               <p>{capacity === "" ? "Unlimited" : capacity}</p>
             </div>
           </div>
-          <div className="relative w-full">
+          <div className="flex w-full items-center">
             <select
               className="mt-1 w-full rounded-lg bg-[#FFFFFFCC] p-3 font-medium text-black outline-none"
               name=""
@@ -480,9 +471,30 @@ function CreateEvent() {
                 --Select a chain--
               </option>
               <option value="Ethereum">Ethereum sepolia</option>
-              <option value="Airbitrun">Airbitrun sepolia</option>
+              <option value="Airbitrum">Airbitrum sepolia</option>
               <option value="Optimism">Optimism sepolia</option>
             </select>
+
+            <div
+              className="cursor-default"
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content="Hello world!"
+            >
+              <WarningCircle size={20} />
+            </div>
+            <Tooltip
+              id="my-tooltip"
+              render={() => (
+                <div className="w-[300px] text-center">
+                  <h1 className="text-lg font-bold">Useful tip</h1>
+                  <p>
+                    While attendees can buy your ticket with any chain token
+                    they wish, even hosts have the option of choosing the chain
+                    they wish to receive all their ticket sales fund.
+                  </p>
+                </div>
+              )}
+            />
             {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <p>icon</p>
               </div> */}
