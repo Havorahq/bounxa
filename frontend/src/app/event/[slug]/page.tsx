@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -9,7 +10,13 @@ import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Globe, MapPinLine, Ticket, UsersThree } from "@phosphor-icons/react";
+import {
+  Globe,
+  MapPinLine,
+  Ticket,
+  UsersThree,
+  X,
+} from "@phosphor-icons/react";
 import Button from "@/components/Button";
 import { getEventAttendee, getSingleEvent } from "@/app/api/helper-function";
 import { useParams } from "next/navigation";
@@ -54,6 +61,7 @@ function EventDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
+  const [showImage, setShowImage] = useState(false);
 
   const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
     useKlater();
@@ -157,11 +165,22 @@ function EventDetail() {
         </div>
       )}
 
-      {/* <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
-        <div className="relative">
-          <Image src={data.image_url!} alt={"Event image"} fill />
+      {showImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 text-black">
+          <div>
+            <div
+              onClick={() => setShowImage(false)}
+              className="flex items-end justify-end"
+            >
+              <X size={32} color="white" />
+            </div>
+            <div className="relative">
+              {/* <Image src={data.image_url!} alt={"Event image"} fill /> */}
+              <img src={data.image_url!} alt="" />
+            </div>
+          </div>
         </div>
-      </div> */}
+      )}
       <main className="background-image-div">
         <Header />
         <Nav />
@@ -171,7 +190,7 @@ function EventDetail() {
           </div>
         ) : (
           <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
-            <div>
+            <div className="cursor-pointer" onClick={() => setShowImage(true)}>
               <Image
                 src={data.image_url || "/images/events.png"}
                 alt=""

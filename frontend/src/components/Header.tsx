@@ -47,15 +47,30 @@ function Header() {
             <p className="text-center font-medium">All your wallet ammount</p>
             <div className="flex items-center gap-2">
               <p className="font-medium">Ethereum sepolia: </p>
-              <p>${unifiedBalance?.breakdown[0].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[0].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Airbitrun sepolia: </p>
-              <p>${unifiedBalance?.breakdown[1].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[1].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <p className="font-medium">Optimism sepolia: </p>
-              <p>${unifiedBalance?.breakdown[2].amount.toString()}</p>
+              <p>
+                $
+                {parseInt(
+                  unifiedBalance?.breakdown[2].amount.toString() as string,
+                ) / 1000000}
+              </p>
             </div>
           </div>
         </div>
@@ -75,7 +90,7 @@ function Header() {
 
           <Button
             onClick={() => setBal(true)}
-            className="phone:!containerpy-2 !px-2 !py-1 !text-sm phone:!px-6 phone:!text-base"
+            className="phone:!containerpy-2 !px-2 !py-1 !text-sm phone:!px-6 phone:!py-2 phone:!text-base"
             text={"View bal"}
           />
         )}

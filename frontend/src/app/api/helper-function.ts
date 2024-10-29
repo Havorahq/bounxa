@@ -69,7 +69,7 @@ export const joinEvent = async (event_id: string, attendee_id: string) => {
 
 export const getAllEvent = async () => {
   try {
-    const { data, error } = await supabase.from("events").select("*");
+    const { data, error } = await supabase.from("events").select("*")
     if (error) {
       throw new Error(error.message);
     }
