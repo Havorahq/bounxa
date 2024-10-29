@@ -102,7 +102,7 @@ function EventDetail() {
       const result = await initiateKlasterTransaction(
         data.price,
         data.host as `0x${string}`,
-        // data.chain === "Ethereum" ? 0 : data.chain === "Airbitrun" ? 1 : 2,
+        // data.chain === "Ethereum" ? 0 : data.chain === "Airbitrum" ? 1 : 2,
         1,
       );
       console.log(result);
@@ -137,6 +137,8 @@ function EventDetail() {
     // );
   };
 
+  useEffect(() => {}, []);
+
   return (
     <>
       {isModalOpen && (
@@ -154,6 +156,12 @@ function EventDetail() {
           </div>
         </div>
       )}
+
+      {/* <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
+        <div className="relative">
+          <Image src={data.image_url!} alt={"Event image"} fill />
+        </div>
+      </div> */}
       <main className="background-image-div">
         <Header />
         <Nav />

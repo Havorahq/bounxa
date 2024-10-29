@@ -27,24 +27,28 @@ function Nav() {
       icon: <HouseSimple />,
       active: pathName === "/home",
       name: "Home",
+      title: "Events",
     },
     {
       path: "/calendar",
       icon: <CalendarBlank />,
       active: pathName === "/calendar",
-      name: "calendar",
+      name: "Calendar",
+      title: "Events Calendar",
     },
     {
       path: "/explore",
       icon: <Compass />,
       active: pathName === "/explore",
-      name: "explore",
+      name: "Explore",
+      title: "Explore events",
     },
     {
       path: "/create-event",
       icon: <Plus />,
       active: pathName === "/create-event",
-      name: "create",
+      name: "Create",
+      title: "Create event",
     },
   ];
 
@@ -56,6 +60,7 @@ function Nav() {
             key={index}
             href={obj.path}
             className={`${obj.active ? active : notActive} p-2 text-xl`}
+            title={obj.title}
           >
             <div className="flex items-center gap-1">
               {obj.icon}
@@ -69,10 +74,10 @@ function Nav() {
       {klasterAddress && (
         <Marquee>
           <span className="mx-4 text-red-500">
-            To use the Account Absrtaction Feature
+            To top up and use Account Abstraction
           </span>
           <span className="mx-4 text-orange-500">
-            Send USDC to this address
+            fund your Klaster wallet:
           </span>
           <span className="mx-4 text-yellow-500">{klasterAddress}</span>
           <span className="mx-4 text-green-500">{klasterAddress}</span>
