@@ -13,7 +13,7 @@ import {
   klasterNodeHost,
   KlasterSDK,
   loadBicoV2Account,
-    loadSafeV141Account,
+  loadSafeV141Account,
   MultichainClient,
   MultichainTokenMapping,
   rawTx,
@@ -35,9 +35,9 @@ import {
 
 
 const usdcOnSupportedChains = [
-  {chainId: sepolia.id, coinAddress:"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"}, // eth sepolia
-  {chainId: 421614, coinAddress: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"}, // arbitrum sepolia
-  {chainId: 11155420, coinAddress: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7"}, // optimism sepolia
+  { chainId: sepolia.id, coinAddress: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238" }, // eth sepolia
+  { chainId: 421614, coinAddress: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d" }, // arbitrum sepolia
+  { chainId: 11155420, coinAddress: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7" }, // optimism sepolia
 ]
 
 export const useKlater = () => {
@@ -119,11 +119,11 @@ export const useKlater = () => {
 
       console.log(uBalance, "the united obj");
       setKlaterObj(klaster);
-      return {status: "success"}
+      return { status: "success" }
     } catch (e) {
       // alert(e)
       console.log("error in klaster transaction", e);
-      return {status: "error"}
+      return { status: "error" }
     }
   };
 
@@ -183,11 +183,13 @@ export const useKlater = () => {
       });
 
       const result = await klasterObj.execute(quote, signed);
-
       console.log("the result", result);
+      return result
+
     } catch (e) {
       alert(e);
       console.log("tx error", e);
+      return e
     }
   };
 
@@ -199,5 +201,6 @@ export const useKlater = () => {
     initialiseKlaster,
     initiateKlasterTransaction,
     klasterAddress,
+    unifiedBalance
   };
 };

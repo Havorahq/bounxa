@@ -36,7 +36,7 @@ function Analytics() {
     type: "",
     timezone: "",
     name: "",
-    price: "",
+    price: null,
     blockchain_address: "",
     chain: "",
     image_url: "",

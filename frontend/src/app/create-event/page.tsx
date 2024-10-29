@@ -11,6 +11,7 @@ import {
   PencilSimple,
   Plus,
   Ticket,
+  UploadSimple,
   UsersThree,
 } from "@phosphor-icons/react";
 import date from "date-and-time";
@@ -25,12 +26,15 @@ import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
 import axios from "axios";
 
-const getTodayDate = (date: Date) => {
+function getTodayDate(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
 
 function CreateEvent() {
   const { address } = useAccount();
@@ -67,16 +71,16 @@ function CreateEvent() {
   };
 
   const formData = new FormData();
-  const uploadImage = async () => {
-    formData.append("formData", value!);
-    const res = await axios.post("/api/upload/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setImage(res.data.url);
-    // console.log(res);
-  };
+  // const uploadImage = async () => {
+  //   formData.append("formData", value!);
+  //   const res = await axios.post("/api/upload/", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   });
+  //   setImage(res.data.url);
+  //   console.log(res);
+  // };
 
   const handleCreateEvent = async () => {
     setLoading(true);
@@ -89,35 +93,42 @@ function CreateEvent() {
       });
 
       if (newEventAddress) {
-        await uploadImage();
-      }
+        formData.append("formData", value!);
+        const res = await axios.post("/api/upload/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setImage(res.data.url);
 
-      if (image !== "") {
-        const response = await createEvent(
-          address as string,
-          location,
-          parseInt(capacity),
-          eventName,
-          `${startDate}`,
-          `${endDate}`,
-          type,
-          description,
-          tz,
-          creator,
-          utc,
-          newEventAddress!,
-          parseInt(price),
-          image,
-          chain,
-        );
-        if (response.error) {
-          toast.error(response.error, { position: "top-right" });
-        }
-        if (response.data) {
-          toast.success("Event created", { position: "top-right" });
-        }
+        if (res.data.url !== "") {
+          console.log(image);
+          const response = await createEvent(
+            address as string,
+            location,
+            parseInt(capacity),
+            eventName,
+            `${startDate}`,
+            `${endDate}`,
+            type,
+            description,
+            tz,
+            creator,
+            utc,
+            newEventAddress!,
+            price ? parseInt(price) : 0,
+            res.data.url,
+            chain,
+          );
+          if (response.error) {
+            toast.error(response.error, { position: "top-right" });
+          }
+          if (response.data) {
+            toast.success("Event created", { position: "top-right" });
+          }
 
-        setLoading(false);
+          setLoading(false);
+        }
       }
     } catch (e: unknown) {
       // toast.error(e as ReactNode);
@@ -160,7 +171,7 @@ function CreateEvent() {
 
   return (
     <main className="background-image-div">
-      <Header auth={true} />
+      <Header />
       <Nav />
       {showPrice && (
         <EventModal
@@ -244,12 +255,34 @@ function CreateEvent() {
           <div className="absolute bottom-5 right-8 flex h-[50px] w-[50px] items-center justify-center rounded-full border border-[#7b7b7b8e] bg-white">
             <Image alt="img" color="black" size={20} />
           </div>
-          <img
-            src={imagePreview || "/images/events.png"}
-            alt=""
-            className="m-auto h-[320px] w-[90%] cursor-pointer rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
-            onClick={handleFileSelect}
-          />
+          {!imagePreview ? (
+            <div
+              onClick={handleFileSelect}
+              className="flex h-[320px] w-[90%] cursor-pointer items-center justify-center rounded-xl bg-[#CDCDD1] phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+            >
+              <div className="flex flex-col items-center gap-4">
+                <p className="w-[284px] text-center text-3xl leading-7 text-black">
+                  Upload event image from device
+                </p>
+                <Button
+                  text={
+                    <div className="flex items-center gap-2">
+                      <UploadSimple />
+                      <p>Browse Device Images</p>
+                    </div>
+                  }
+                  className="!bg-black !text-white"
+                />
+              </div>
+            </div>
+          ) : (
+            <img
+              src={imagePreview}
+              alt=""
+              className="m-auto h-[320px] w-[90%] cursor-pointer rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
+              onClick={handleFileSelect}
+            />
+          )}
         </div>
         <div className="w-[90%] phone:w-[400px] tablet:w-[380px]">
           <div className="flex items-center gap-6">
@@ -289,7 +322,7 @@ function CreateEvent() {
                         setStart(true);
                       }}
                       min={getTodayDate(new Date())}
-                      value={startDate}
+                      value={startDate || ""}
                     />
                   ) : (
                     <p
@@ -328,7 +361,7 @@ function CreateEvent() {
                     <input
                       type="datetime-local"
                       className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      ref={endDRef}
+                      ref={endDRef || ""}
                       onChange={(e) => {
                         setEndDate(e.target.value);
                         setEnd(true);
@@ -341,7 +374,7 @@ function CreateEvent() {
                       className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                     >
                       {date.format(new Date(endDate), "dddd D MMM")}
-                      <PencilSimple size={20} onClick={() => setStart(false)} />
+                      <PencilSimple size={20} onClick={() => setEnd(false)} />
                     </p>
                   )}
                 </div>

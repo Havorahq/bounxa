@@ -46,7 +46,7 @@ function EventCard({ data }: any) {
           </div>
         </div>
         <img
-          src="/images/events.png"
+          src={data.image_url}
           className="h-[148px] w-[148px] rounded-xl"
           alt=""
         />

@@ -19,6 +19,8 @@ import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
 import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 import { fetchPrice } from "@/app/seda/helper";
+import { usePaymaster } from "@/app/hooks/contractInteractions/usePayMaster";
+import { useAccount } from "@particle-network/connectkit";
 
 function EventDetail() {
   const { slug } = useParams();
@@ -28,6 +30,7 @@ function EventDetail() {
   const [data, setData] = useState<EventType>({
     id: "",
     created_at: "",
+    address: "",
     host: "",
     host_name: "",
     location: "",
@@ -38,7 +41,7 @@ function EventDetail() {
     type: "",
     timezone: "",
     name: "",
-    price: "",
+    price: 0,
     blockchain_address: "",
     chain: "",
     timezone_utc: "",
@@ -52,7 +55,10 @@ function EventDetail() {
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
 
-  const { initiateKlasterTransaction, klasterAddress } = useKlater();
+  const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
+    useKlater();
+  const { buyTickets: payTicket } = usePaymaster();
+  const { address } = useAccount();
 
   // const handleJoinEvent = async () => {
   //   await joinEvent(eventId as string, address as string);
@@ -92,25 +98,43 @@ function EventDetail() {
   }, [data]);
 
   const buyTicket = async () => {
-    const data = await fetchPrice(selectedToken);
-    if (data) {
-      console.log({ data });
-      // handleJoinEvent();
+    if (data.price) {
+      const result = await initiateKlasterTransaction(
+        data.price,
+        data.host as `0x${string}`,
+        // data.chain === "Ethereum" ? 0 : data.chain === "Airbitrun" ? 1 : 2,
+        1,
+      );
+      console.log(result);
     }
+
+    const res = await payTicket({
+      eventContractAddress: `0x${data.blockchain_address}`,
+      quantity: 1,
+      userAddress: `0x${address}`,
+    });
+
+    console.log(res);
+
+    // const data = await fetchPrice(selectedToken);
+    // if (data) {
+    //   console.log({ data });
+    //   // handleJoinEvent();
+    // }
   };
 
   const toggleModal = async () => {
-    // setIsModalOpen(!isModalOpen);
+    setIsModalOpen(!isModalOpen);
     // const data = await fetchPrice();
     // if (data) {
     //   handleJoinEvent();
     // }
     // console.log(data);
-    await initiateKlasterTransaction(
-      1,
-      "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
-      1
-    );
+    // await initiateKlasterTransaction(
+    //   1,
+    //   "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
+    //   1,
+    // );
   };
 
   return (
@@ -120,20 +144,18 @@ function EventDetail() {
           <div className="w-[50%] items-center justify-center rounded-lg bg-white p-6 text-center">
             <h2 className="text-lg font-semibold">Confirm Purchase</h2>
             <p>Are you sure you want to buy a ticket?</p>
-
             <p className="mt-2">
-              Price: {price !== null ? `$${price}` : "Loading..."}
+              Price: {data.price ? `$${data.price}` : "Free"}
             </p>
-
             <div className="mt-4 flex justify-end">
               <Button onClick={toggleModal} text="Cancel" className="mr-2" />
-              <Button onClick={buyTicket} text="Confirm" />
+              <Button onClick={() => buyTicket()} text="Confirm" />
             </div>
           </div>
         </div>
       )}
       <main className="background-image-div">
-        <Header auth={true} />
+        <Header />
         <Nav />
         {loading ? (
           <div className="flex w-full items-center justify-center">
@@ -143,7 +165,7 @@ function EventDetail() {
           <div className="mb-16 mt-4 flex flex-col items-center justify-center gap-5 tablet:flex-row">
             <div>
               <Image
-                src="/images/events.png"
+                src={data.image_url || "/images/events.png"}
                 alt=""
                 width={450}
                 height={539}
@@ -183,7 +205,7 @@ function EventDetail() {
                   <Globe color="black" size={25} />
                   <p className="font-medium text-black">GMT</p>
                   <p className="text-sm font-medium text-black opacity-80">
-                    London
+                    {data.timezone_utc}
                   </p>
                 </div>
               </div>
