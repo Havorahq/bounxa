@@ -110,7 +110,7 @@ function EventDetail() {
       const result = await initiateKlasterTransaction(
         data.price,
         data.host as `0x${string}`,
-        // data.chain === "Ethereum" ? 0 : data.chain === "Airbitrum" ? 1 : 2,
+        // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
         1,
       );
       console.log(result);

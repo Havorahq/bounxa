@@ -27,27 +27,29 @@ import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
 import axios from "axios";
 import { Tooltip } from "react-tooltip";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-function getTodayDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
+// function getTodayDate(date: Date) {
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, "0");
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const hours = String(date.getHours()).padStart(2, "0");
+//   const minutes = String(date.getMinutes()).padStart(2, "0");
 
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
+//   return `${year}-${month}-${day}T${hours}:${minutes}`;
+// }
 
 function CreateEvent() {
   const { address } = useAccount();
   const [showPrice, setShowPrice] = useState(false);
   const [showCapacity, setShowCapacity] = useState(false);
-  const startDRef = useRef<HTMLInputElement | null>(null);
+  // const startDRef = useRef<HTMLInputElement | null>(null);
   const endDRef = useRef<HTMLInputElement | null>(null);
   // const startTRef = useRef<HTMLInputElement | null>(null);
   // const endTRef = useRef<HTMLInputElement | null>(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
   // const [startTime, setStartTime] = useState("12:00");
   // const [endTime, setEndTime] = useState("13:00");
   const [eventName, setEventName] = useState("");
@@ -68,9 +70,9 @@ function CreateEvent() {
   const [start, setStart] = useState(false);
   const [end, setEnd] = useState(false);
 
-  const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStartDate(e.target.value);
-  };
+  // const startDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setStartDate(e.target.value);
+  // };
 
   const formData = new FormData();
   const handleCreateEvent = async () => {
@@ -302,25 +304,37 @@ function CreateEvent() {
               <div className="flex gap-2">
                 <div className="relative flex grow">
                   {!start ? (
-                    <input
-                      ref={startDRef}
-                      type="datetime-local"
-                      className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      name=""
-                      id=""
-                      onChange={(e) => {
-                        startDateChange(e);
-                        setStart(true);
+                    <DatePicker
+                      selected={startDate!}
+                      showTimeSelect
+                      className="grow rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      timeFormat="hh:mm"
+                      dateFormat="EEEE dd MMM"
+                      placeholderText="Select start date"
+                      onChange={(date) => {
+                        setStartDate(date!);
                       }}
-                      min={getTodayDate(new Date())}
-                      value={startDate}
+                      minDate={new Date()}
                     />
                   ) : (
+                    // <input
+                    //   ref={startDRef}
+                    //   type="datetime-local"
+                    //   className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                    //   name=""
+                    //   id=""
+                    //   onChange={(e) => {
+                    //     startDateChange(e);
+                    //     setStart(true);
+                    //   }}
+                    //   min={getTodayDate(new Date())}
+                    //   value={startDate}
+                    // />
                     <p
                       // onClick={() => startDRef!.current?.showPicker()}
                       className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                     >
-                      {date.format(new Date(startDate), "dddd D MMM")}
+                      {date.format(startDate!, "dddd D MMM")}
                       <PencilSimple size={20} onClick={() => setStart(false)} />
                     </p>
                   )}
@@ -349,22 +363,34 @@ function CreateEvent() {
               <div className="mt-1 flex gap-2">
                 <div className="relative flex grow">
                   {!end ? (
-                    <input
-                      type="datetime-local"
-                      className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
-                      ref={endDRef}
-                      onChange={(e) => {
-                        setEndDate(e.target.value);
-                        setEnd(true);
+                    <DatePicker
+                      selected={endDate!}
+                      showTimeSelect
+                      className="grow rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      timeFormat="hh:mm"
+                      dateFormat="EEEE dd MMM"
+                      placeholderText="Select End date"
+                      onChange={(date) => {
+                        setEndDate(date!);
                       }}
-                      min={getTodayDate(new Date(startDate))}
+                      minDate={new Date(startDate?.toDateString()!)}
                     />
                   ) : (
+                    // <input
+                    //   type="datetime-local"
+                    //   className="rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                    //   ref={endDRef}
+                    //   onChange={(e) => {
+                    //     setEndDate(e.target.value);
+                    //     setEnd(true);
+                    //   }}
+                    //   // min={getTodayDate(startDate!)}
+                    // />
                     <p
                       // onClick={() => endDRef.current?.showPicker()}
                       className="flex w-full grow cursor-pointer items-center justify-between rounded-lg bg-white p-2 text-xs font-medium text-black opacity-80 phone:text-base"
                     >
-                      {date.format(new Date(endDate), "dddd D MMM")}
+                      {date.format(endDate!, "dddd D MMM")}
                       <PencilSimple size={20} onClick={() => setEnd(false)} />
                     </p>
                   )}
@@ -471,7 +497,7 @@ function CreateEvent() {
                 --Select a chain--
               </option>
               <option value="Ethereum">Ethereum sepolia</option>
-              <option value="Airbitrum">Airbitrum sepolia</option>
+              <option value="Arbitrum">Arbitrum sepolia</option>
               <option value="Optimism">Optimism sepolia</option>
             </select>
 
@@ -506,8 +532,8 @@ function CreateEvent() {
             disabled={
               eventName === "" ||
               location === "" ||
-              startDate === "" ||
-              endDate === "" ||
+              startDate === null ||
+              endDate === null ||
               description === "" ||
               creator === "" ||
               tz === "" ||
