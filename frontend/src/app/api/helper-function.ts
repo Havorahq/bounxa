@@ -113,7 +113,7 @@ export const getEventAttendee = async (event_id: string) => {
 
 export const getUserTicket = async (user_address: string) => {
   try {
-    const { data, error } = await supabase.from("attendees").select('*').eq("user_address", user_address);
+    const { data, error } = await supabase.from("attendees").select('*').eq("attendee_id", user_address);
     if (error) {
       throw new Error(error.message)
     }
