@@ -38,12 +38,12 @@ const config = createConfig({
     hideContinueButton: false,
     connectorsOrder: ["email", "phone", "social", "wallet"],
     language: "en-US",
-    mode: "light",
+    mode: "dark",
     theme: {
       "--pcm-accent-color": "#ff4d4f",
     },
     // logo: "https://ibb.co/4sRd46B",
-    logo: "/images/logo.png",
+    logo: "",
     filterCountryCallingCode: (countries) => {
       return countries.filter((item) => item === "US");
     },
