@@ -11,8 +11,10 @@ import { getAllEvent } from "../api/helper-function";
 import Loader from "@/components/Loader";
 import { EventType } from "@/utils/dataType";
 import EmptyState from "@/components/event/EmptyState";
+import { useRouter } from "next/navigation";
 
 function Calendar() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<EventType[]>([]);
   const [arranged, setArranged] = useState<EventType[]>([]);
@@ -69,7 +71,12 @@ function Calendar() {
             <Loader color={"white"} heignt={"100px"} />
           </div>
         ) : arranged.length === 0 ? (
-          <EmptyState />
+          <EmptyState
+            title={"No Upcoming Event"}
+            subtitle={"You have no upcoming events. Why not host one?"}
+            btnText={"Create Event"}
+            onClick={() => router.push("/create-event")}
+          />
         ) : (
           arranged.map(
             (obj, index: number) =>

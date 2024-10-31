@@ -10,8 +10,10 @@ import { useEffect, useState } from "react";
 import { getAllEvent } from "../api/helper-function";
 import EventsCard2 from "@/components/event/EventsCard2";
 import { EventType } from "@/utils/dataType";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<EventType[]>([]);
   const getAll = async () => {
@@ -29,8 +31,8 @@ export default function Home() {
   return (
     <main className="background-image-div">
       <div className="flex flex-col items-start justify-start">
-        <Header 
-        // auth={true} 
+        <Header
+        // auth={true}
         />
         <Nav />
         <div className="m-auto w-[95%] lg:w-[1000px]">
@@ -40,7 +42,12 @@ export default function Home() {
                 <Loader color={"white"} heignt={"100px"} />
               </div>
             ) : data.length === 0 ? (
-              <EmptyState />
+              <EmptyState
+                title={"No Upcoming Event"}
+                subtitle={"You have no upcoming events. Why not host one?"}
+                btnText={"Create Event"}
+                onClick={() => router.push("/create-event")}
+              />
             ) : (
               data.map(
                 (obj: EventType, index: number) =>
