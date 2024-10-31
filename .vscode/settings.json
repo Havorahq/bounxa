@@ -1,0 +1,9 @@
+{
+  "liveServer.settings.port": 5501,
+  "[typescript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}
