@@ -100,3 +100,12 @@ input[type="datetime-local"] {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+.react-datepicker-wrapper {
+  flex-grow: 1;
+  display: flex !important;
+}
+
+.react-datepicker__input-container{
+  display: flex !important;
+}
