@@ -45,7 +45,7 @@ function CreateEvent() {
   const [showPrice, setShowPrice] = useState(false);
   const [showCapacity, setShowCapacity] = useState(false);
   // const startDRef = useRef<HTMLInputElement | null>(null);
-  const endDRef = useRef<HTMLInputElement | null>(null);
+  // const endDRef = useRef<HTMLInputElement | null>(null);
   // const startTRef = useRef<HTMLInputElement | null>(null);
   // const endTRef = useRef<HTMLInputElement | null>(null);
   const [startDate, setStartDate] = useState<Date>();
@@ -373,7 +373,7 @@ function CreateEvent() {
                       onChange={(date) => {
                         setEndDate(date!);
                       }}
-                      minDate={new Date(startDate?.toDateString()!)}
+                      minDate={new Date(startDate?.toDateString() as string)}
                     />
                   ) : (
                     // <input
