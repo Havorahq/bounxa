@@ -5,7 +5,7 @@
 "use client";
 import EventsCard2 from "@/components/event/EventsCard2";
 import React, { useEffect, useState } from "react";
-import { getAllEvent } from "../api/helper-function";
+import { getAllEvent, getUserTicket } from "../api/helper-function";
 import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import { useAccount } from "@particle-network/connectkit";
@@ -16,8 +16,9 @@ function Explore() {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>([]);
-  const [show, setShow] = useState("all event");
+  const [show, setShow] = useState("all events");
   const [filter, setFilter] = useState<any>([]);
+  const [tickets, setTickets] = useState<any>([]);
   const todayNow = new Date();
   const getAll = async () => {
     setLoading(true);
@@ -28,22 +29,36 @@ function Explore() {
     setLoading(false);
   };
 
+  const att = async () => {
+    const res = await getUserTicket(address!);
+    setTickets(res.data);
+    console.log(res);
+  };
+
   useEffect(() => {
     let filter;
-    if (show === "my event") {
+    if (show === "my events") {
       filter = data.filter((obj: any) => obj.host === address);
     }
-    if (show === "all event") {
+    if (show === "all events") {
       const first = data.filter(
         (obj: any) => new Date(obj.end_date) > todayNow,
       );
       filter = first.filter((obj: any) => obj.host !== address);
     }
-    setFilter(filter.reverse());
+
+    if (show === "my tickets") {
+      const first = data.filter((obj1: any) =>
+        tickets.some((obj2: any) => obj2.event_id === obj1.id),
+      );
+      filter = first;
+    }
+    setFilter(filter?.reverse());
   }, [data, show, address]);
 
   useEffect(() => {
     getAll();
+    att();
   }, []);
 
   return (
@@ -53,23 +68,23 @@ function Explore() {
       <div className="m-auto w-[95%] lg:w-[1000px]">
         <div className="flex items-center gap-6">
           <div
-            onClick={() => setShow("all event")}
-            className={`${show === "all event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+            onClick={() => setShow("all events")}
+            className={`${show === "all events" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
           >
             All Events
           </div>
           {isConnected && (
             <div
-              onClick={() => setShow("my event")}
-              className={`${show === "my event" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+              onClick={() => setShow("my events")}
+              className={`${show === "my events" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
             >
               My Events
             </div>
           )}
           {isConnected && (
             <div
-              onClick={() => setShow("my ticket")}
-              className={`${show === "my ticket" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
+              onClick={() => setShow("my tickets")}
+              className={`${show === "my tickets" ? "bg-white text-black" : ""} cursor-pointer rounded-[36px] px-5 py-1 font-medium`}
             >
               My Tickets
             </div>
@@ -80,10 +95,10 @@ function Explore() {
             <div className="flex w-full items-center justify-center">
               <Loader color={"white"} heignt={"100px"} />
             </div>
-          ) : filter.length === 0 ? (
+          ) : filter?.length === 0 ? (
             <EmptyState />
           ) : (
-            filter.map(
+            filter?.map(
               (obj: any, index: number) =>
                 obj.type === "public" && <EventsCard2 key={index} data={obj} />,
             )
