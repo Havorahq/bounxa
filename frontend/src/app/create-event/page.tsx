@@ -302,12 +302,12 @@ function CreateEvent() {
           <div className="mt-4 flex gap-2">
             <div className="grow rounded-lg bg-[#FFFFFFCC] p-1">
               <div className="flex gap-2">
-                <div className="relative flex grow">
+                <div className="flex grow">
                   {!start ? (
                     <DatePicker
                       selected={startDate!}
                       showTimeSelect
-                      className="grow rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      className="!grow rounded-lg bg-white p-2 text-black"
                       timeFormat="hh:mm"
                       dateFormat="EEEE dd MMM"
                       placeholderText="Select start date"
@@ -366,7 +366,7 @@ function CreateEvent() {
                     <DatePicker
                       selected={endDate!}
                       showTimeSelect
-                      className="grow rounded-lg bg-white p-2 text-xs text-black phone:text-base"
+                      className="grow rounded-lg bg-white p-2 text-black"
                       timeFormat="hh:mm"
                       dateFormat="EEEE dd MMM"
                       placeholderText="Select End date"
@@ -515,7 +515,7 @@ function CreateEvent() {
                   <h1 className="text-lg font-bold">Useful tip</h1>
                   <p>
                     While attendees can buy your ticket with any chain token
-                    they wish, even hosts have the option of choosing the chain
+                    they wish, event hosts have the option of choosing the chain
                     they wish to receive all their ticket sales fund.
                   </p>
                 </div>
