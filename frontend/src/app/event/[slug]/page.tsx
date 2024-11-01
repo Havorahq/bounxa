@@ -131,11 +131,10 @@ function EventDetail() {
         return e;
       }
     }
-    console.log("called here");
     const res = await payTicket({
-      eventContractAddress: `0x${data.blockchain_address}`,
+      eventContractAddress: data.blockchain_address as `0x${string}`,
       quantity: 1,
-      userAddress: `0x${address}`,
+      userAddress: address as `0x${string}`,
     });
     await handleJoinEvent();
     setLoadingB(false);
