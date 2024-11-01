@@ -18,7 +18,11 @@ import {
   X,
 } from "@phosphor-icons/react";
 import Button from "@/components/Button";
-import { getEventAttendee, getSingleEvent } from "@/app/api/helper-function";
+import {
+  getEventAttendee,
+  getSingleEvent,
+  joinEvent,
+} from "@/app/api/helper-function";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import date from "date-and-time";
@@ -62,16 +66,22 @@ function EventDetail() {
   const [selectedToken, setSelectedToken] = useState<string>("token1"); // Default token
   const [price, setPrice] = useState<number | null>(null); // Price state
   const [showImage, setShowImage] = useState(false);
+  const [loadingB, setLoadingB] = useState(false);
 
   const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
     useKlater();
   const { buyTickets: payTicket } = usePaymaster();
   const { address } = useAccount();
 
-  // const handleJoinEvent = async () => {
-  //   await joinEvent(eventId as string, address as string);
-  //   getAttendee();
-  // };
+  const handleJoinEvent = async () => {
+    const res = await joinEvent(eventId as string, address as string);
+    if (res.data) {
+      toast.success("Ticket bought, pls check 'My Tickes' to view");
+    } else {
+      toast.error("Something went wrong");
+    }
+    getAttendee();
+  };
 
   const getAttendee = async () => {
     const res = await getEventAttendee(eventId as string);
@@ -106,29 +116,29 @@ function EventDetail() {
   }, [data]);
 
   const buyTicket = async () => {
+    setLoadingB(true);
     if (data.price) {
-      const result = await initiateKlasterTransaction(
-        data.price,
-        data.host as `0x${string}`,
-        // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
-        1,
-      );
-      console.log(result);
+      try {
+        const result = await initiateKlasterTransaction(
+          data.price,
+          data.host as `0x${string}`,
+          // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
+          1,
+        );
+        console.log(result);
+      } catch (e) {
+        toast.error(e as string, { position: "top-right" });
+        return e;
+      }
     }
-
+    console.log("called here");
     const res = await payTicket({
       eventContractAddress: `0x${data.blockchain_address}`,
       quantity: 1,
       userAddress: `0x${address}`,
     });
-
-    console.log(res);
-
-    // const data = await fetchPrice(selectedToken);
-    // if (data) {
-    //   console.log({ data });
-    //   // handleJoinEvent();
-    // }
+    await handleJoinEvent();
+    setLoadingB(false);
   };
 
   const toggleModal = async () => {
@@ -151,7 +161,7 @@ function EventDetail() {
     <>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
-          <div className="w-[50%] items-center justify-center rounded-lg bg-white p-6 text-center">
+          <div className="w-[90%] items-center justify-center rounded-lg bg-white p-6 text-center sm:w-1/2">
             <h2 className="text-lg font-semibold">Confirm Purchase</h2>
             <p>Are you sure you want to buy a ticket?</p>
             <p className="mt-2">
@@ -159,7 +169,11 @@ function EventDetail() {
             </p>
             <div className="mt-4 flex justify-end">
               <Button onClick={toggleModal} text="Cancel" className="mr-2" />
-              <Button onClick={() => buyTicket()} text="Confirm" />
+              <Button
+                onClick={() => buyTicket()}
+                text="Confirm"
+                loading={loadingB}
+              />
             </div>
           </div>
         </div>
