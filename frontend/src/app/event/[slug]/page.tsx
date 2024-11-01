@@ -32,9 +32,11 @@ import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 import { fetchPrice } from "@/app/seda/helper";
 import { usePaymaster } from "@/app/hooks/contractInteractions/usePayMaster";
 import { useAccount } from "@particle-network/connectkit";
+import { useRouter } from "next/navigation";
 
 function EventDetail() {
   const { slug } = useParams();
+  const router = useRouter();
   // const { address } = useAccount();
   const eventId = slug;
   const [chain, setChain] = useState<number | null>(null);
@@ -77,6 +79,7 @@ function EventDetail() {
     const res = await joinEvent(eventId as string, address as string);
     if (res.data) {
       toast.success("Ticket bought, pls check 'My Tickes' to view");
+      router.push("/explore");
     } else {
       toast.error("Something went wrong");
     }
