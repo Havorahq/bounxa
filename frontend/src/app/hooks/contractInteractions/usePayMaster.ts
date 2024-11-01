@@ -44,8 +44,6 @@ export const usePaymaster = () => {
         quantity: number,
         userAddress: `0x${string}`
     }) => {
-
-        console.log('the address 11', args.eventContractAddress)
         const {
             eventContractAddress,
             quantity,

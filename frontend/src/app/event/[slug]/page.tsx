@@ -131,7 +131,6 @@ function EventDetail() {
         return e;
       }
     }
-    console.log("called here");
     const res = await payTicket({
       eventContractAddress: data.blockchain_address as `0x${string}`,
       quantity: 1,
