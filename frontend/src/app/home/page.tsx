@@ -20,7 +20,7 @@ export default function Home() {
     setLoading(true);
     const res = await getAllEvent();
     if (res.data) {
-      setData(res.data);
+      setData(res.data.reverse());
     }
     setLoading(false);
   };
