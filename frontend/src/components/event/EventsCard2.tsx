@@ -29,17 +29,19 @@ function EventsCard2({ data }: any) {
           <p className="text-xs font-medium phone:text-base">
             {date.format(dateFormat, "hh:mm")}
           </p>
-          <p className="text-lg font-medium phone:text-2xl">
-            {truncateString(data.name, 9)}
+          <p className="font-bold">{truncateString(data.name, 14)}</p>
+          <p className="text-sm font-medium phone:text-base">
+            {truncateString(data.location, 13)}
           </p>
-          <p className="text-sm font-medium phone:text-base">{data.location}</p>
           <div className="mt-3 flex items-center gap-2">
             <img
               src="/images/events.png"
               className="h-[18px] w-[18px] rounded-full"
               alt=""
             />
-            <p className="text-sm font-medium capitalize">{data.host_name}</p>
+            <p className="text-sm font-medium capitalize">
+              {truncateString(data.host_name, 10)}
+            </p>
           </div>
           <div
             className={

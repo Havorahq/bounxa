@@ -7,7 +7,7 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-const protectedRoutes = ["/home", "/create-event", "/calendar", "/analytics"];
+const protectedRoutes = ["/create-event", "/analytics", "/event"];
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { isConnected } = useAccount();
@@ -15,10 +15,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isConnected && protectedRoutes.includes(currentPath)) {
-      router.push("/login");
+    if (
+      !isConnected &&
+      protectedRoutes.some((routes) => currentPath.startsWith(routes))
+    ) {
+      router.push("/");
     } else if (isConnected && currentPath === "/login") {
-      router.push("/home");
+      router.push("/explore");
     }
   }, [currentPath, isConnected, router]);
 
