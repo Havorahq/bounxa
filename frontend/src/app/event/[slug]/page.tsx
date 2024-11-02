@@ -32,9 +32,11 @@ import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 import { fetchPrice } from "@/app/seda/helper";
 import { usePaymaster } from "@/app/hooks/contractInteractions/usePayMaster";
 import { useAccount } from "@particle-network/connectkit";
+import { useRouter } from "next/navigation";
 
 function EventDetail() {
   const { slug } = useParams();
+  const router = useRouter();
   // const { address } = useAccount();
   const eventId = slug;
   const [chain, setChain] = useState<number | null>(null);
@@ -77,6 +79,7 @@ function EventDetail() {
     const res = await joinEvent(eventId as string, address as string);
     if (res.data) {
       toast.success("Ticket bought, pls check 'My Tickes' to view");
+      router.push("/explore");
     } else {
       toast.error("Something went wrong");
     }
@@ -154,24 +157,27 @@ function EventDetail() {
     // );
   };
 
-  useEffect(() => {}, []);
-
   return (
     <>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
-          <div className="w-[90%] items-center justify-center rounded-lg bg-white p-6 text-center sm:w-1/2">
+          <div className="w-[90%] items-center justify-center rounded-lg bg-white p-12 text-center sm:w-1/2">
             <h2 className="text-lg font-semibold">Confirm Purchase</h2>
             <p>Are you sure you want to buy a ticket?</p>
             <p className="mt-2">
               Price: {data.price ? `$${data.price}` : "Free"}
             </p>
-            <div className="mt-4 flex justify-end">
-              <Button onClick={toggleModal} text="Cancel" className="mr-2" />
+            <div className="mt-5 flex justify-center gap-5">
+              <Button
+                onClick={toggleModal}
+                text="Cancel"
+                className="!bg-red-400"
+              />
               <Button
                 onClick={() => buyTicket()}
                 text="Confirm"
                 loading={loadingB}
+                className="!bg-green-400"
               />
             </div>
           </div>
@@ -252,7 +258,7 @@ function EventDetail() {
               <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
                 <MapPinLine size={20} className="mt-1" />
                 <div>
-                  <p className="font-medium">Add Event Location</p>
+                  <p className="font-medium">Event Location</p>
                   <p className="font-medium opacity-80">{data.location}</p>
                 </div>
               </div>

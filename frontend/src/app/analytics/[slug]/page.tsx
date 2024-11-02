@@ -4,13 +4,12 @@
 "use client";
 // import { useAccount } from "@particle-network/connectkit";
 import {
-  Compass,
+  CopySimple,
   Globe,
   MapPinLine,
   Ticket,
   UsersThree,
 } from "@phosphor-icons/react";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getEventAttendee, getSingleEvent } from "@/app/api/helper-function";
@@ -18,9 +17,13 @@ import { toast } from "sonner";
 import Loader from "@/components/Loader";
 import date from "date-and-time";
 import { EventType } from "@/utils/dataType";
+import Header from "@/components/Header";
+import Nav from "@/components/Nav";
+import copy from "copy-to-clipboard";
 
 function Analytics() {
   const { slug } = useParams();
+  const BaseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   // const { address } = useAccount();
   const eventId = slug;
   const [data, setData] = useState<EventType>({
@@ -78,28 +81,15 @@ function Analytics() {
     setDateE(formatE);
   }, [data]);
 
+  const onCopy = (text: string) => {
+    copy(text, {});
+    toast("text copied");
+  };
+
   return (
     <main className="h-screen">
-      <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">
-        <Link href={"/"}>
-          <img src="/icons/Logo.svg" alt="" className="h-10 phone:h-auto" />
-        </Link>
-        <div className="flex items-center gap-2">
-          <Link href={"/explore"}>
-            <button className="hidden rounded-full px-6 py-2 font-medium text-white sm:block">
-              <div className="flex items-center gap-1 font-medium">
-                <Compass color="white" size={20} /> <p>Explore Events</p>
-              </div>
-            </button>
-          </Link>
-          <Link href={"/login"}>
-            <button className="rounded-full bg-white px-3 py-2 font-medium text-black phone:px-6">
-              Get Started
-            </button>
-          </Link>
-        </div>
-      </header>
-
+      <Header />
+      <Nav />
       {loading ? (
         <Loader color={"white"} />
       ) : (
@@ -110,7 +100,7 @@ function Analytics() {
                 <div className="flex items-center gap-2">
                   <Ticket size={20} />
                   <div>
-                    <p className="font-medium">Tickets</p>
+                    <p className="font-medium">Tickets Sold</p>
                   </div>
                 </div>
                 <p className="mt-3 text-2xl">{attendee.length}</p>
@@ -137,7 +127,6 @@ function Analytics() {
                   </div>
                 </div>
                 <p className="mt-3 text-2xl">
-                  {" "}
                   {data.capacity ? <p>{data.capacity}</p> : "Unlimited"}
                 </p>
               </div>
@@ -145,12 +134,11 @@ function Analytics() {
                 <div className="flex items-center gap-2">
                   <Ticket size={20} />
                   <div>
-                    <p className="font-medium">Cost per Ticket</p>
+                    <p className="font-medium">Total Sales</p>
                   </div>
                 </div>
                 <p className="mt-3 text-2xl">
-                  {" "}
-                  {data.price ? <p>${data.price}</p> : "Free"}
+                  {data.price ? <p>{data.price * attendee.length}</p> : "Free"}
                 </p>
               </div>
             </div>
@@ -186,12 +174,19 @@ function Analytics() {
             <div className="mt-3 flex gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
               <MapPinLine size={20} className="mt-1" />
               <div>
-                <p className="font-medium">Add Event Location</p>
+                <p className="font-medium">Event Location</p>
                 <p className="font-medium opacity-80">{data.location}</p>
               </div>
             </div>
             <div className="mt-3 flex items-center gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black">
               {data.description}
+            </div>
+            <div
+              onClick={() => onCopy(`${BaseUrl}/event/${eventId}`)}
+              className="mt-3 flex items-center justify-between gap-2 rounded-lg bg-[#FFFFFFCC] p-3 text-black"
+            >
+              <p className="font-medium">Copy event link</p>
+              <CopySimple size={20} />
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
 "use client";
 import {
   HouseSimple,
-  CalendarBlank,
+  // CalendarBlank,
   Compass,
   Plus,
 } from "@phosphor-icons/react";
@@ -23,19 +23,19 @@ function Nav() {
 
   const navLinks = [
     {
-      path: "/home",
+      path: "/",
       icon: <HouseSimple />,
-      active: pathName === "/home",
+      active: pathName === "/",
       name: "Home",
-      title: "Events",
+      title: "Home",
     },
-    {
-      path: "/calendar",
-      icon: <CalendarBlank />,
-      active: pathName === "/calendar",
-      name: "Calendar",
-      title: "Events Calendar",
-    },
+    // {
+    //   path: "/calendar",
+    //   icon: <CalendarBlank />,
+    //   active: pathName === "/calendar",
+    //   name: "Calendar",
+    //   title: "Events Calendar",
+    // },
     {
       path: "/explore",
       icon: <Compass />,
