@@ -46,7 +46,9 @@ function Explore() {
       const first = data.filter(
         (obj: any) => new Date(obj.end_date) > todayNow,
       );
-      filter = first.filter((obj: any) => obj.host !== address);
+      filter = first.filter(
+        (obj: any) => obj.host !== address && obj.type === "public",
+      );
     }
 
     if (show === "my tickets") {
@@ -115,10 +117,9 @@ function Explore() {
               }
             />
           ) : (
-            filter?.map(
-              (obj: any, index: number) =>
-                obj.type === "public" && <EventsCard2 key={index} data={obj} />,
-            )
+            filter?.map((obj: any, index: number) => (
+              <EventsCard2 key={index} data={obj} />
+            ))
           )}
           {/* <EventsCard2 /> */}
         </div>

@@ -91,7 +91,7 @@ function Header() {
           <Button
             onClick={() => setBal(true)}
             className="phone:!containerpy-2 !px-2 !py-1 !text-sm phone:!px-6 phone:!py-2 phone:!text-base"
-            text={"View bal"}
+            text={"View Bal"}
           />
         )}
         <div>
