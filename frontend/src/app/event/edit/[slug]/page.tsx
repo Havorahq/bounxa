@@ -63,22 +63,21 @@ function EditEvent() {
   const [editLoading, setEditLoading] = useState(true);
   const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
-  const { createEvent: blockCreate } = usePaymaster();
   const [value, setValue] = useState<File | null>(null);
   const [start, setStart] = useState(false);
   const [end, setEnd] = useState(false);
-  const [attendee, setAttendee] = useState([]);
+  // const [attendee, setAttendee] = useState([]);
 
-  const getAttendee = async () => {
-    const res = await getEventAttendee(eventId as string);
-    if (res.data) {
-      setAttendee(res.data as never[]);
-    }
-  };
+  // const getAttendee = async () => {
+  //   const res = await getEventAttendee(eventId as string);
+  //   if (res.data) {
+  //     setAttendee(res.data as never[]);
+  //   }
+  // };
   const getEventData = async () => {
     setEditLoading(true);
     const res = await getSingleEvent(eventId as string);
-    getAttendee();
+    // getAttendee();
     if (res.error) {
       toast.error(res.error, { position: "top-right" });
     }

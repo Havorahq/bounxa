@@ -23,7 +23,7 @@ function Explore() {
   const [filter, setFilter] = useState<any>([]);
   const [tickets, setTickets] = useState<any>([]);
   const [showTicket, setShowTicket] = useState(false);
-  const [showId, setShowId] = useState("");
+  // const [showId, setShowId] = useState("");
   const todayNow = new Date();
   const getAll = async () => {
     setLoading(true);
@@ -157,13 +157,13 @@ function Explore() {
           ) : (
             filter?.map((obj: any, index: number) => (
               <div
+                key={index}
                 className="event_card"
                 onClick={
                   show === "my tickets" ? () => setShowTicket(true) : () => {}
                 }
               >
                 <EventsCard2
-                  key={index}
                   data={obj}
                   text={show === "my tickets" ? "View ticket" : ""}
                 />
