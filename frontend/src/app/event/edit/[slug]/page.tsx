@@ -19,16 +19,11 @@ import {
 } from "@phosphor-icons/react";
 import date from "date-and-time";
 import Button from "@/components/Button";
-import {
-  getEventAttendee,
-  getSingleEvent,
-  updateEvent,
-} from "../../../api/helper-function";
+import { getSingleEvent, updateEvent } from "../../../api/helper-function";
 import { useAccount } from "@particle-network/connectkit";
 import EventModal from "../../../create-event/_components/EventModal";
 import { toast } from "sonner";
 import timezones from "timezones-list";
-import { usePaymaster } from "../../../hooks/contractInteractions/usePayMaster";
 import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
 import axios from "axios";
