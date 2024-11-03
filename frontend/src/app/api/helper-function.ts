@@ -122,3 +122,31 @@ export const getUserTicket = async (user_address: string) => {
     return { data: null, error: `An error occurred: ${e}` };
   }
 }
+
+export const updateEvent = async (event_id: string, host: string, location: string, capacity: number, name: string, start_date: string, end_date: string, type: string, description: string, timezone: string, host_name: string, timezone_utc: string, price: number, image_url: string, chain: string) => {
+  try {
+    const { data, error } = await supabase.from("events").update({ host, location, capacity, name, start_date, end_date, type, description, timezone, timezone_utc, host_name, price, image_url, chain }).eq("id", event_id)
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: `An error occurred: ${e}` };
+  }
+}
+
+export const deleteEvent = async (event_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .delete()
+      .eq("id", event_id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: `An error occurred: ${e}` };
+  }
+}

@@ -12,6 +12,7 @@ import { useAccount } from "@particle-network/connectkit";
 import EmptyState from "@/components/event/EmptyState";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
 
 function Explore() {
   const router = useRouter();
@@ -21,6 +22,8 @@ function Explore() {
   const [show, setShow] = useState("all events");
   const [filter, setFilter] = useState<any>([]);
   const [tickets, setTickets] = useState<any>([]);
+  const [showTicket, setShowTicket] = useState(false);
+  const [showId, setShowId] = useState("");
   const todayNow = new Date();
   const getAll = async () => {
     setLoading(true);
@@ -68,6 +71,41 @@ function Explore() {
   return (
     <main className="h-screen overflow-y-scroll">
       <Header />
+      {showTicket && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50 text-black">
+          <div className="w-[90%] items-center justify-center rounded-lg bg-white p-12 text-center sm:w-1/2">
+            <div className="flex w-full items-center justify-center">
+              <div className="h-[183px] w-[200px] rounded-2xl border-r border-dashed border-white bg-[#1E0970] p-4 text-left text-xs text-[#D5CBFF]">
+                <img
+                  src="image"
+                  alt=""
+                  className="h-[30px] w-[30px] rounded-md bg-white"
+                />
+                <h1 className="mt-2 text-base font-bold">World tour</h1>
+
+                <p className="mt-2">
+                  Date : <span className="font-semibold">Sep 4, 2024</span>
+                </p>
+                <p className="mt-2">
+                  Time : <span className="font-semibold">9:30am</span>
+                </p>
+                <p className="mt-2">
+                  Location :{" "}
+                  <span className="font-semibold">Some distant Avenue</span>
+                </p>
+              </div>
+              {/* <div className="h-[160px] w-[10px] rounded-2xl border-r border-dashed border-white bg-[#1E0970]"></div> */}
+              <div className="h-[183px] w-[200px] rounded-2xl border-l border-dashed border-white bg-[#1E0970]"></div>
+            </div>
+          </div>
+
+          <Button
+            className="mt-6 !bg-red-400 !text-white"
+            text={"Close"}
+            onClick={() => setShowTicket(false)}
+          />
+        </div>
+      )}
       <Nav />
       <div className="m-auto w-[95%] lg:w-[1000px]">
         <div className="flex items-center gap-3 phone:gap-6">
@@ -118,7 +156,18 @@ function Explore() {
             />
           ) : (
             filter?.map((obj: any, index: number) => (
-              <EventsCard2 key={index} data={obj} />
+              <div
+                className="event_card"
+                onClick={
+                  show === "my tickets" ? () => setShowTicket(true) : () => {}
+                }
+              >
+                <EventsCard2
+                  key={index}
+                  data={obj}
+                  text={show === "my tickets" ? "View ticket" : ""}
+                />
+              </div>
             ))
           )}
           {/* <EventsCard2 /> */}
