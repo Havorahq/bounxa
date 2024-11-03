@@ -69,6 +69,7 @@ function EventDetail() {
   const [price, setPrice] = useState<number | null>(null); // Price state
   const [showImage, setShowImage] = useState(false);
   const [loadingB, setLoadingB] = useState(false);
+  const [sedaId, setSedaId] = useState("");
 
   const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
     useKlater();
@@ -158,6 +159,7 @@ function EventDetail() {
     transaction_hash: string,
   ) => {
     const data = await fetchPrice(chain, transaction_hash);
+    setSedaId(data.drId);
 
     console.log({ data });
   };
@@ -165,6 +167,10 @@ function EventDetail() {
   const chainHide = "11155111";
   const hash =
     "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
+  const exampleId =
+    "c3ea47b38cc3bbdaea1c6cd0491af4b9ccc98586af143f70fb58f20d00d21d49";
+
+  const url = `https://devnet.explorer.seda.xyz/data-requests/${sedaId}`;
 
   return (
     <>
@@ -183,7 +189,7 @@ function EventDetail() {
                 className="!bg-red-400"
               />
               <Button
-                onClick={() => handleValidatePurchase(chainHide, hash)}
+                onClick={() => buyTicket()}
                 text="Confirm"
                 loading={loadingB}
                 className="!bg-green-400"
