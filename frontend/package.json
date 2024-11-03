@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lifi/sdk": "^3.3.0",
+    "@next/swc-darwin-arm64": "^15.0.2",
     "@particle-network/aa": "^2.0.2",
     "@particle-network/authkit": "^2.0.5",
     "@particle-network/connectkit": "^2.0.9",
