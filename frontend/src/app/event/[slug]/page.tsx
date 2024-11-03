@@ -75,8 +75,12 @@ function EventDetail() {
   const { buyTickets: payTicket } = usePaymaster();
   const { address } = useAccount();
 
-  const handleJoinEvent = async () => {
-    const res = await joinEvent(eventId as string, address as string);
+  const handleJoinEvent = async (ticket_hash: string) => {
+    const res = await joinEvent(
+      eventId as string,
+      address as string,
+      ticket_hash,
+    );
     if (res.data) {
       toast.success("Ticket bought, pls check 'My Tickes' to view");
       router.push("/explore");
@@ -139,23 +143,28 @@ function EventDetail() {
       quantity: 1,
       userAddress: address as `0x${string}`,
     });
-    await handleJoinEvent();
+
+    //res will hash
+    await handleJoinEvent(res.transactionHash);
     setLoadingB(false);
   };
 
   const toggleModal = async () => {
     setIsModalOpen(!isModalOpen);
-    // const data = await fetchPrice();
-    // if (data) {
-    //   handleJoinEvent();
-    // }
-    // console.log(data);
-    // await initiateKlasterTransaction(
-    //   1,
-    //   "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
-    //   1,
-    // );
   };
+
+  const handleValidatePurchase = async (
+    chain: string,
+    transaction_hash: string,
+  ) => {
+    const data = await fetchPrice(chain, transaction_hash);
+
+    console.log({ data });
+  };
+
+  const chainHide = "11155111";
+  const hash =
+    "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
 
   return (
     <>
@@ -174,7 +183,7 @@ function EventDetail() {
                 className="!bg-red-400"
               />
               <Button
-                onClick={() => buyTicket()}
+                onClick={() => handleValidatePurchase(chainHide, hash)}
                 text="Confirm"
                 loading={loadingB}
                 className="!bg-green-400"

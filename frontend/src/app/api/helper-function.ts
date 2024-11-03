@@ -49,9 +49,9 @@ export const createEvent = async (host: string, location: string, capacity: numb
   }
 };
 
-export const joinEvent = async (event_id: string, attendee_id: string) => {
+export const joinEvent = async (event_id: string, attendee_id: string, ticket_hash: string) => {
   try {
-    const joinedEvent = { event_id, attendee_id };
+    const joinedEvent = { event_id, attendee_id, ticket_hash };
     const { data, error } = await supabase
       .from("attendees")
       .insert([joinedEvent])
