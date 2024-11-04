@@ -84,7 +84,6 @@ function Explore() {
       const get2 = tickets.find((obj: any) => obj.event_id === showId);
       setTick(get2);
       setTict(get);
-      console.log("heree", get2);
     }
   }, [showId]);
 
