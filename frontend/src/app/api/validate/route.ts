@@ -4,9 +4,6 @@ import {
   postAndAwaitDataRequest,
 } from "@seda-protocol/dev-tools";
 
-function hexToDecimal(hex: string): number {
-  return parseInt(hex, 16);
-}
 
 export const dynamic = "force-dynamic";
 
@@ -23,9 +20,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body = await req.json(); // Parse the JSON body
+    const body = await req.json();
 
-    const { token } = body;
+    const { params } = body;
+    const { chain, transaction_hash } = params
 
     const signingConfig = buildSigningConfig({});
     const signer = await Signer.fromPartial(signingConfig);
@@ -37,8 +35,7 @@ export async function POST(req: Request) {
           method: "none",
         },
         oracleProgramId: process.env.ORACLE_PROGRAM_ID,
-        // drInputs: Buffer.from(pair),
-        drInputs: Buffer.from(token),
+        drInputs: Buffer.from(`${chain}-${transaction_hash}`),
         tallyInputs: Buffer.from([]),
         memo: Buffer.from(new Date().toISOString()),
       },
@@ -46,11 +43,9 @@ export async function POST(req: Request) {
     );
 
     if (result) {
-      const resultHex = result.result;
-      const resultDecimal = hexToDecimal(resultHex);
 
       return new Response(
-        JSON.stringify({ result, decimalResult: resultDecimal / 1000000 }),
+        JSON.stringify({ result }),
         {
           status: 201,
         },
