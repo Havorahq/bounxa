@@ -89,36 +89,46 @@ function Explore() {
             <div className="flex w-full items-center justify-center">
               <div className="h-[183px] w-[200px] rounded-2xl border-r border-dashed border-white bg-[#1E0970] p-4 text-left text-xs text-[#D5CBFF]">
                 <img
-                  src="image"
+                  src={ticket?.image_url as string}
                   alt=""
                   className="h-[30px] w-[30px] rounded-md bg-white"
                 />
                 <h1 className="mt-2 text-base font-bold">
-                  {truncateString(ticket?.name!, 14)}
+                  {truncateString(ticket?.name as string, 14)}
                 </h1>
 
                 <p className="mt-2">
                   Date :{" "}
                   <span className="font-semibold">
-                    {date.format(new Date(ticket?.start_date!), "MMM D, YYYY")}
+                    {date.format(
+                      new Date(ticket?.start_date as string),
+                      "MMM D, YYYY",
+                    )}
                   </span>
                 </p>
                 <p className="mt-2">
                   Time :{" "}
                   <span className="font-semibold">
-                    {date.format(new Date(ticket?.start_date!), "hh:mmA")}
+                    {date.format(
+                      new Date(ticket?.start_date as string),
+                      "hh:mmA",
+                    )}
                   </span>
                 </p>
                 <p className="mt-2">
                   Location :{" "}
                   <span className="font-semibold">
-                    {truncateString(ticket?.location!, 13)}
+                    {truncateString(ticket?.location as string, 13)}
                   </span>
                 </p>
               </div>
               {/* <div className="h-[160px] w-[10px] rounded-2xl border-r border-dashed border-white bg-[#1E0970]"></div> */}
-              <div className="h-[183px] flex items-center justify-center w-[200px] rounded-2xl border-l border-dashed border-white bg-[#1E0970]">
-                <img src="./qrcode" alt="" className="h-[123px] w-[120px] object-cover" />
+              <div className="flex h-[183px] w-[200px] items-center justify-center rounded-2xl border-l border-dashed border-white bg-[#1E0970]">
+                <img
+                  src="/qrcode"
+                  alt=""
+                  className="h-[123px] w-[120px] object-cover"
+                />
               </div>
             </div>
           </div>
