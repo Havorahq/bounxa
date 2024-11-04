@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 //
 "use client";
-import Nav from "@/components/Nav";
 import { Compass } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
@@ -9,7 +8,7 @@ import React from "react";
 function LandingPage() {
   return (
     <main className="h-screen overflow-y-scroll">
-      <Nav />
+      {/* <Nav /> */}
       {/* <div className="bgg"></div> */}
       <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1020px]">
         <img src="/icons/Logo.svg" alt="" className="h-10 phone:h-auto" />

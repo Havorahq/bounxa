@@ -8,15 +8,19 @@ import Link from "next/link";
 import { useAccount } from "@particle-network/connectkit";
 import { truncateString } from "@/utils/function.helper";
 
-function EventsCard2({ data }: any) {
+function EventsCard2({ data, text }: any) {
   const dateFormat = new Date(data?.start_date);
   const { address } = useAccount();
   return (
     <Link
       href={
-        data.host === address! ? `/analytics/${data.id}` : `/event/${data.id}`
+        text
+          ? ""
+          : data.host === address!
+            ? `/analytics/${data.id}`
+            : `/event/${data.id}`
       }
-      className="event_card flex flex-col items-start gap-3"
+      className="flex w-full flex-col items-start gap-3"
     >
       <div>
         <p className="font-medium">{date.format(dateFormat, "DD")}</p>
@@ -48,7 +52,7 @@ function EventsCard2({ data }: any) {
               "mt-3 w-auto rounded-md bg-black p-1 text-[12px] font-medium text-white group-hover:bg-white group-hover:text-black"
             }
           >
-            View event
+            {text ? text : "View event"}
           </div>
         </div>
         <img

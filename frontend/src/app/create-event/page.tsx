@@ -83,7 +83,7 @@ function CreateEvent() {
       const newEventAddress = await blockCreate({
         name: eventName,
         ticketPrice: price ? parseInt(price) : 0,
-        ticketQuantity: capacity ? parseInt(capacity) : 0,
+        ticketQuantity: capacity ? parseInt(capacity) : 1000000000,
         owner: "0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA",
       });
 
@@ -103,8 +103,8 @@ function CreateEvent() {
             location,
             parseInt(capacity),
             eventName,
-            date.format(startDate!, "YYYY-MM-DDTHH:mm:ss"),
-            date.format(endDate!, "YYYY-MM-DDTHH:mm:ss"),
+            date.format(startDate!, "YYYY-MM-DDTHH:mm"),
+            date.format(endDate!, "YYYY-MM-DDTHH:mm"),
             type,
             description,
             tz,
@@ -339,17 +339,18 @@ function CreateEvent() {
                 </div>
               </div>
               <div className="mt-1 flex gap-2">
-                <div className="relative flex grow">
+                <div className="flex grow">
                   {!end ? (
                     <DatePicker
                       selected={endDate!}
                       showTimeSelect
-                      className="flex grow rounded-lg bg-white p-2 text-black"
+                      className="flex !grow rounded-lg bg-white p-2 text-black"
                       timeFormat="hh:mm"
                       dateFormat="EEEE dd MMM"
                       placeholderText="Select End date"
                       onChange={(date) => {
                         setEndDate(date!);
+                        console.log(date);
                       }}
                       minDate={new Date(startDate?.toDateString() as string)}
                     />

@@ -55,8 +55,7 @@ export const usePaymaster = () => {
             console.log('the ticket nft address', ticketNFTAddress)
             const buyTicketTx = await eventContract.buyTickets(quantity, userAddress);
             buyTicketTx.wait();
-            console.log('the buy ticket tx', buyTicketTx)
-            return {status: "success"}
+            return {status: "success", transactionHash: buyTicketTx.hash}
         } catch(e){
             console.log('error buying ticket', e)
             return {status: "error"}

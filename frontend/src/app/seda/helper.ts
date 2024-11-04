@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export async function fetchPrice(token: string) {
+export async function fetchPrice(chain: string, transaction_hash: string) {
   try {
-    const response = await axios.post("/api/fetchPrice", { token });
+    const response = await axios.post("/api/validate", { chain, transaction_hash });
 
     if (response.status !== 201) {
       throw new Error("Failed to fetch price");
