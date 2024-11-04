@@ -94,6 +94,7 @@ function CreateEvent() {
             "Content-Type": "multipart/form-data",
           },
         });
+
         setImage(res.data.url);
 
         if (res.data.url !== "") {

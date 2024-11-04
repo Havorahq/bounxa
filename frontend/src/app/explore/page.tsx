@@ -13,7 +13,7 @@ import EmptyState from "@/components/event/EmptyState";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
-// import QRCode from "react-qr-code";
+import QRCode from "react-qr-code";
 import { EventType } from "@/utils/dataType";
 import { truncateString } from "@/utils/function.helper";
 import date from "date-and-time";
@@ -66,7 +66,7 @@ function Explore() {
       filter = first;
     }
     setFilter(filter?.reverse());
-  }, [data, show, address]);
+  }, [data, show, address, tickets]);
 
   useEffect(() => {
     getAll();
@@ -124,11 +124,7 @@ function Explore() {
               </div>
               {/* <div className="h-[160px] w-[10px] rounded-2xl border-r border-dashed border-white bg-[#1E0970]"></div> */}
               <div className="flex h-[183px] w-[200px] items-center justify-center rounded-2xl border-l border-dashed border-white bg-[#1E0970]">
-                <img
-                  src="/qrcode"
-                  alt=""
-                  className="h-[123px] w-[120px] object-cover"
-                />
+                <QRCode value={"ddd"} className="h-[130px]" />
               </div>
             </div>
           </div>
