@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function fetchPrice(chain: string, transaction_hash: string) {
+export async function fetchPrice(chain: number, transaction_hash: string) {
   try {
     const response = await axios.post("/api/validate", { chain, transaction_hash });
 
