@@ -109,3 +109,8 @@ input[type="datetime-local"] {
 .react-datepicker__input-container{
   display: flex !important;
 }
+
+
+.radius-all { border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; }
+.template-bg { background: #FFF; }
+.template-border { border: 5px solid rgba(255, 255, 255, 0.2); }
