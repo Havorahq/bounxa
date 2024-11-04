@@ -13,6 +13,10 @@ import EmptyState from "@/components/event/EmptyState";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
+import QRCode from "react-qr-code";
+import { EventType } from "@/utils/dataType";
+import { truncateString } from "@/utils/function.helper";
+import date from "date-and-time";
 
 function Explore() {
   const router = useRouter();
@@ -23,7 +27,8 @@ function Explore() {
   const [filter, setFilter] = useState<any>([]);
   const [tickets, setTickets] = useState<any>([]);
   const [showTicket, setShowTicket] = useState(false);
-  // const [showId, setShowId] = useState("");
+  const [showId, setShowId] = useState("");
+  const [ticket, setTict] = useState<EventType | null>(null);
   const todayNow = new Date();
   const getAll = async () => {
     setLoading(true);
@@ -68,6 +73,13 @@ function Explore() {
     att();
   }, []);
 
+  useEffect(() => {
+    if (showId) {
+      const get = filter.find((obj: EventType) => obj.id === showId);
+      setTict(get);
+    }
+  }, [showId]);
+
   return (
     <main className="h-screen overflow-y-scroll">
       <Header />
@@ -81,21 +93,33 @@ function Explore() {
                   alt=""
                   className="h-[30px] w-[30px] rounded-md bg-white"
                 />
-                <h1 className="mt-2 text-base font-bold">World tour</h1>
+                <h1 className="mt-2 text-base font-bold">
+                  {truncateString(ticket?.name!, 14)}
+                </h1>
 
                 <p className="mt-2">
-                  Date : <span className="font-semibold">Sep 4, 2024</span>
+                  Date :{" "}
+                  <span className="font-semibold">
+                    {date.format(new Date(ticket?.start_date!), "MMM D, YYYY")}
+                  </span>
                 </p>
                 <p className="mt-2">
-                  Time : <span className="font-semibold">9:30am</span>
+                  Time :{" "}
+                  <span className="font-semibold">
+                    {date.format(new Date(ticket?.start_date!), "hh:mmA")}
+                  </span>
                 </p>
                 <p className="mt-2">
                   Location :{" "}
-                  <span className="font-semibold">Some distant Avenue</span>
+                  <span className="font-semibold">
+                    {truncateString(ticket?.location!, 13)}
+                  </span>
                 </p>
               </div>
               {/* <div className="h-[160px] w-[10px] rounded-2xl border-r border-dashed border-white bg-[#1E0970]"></div> */}
-              <div className="h-[183px] w-[200px] rounded-2xl border-l border-dashed border-white bg-[#1E0970]"></div>
+              <div className="h-[183px] flex items-center justify-center w-[200px] rounded-2xl border-l border-dashed border-white bg-[#1E0970]">
+                <img src="./qrcode" alt="" className="h-[123px] w-[120px] object-cover" />
+              </div>
             </div>
           </div>
 
@@ -155,12 +179,17 @@ function Explore() {
               }
             />
           ) : (
-            filter?.map((obj: any, index: number) => (
+            filter?.map((obj: EventType, index: number) => (
               <div
                 key={index}
                 className="event_card"
                 onClick={
-                  show === "my tickets" ? () => setShowTicket(true) : () => {}
+                  show === "my tickets"
+                    ? () => {
+                        setShowTicket(true);
+                        setShowId(obj.id);
+                      }
+                    : () => {}
                 }
               >
                 <EventsCard2
