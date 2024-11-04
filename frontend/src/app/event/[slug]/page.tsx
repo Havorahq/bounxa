@@ -69,14 +69,19 @@ function EventDetail() {
   const [price, setPrice] = useState<number | null>(null); // Price state
   const [showImage, setShowImage] = useState(false);
   const [loadingB, setLoadingB] = useState(false);
+  const [sedaId, setSedaId] = useState("");
 
   const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
     useKlater();
   const { buyTickets: payTicket } = usePaymaster();
   const { address } = useAccount();
 
-  const handleJoinEvent = async () => {
-    const res = await joinEvent(eventId as string, address as string);
+  const handleJoinEvent = async (ticket_hash: string) => {
+    const res = await joinEvent(
+      eventId as string,
+      address as string,
+      ticket_hash,
+    );
     if (res.data) {
       toast.success("Ticket bought, pls check 'My Tickes' to view");
       router.push("/explore");
@@ -139,23 +144,33 @@ function EventDetail() {
       quantity: 1,
       userAddress: address as `0x${string}`,
     });
-    await handleJoinEvent();
+
+    //res will hash
+    await handleJoinEvent(res.transactionHash);
     setLoadingB(false);
   };
 
   const toggleModal = async () => {
     setIsModalOpen(!isModalOpen);
-    // const data = await fetchPrice();
-    // if (data) {
-    //   handleJoinEvent();
-    // }
-    // console.log(data);
-    // await initiateKlasterTransaction(
-    //   1,
-    //   "0xf6Ef00549fa9987b75f71f65EAcFB30A82E095E5",
-    //   1,
-    // );
   };
+
+  const handleValidatePurchase = async (
+    chain: string,
+    transaction_hash: string,
+  ) => {
+    const data = await fetchPrice(chain, transaction_hash);
+    setSedaId(data.drId);
+
+    console.log({ data });
+  };
+
+  const chainHide = "11155111";
+  const hash =
+    "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
+  const exampleId =
+    "c3ea47b38cc3bbdaea1c6cd0491af4b9ccc98586af143f70fb58f20d00d21d49";
+
+  const url = `https://devnet.explorer.seda.xyz/data-requests/${sedaId}`;
 
   return (
     <>
