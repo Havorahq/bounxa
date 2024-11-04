@@ -17,6 +17,7 @@ import QRCode from "react-qr-code";
 import { EventType } from "@/utils/dataType";
 import { truncateString } from "@/utils/function.helper";
 import date from "date-and-time";
+import { toast } from "sonner";
 
 function Explore() {
   const router = useRouter();
@@ -29,6 +30,7 @@ function Explore() {
   const [showTicket, setShowTicket] = useState(false);
   const [showId, setShowId] = useState("");
   const [ticket, setTict] = useState<EventType | null>(null);
+  const [tick, setTick] = useState<null>(null);
   const todayNow = new Date();
   const getAll = async () => {
     setLoading(true);
@@ -41,8 +43,11 @@ function Explore() {
 
   const att = async () => {
     const res = await getUserTicket(address!);
-    setTickets(res.data);
-    console.log(res);
+    if (res.data) {
+      setTickets(res.data);
+    } else {
+      toast.error("");
+    }
   };
 
   useEffect(() => {
@@ -71,12 +76,15 @@ function Explore() {
   useEffect(() => {
     getAll();
     att();
-  }, []);
+  }, [address, show]);
 
   useEffect(() => {
     if (showId) {
       const get = filter.find((obj: EventType) => obj.id === showId);
+      const get2 = tickets.find((obj: any) => obj.event_id === showId);
+      setTick(get2);
       setTict(get);
+      console.log("heree", get2);
     }
   }, [showId]);
 
@@ -85,9 +93,9 @@ function Explore() {
       <Header />
       {showTicket && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50 text-black">
-          <div className="w-[90%] items-center justify-center rounded-lg bg-white p-12 text-center sm:w-1/2">
+          <div className="w-[95%] items-center justify-center rounded-lg bg-white p-4 text-center phone:p-12 sm:w-[500px]">
             <div className="flex w-full items-center justify-center">
-              <div className="h-[183px] w-[200px] rounded-2xl border-r border-dashed border-white bg-[#1E0970] p-4 text-left text-xs text-[#D5CBFF]">
+              <div className="h-[183px] w-[160px] rounded-2xl border-r border-dashed border-white bg-[#1E0970] p-2 text-left text-xs text-[#D5CBFF] phone:w-[200px] sm:p-4">
                 <img
                   src={ticket?.image_url as string}
                   alt=""
@@ -123,8 +131,16 @@ function Explore() {
                 </p>
               </div>
               {/* <div className="h-[160px] w-[10px] rounded-2xl border-r border-dashed border-white bg-[#1E0970]"></div> */}
-              <div className="flex h-[183px] w-[200px] items-center justify-center rounded-2xl border-l border-dashed border-white bg-[#1E0970]">
-                <QRCode value={"ddd"} className="h-[130px]" />
+              <div className="flex h-[183px] w-[160px] items-center justify-center rounded-2xl border-l border-dashed border-white bg-[#1E0970] p-2 sm:w-[200px]">
+                <QRCode
+                  value={
+                    tick
+                      ? `https://devnet.explorer.seda.xyz/data-requests/${tick["seda_id"]}`
+                      : ""
+                  }
+                  // value={`ffff`}
+                  className="h-full w-full phone:h-[130px]"
+                />
               </div>
             </div>
           </div>

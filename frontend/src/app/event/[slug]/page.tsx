@@ -129,9 +129,10 @@ function EventDetail() {
     transaction_hash: string,
   ) => {
     const data = await fetchPrice(chain, transaction_hash);
-    setSedaId(data.drId);
-
-    console.log({ data });
+    console.log(data);
+    console.log("Direct seda", data.result.drId);
+    setSedaId(data.result.drId);
+    return data.result.drId;
   };
 
   const buyTicket = async () => {
@@ -156,9 +157,10 @@ function EventDetail() {
       userAddress: address as `0x${string}`,
     });
 
-    await handleValidatePurchase(chainId!, res.transactionHash);
+    const sedaRes = await handleValidatePurchase(chainId!, res.transactionHash);
 
-    await handleJoinEvent(res.transactionHash, sedaId);
+    await handleJoinEvent(res.transactionHash, sedaRes);
+    console.log("from sedaId", sedaId);
 
     setLoadingB(false);
   };
