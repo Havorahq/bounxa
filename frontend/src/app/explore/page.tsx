@@ -13,7 +13,7 @@ import EmptyState from "@/components/event/EmptyState";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { EventType } from "@/utils/dataType";
 import { truncateString } from "@/utils/function.helper";
 import date from "date-and-time";
