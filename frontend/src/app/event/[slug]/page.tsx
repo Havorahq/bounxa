@@ -74,13 +74,14 @@ function EventDetail() {
   const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
     useKlater();
   const { buyTickets: payTicket } = usePaymaster();
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
 
-  const handleJoinEvent = async (ticket_hash: string) => {
+  const handleJoinEvent = async (ticket_hash: string, seda_id: string) => {
     const res = await joinEvent(
       eventId as string,
       address as string,
       ticket_hash,
+      seda_id,
     );
     if (res.data) {
       toast.success("Ticket bought, pls check 'My Tickes' to view");
@@ -123,6 +124,16 @@ function EventDetail() {
     setChain(data.chain === "" ? 0 : data.chain === "" ? 1 : 2);
   }, [data]);
 
+  const handleValidatePurchase = async (
+    chain: number,
+    transaction_hash: string,
+  ) => {
+    const data = await fetchPrice(chain, transaction_hash);
+    setSedaId(data.drId);
+
+    console.log({ data });
+  };
+
   const buyTicket = async () => {
     setLoadingB(true);
     if (data.price) {
@@ -145,8 +156,10 @@ function EventDetail() {
       userAddress: address as `0x${string}`,
     });
 
-    //res will hash
-    await handleJoinEvent(res.transactionHash);
+    await handleValidatePurchase(chainId!, res.transactionHash);
+
+    await handleJoinEvent(res.transactionHash, sedaId);
+
     setLoadingB(false);
   };
 
@@ -154,21 +167,11 @@ function EventDetail() {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleValidatePurchase = async (
-    chain: string,
-    transaction_hash: string,
-  ) => {
-    const data = await fetchPrice(chain, transaction_hash);
-    setSedaId(data.drId);
-
-    console.log({ data });
-  };
-
-  const chainHide = "11155111";
-  const hash =
-    "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
-  const exampleId =
-    "c3ea47b38cc3bbdaea1c6cd0491af4b9ccc98586af143f70fb58f20d00d21d49";
+  // const chainHide = "11155111";
+  // const hash =
+  //   "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
+  // const exampleId =
+  //   "c3ea47b38cc3bbdaea1c6cd0491af4b9ccc98586af143f70fb58f20d00d21d49";
 
   const url = `https://devnet.explorer.seda.xyz/data-requests/${sedaId}`;
 
