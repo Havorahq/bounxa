@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import {
   Signer,
   buildSigningConfig,
   postAndAwaitDataRequest,
 } from "@seda-protocol/dev-tools";
 
-
+require('dotenv').config()
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  if (!process.env.ORACLE_PROGRAM_ID) {
+  if (!process.env.NEXT_PUBLIC_ORACLE_PROGRAM_ID) {
     return new Response(
       JSON.stringify({
         error: "ORACLE_PROGRAM_ID not set in environment variables",
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
         consensusOptions: {
           method: "none",
         },
-        oracleProgramId: process.env.ORACLE_PROGRAM_ID,
+        oracleProgramId: process.env.NEXT_PUBLIC_ORACLE_PROGRAM_ID!,
         drInputs: Buffer.from(`${chain}-${transaction_hash}`),
         tallyInputs: Buffer.from([]),
         memo: Buffer.from(new Date().toISOString()),
