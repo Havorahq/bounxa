@@ -25,7 +25,7 @@ import timezones from "timezones-list";
 import { usePaymaster } from "../hooks/contractInteractions/usePayMaster";
 import "react-calendar/dist/Calendar.css";
 import { resizeFile } from "@/config/resizer";
-import axios from "axios";
+// import axios from "axios";
 import { Tooltip } from "react-tooltip";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -88,13 +88,21 @@ function CreateEvent() {
 
       if (newEventAddress) {
         formData.append("formData", value!);
-        const res = await axios.post("/api/upload", formData, {
+        // const res = await axios.post("/api/upload", formData, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          body: formData,
         });
 
-        if (res.data.url !== "") {
+        if (res.url !== "") {
           const response = await createEvent(
             address as string,
             location,
@@ -109,7 +117,7 @@ function CreateEvent() {
             utc,
             newEventAddress!,
             price ? parseInt(price) : 0,
-            res.data.url,
+            res.url,
             chain,
           );
           if (response.error) {
