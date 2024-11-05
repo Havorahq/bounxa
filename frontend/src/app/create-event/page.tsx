@@ -88,7 +88,7 @@ function CreateEvent() {
 
       if (newEventAddress) {
         formData.append("formData", value!);
-        const res = await axios.post("/api/upload/", formData, {
+        const res = await axios.post("/api/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
