@@ -119,14 +119,13 @@ function CreateEvent() {
             toast.success("Event created", { position: "top-right" });
             router.push("/explore");
           }
-
-          setLoading(false);
         }
       }
     } catch (e: unknown) {
-      // toast.error(e as ReactNode);
+      toast.error(e as string);
       return e;
     }
+    setLoading(false);
   };
 
   const [imagePreview, setImagePreview] = useState("");
