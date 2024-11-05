@@ -83,7 +83,7 @@ function CreateEvent() {
         name: eventName,
         ticketPrice: price ? parseInt(price) : 0,
         ticketQuantity: capacity ? parseInt(capacity) : 1000000000,
-        owner: "0xeb40Cea52D7D78AEab0b5D858Af0F5076809A2fA",
+        owner: address as `0x${string}`,
       });
 
       if (newEventAddress) {
