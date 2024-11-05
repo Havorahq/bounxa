@@ -129,7 +129,7 @@ export const useKlater = () => {
 
   useEffect(() => {
     initialiseKlaster();
-  }, [isConnected]);
+  }, [address]);
 
   const initiateKlasterTransaction = async (
     amount: number,
