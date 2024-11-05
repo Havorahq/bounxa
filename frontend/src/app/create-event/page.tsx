@@ -94,6 +94,14 @@ function CreateEvent() {
           },
         });
 
+        // const res = await fetch("/api/upload", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        //   body: formData,
+        // });
+
         if (res.data.url !== "") {
           const response = await createEvent(
             address as string,
@@ -119,14 +127,13 @@ function CreateEvent() {
             toast.success("Event created", { position: "top-right" });
             router.push("/explore");
           }
-
-          setLoading(false);
         }
       }
     } catch (e: unknown) {
-      // toast.error(e as ReactNode);
+      toast.error(e as string);
       return e;
     }
+    setLoading(false);
   };
 
   const [imagePreview, setImagePreview] = useState("");
