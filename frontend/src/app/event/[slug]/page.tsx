@@ -129,9 +129,8 @@ function EventDetail() {
     transaction_hash: string,
   ) => {
     const data = await fetchPrice(chain, transaction_hash);
-    setSedaId(data.drId);
-
-    console.log({ data });
+    setSedaId(data.result.drId);
+    return data.result.drId;
   };
 
   const buyTicket = async () => {
@@ -144,7 +143,6 @@ function EventDetail() {
           // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
           1,
         );
-        console.log(result);
       } catch (e) {
         toast.error(e as string, { position: "top-right" });
         return e;
@@ -156,9 +154,10 @@ function EventDetail() {
       userAddress: address as `0x${string}`,
     });
 
-    await handleValidatePurchase(chainId!, res.transactionHash);
-
-    await handleJoinEvent(res.transactionHash, sedaId);
+    const sedaRes = await handleValidatePurchase(chainId!, res.transactionHash);
+    if (sedaRes) {
+      await handleJoinEvent(res.transactionHash, sedaRes);
+    }
 
     setLoadingB(false);
   };
@@ -166,14 +165,6 @@ function EventDetail() {
   const toggleModal = async () => {
     setIsModalOpen(!isModalOpen);
   };
-
-  // const chainHide = "11155111";
-  // const hash =
-  //   "0xa35554ebc54ca622743194234491f65998ba1546056beea6ef2151d2e3d71659";
-  // const exampleId =
-  //   "c3ea47b38cc3bbdaea1c6cd0491af4b9ccc98586af143f70fb58f20d00d21d49";
-
-  const url = `https://devnet.explorer.seda.xyz/data-requests/${sedaId}`;
 
   return (
     <>

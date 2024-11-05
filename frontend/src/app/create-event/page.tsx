@@ -65,7 +65,6 @@ function CreateEvent() {
   const [creator, setCreator] = useState("");
   const [showTz, setShowtz] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
   const [chain, setChain] = useState("");
   const { createEvent: blockCreate } = usePaymaster();
   const [value, setValue] = useState<File | null>(null);
@@ -94,10 +93,8 @@ function CreateEvent() {
             "Content-Type": "multipart/form-data",
           },
         });
-        setImage(res.data.url);
 
         if (res.data.url !== "") {
-          console.log(image);
           const response = await createEvent(
             address as string,
             location,
@@ -128,7 +125,6 @@ function CreateEvent() {
       }
     } catch (e: unknown) {
       // toast.error(e as ReactNode);
-      console.log("creation error", e);
       return e;
     }
   };
@@ -350,7 +346,6 @@ function CreateEvent() {
                       placeholderText="Select End date"
                       onChange={(date) => {
                         setEndDate(date!);
-                        console.log(date);
                       }}
                       minDate={new Date(startDate?.toDateString() as string)}
                     />

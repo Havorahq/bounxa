@@ -77,7 +77,6 @@ function EditEvent() {
       toast.error(res.error, { position: "top-right" });
     }
     if (res.data) {
-      console.log(res.data[0].start_date);
       setEventData(res.data[0]);
       setEditLoading(false);
     }
@@ -124,7 +123,6 @@ function EditEvent() {
       }
     } catch (e: unknown) {
       // toast.error(e as ReactNode);
-      console.log("creation error", e);
       return e;
     }
 
