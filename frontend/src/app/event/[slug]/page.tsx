@@ -84,7 +84,7 @@ function EventDetail() {
       seda_id,
     );
     if (res.data) {
-      toast.success("Ticket bought, pls check 'My Tickes' to view");
+      toast.success("Ticket bought, pls check 'My Tickets' to view");
       router.push("/explore");
     } else {
       toast.error("Something went wrong");
@@ -135,28 +135,30 @@ function EventDetail() {
 
   const buyTicket = async () => {
     setLoadingB(true);
-    if (data.price) {
-      try {
+
+    try {
+      if (data.price) {
         const result = await initiateKlasterTransaction(
           data.price,
           data.host as `0x${string}`,
           // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
           1,
         );
-      } catch (e) {
-        toast.error(e as string, { position: "top-right" });
-        return e;
       }
-    }
-    const res = await payTicket({
-      eventContractAddress: data.blockchain_address as `0x${string}`,
-      quantity: 1,
-      userAddress: address as `0x${string}`,
-    });
+      const res = await payTicket({
+        eventContractAddress: data.blockchain_address as `0x${string}`,
+        quantity: 1,
+        userAddress: address as `0x${string}`,
+      });
 
-    const sedaRes = await handleValidatePurchase(chainId!, res.transactionHash);
-    if (sedaRes) {
-      await handleJoinEvent(res.transactionHash, sedaRes);
+      // const sedaRes = await handleValidatePurchase(chainId!, res.transactionHash);
+      // if (sedaRes) {
+      await handleJoinEvent(res.transactionHash, "seda");
+      // }
+    } catch (e) {
+      toast.error(e as string, { position: "top-right" });
+      setLoadingB(false);
+      // return e;
     }
 
     setLoadingB(false);
@@ -180,13 +182,13 @@ function EventDetail() {
               <Button
                 onClick={toggleModal}
                 text="Cancel"
-                className="!bg-red-400"
+                className="!bg-red-400 !text-white"
               />
               <Button
                 onClick={() => buyTicket()}
                 text="Confirm"
                 loading={loadingB}
-                className="!bg-green-400"
+                className="!bg-green-400 !text-white"
               />
             </div>
           </div>
