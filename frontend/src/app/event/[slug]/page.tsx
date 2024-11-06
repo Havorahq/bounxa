@@ -159,7 +159,8 @@ function EventDetail() {
         await handleJoinEvent(res.transactionHash, sedaRes);
       }
     } catch (e) {
-      toast.error(e as string, { position: "top-right" });
+      toast.error("Something went wrong", { position: "top-right" });
+      // toast.error(e as string, { position: "top-right" });
       setLoadingB(false);
       return e;
     }
