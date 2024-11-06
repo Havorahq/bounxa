@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Urbanist } from "next/font/google";
+import { Urbanist, Poppins } from "next/font/google";
 import { ParticleConnectkit } from "@/components/Connectkit";
 import { Toaster } from "sonner";
 import ClientWrapper from "@/components/ClientWrapper";
@@ -9,6 +9,13 @@ const urbanist = Urbanist({
   subsets: ["latin"],
   weight: ["100", "300", "400", "700", "900"],
   variable: "--font-urbanist",
+  display: "swap",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -24,7 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.variable} text-white antialiased`}>
+      <body
+        className={`${urbanist.variable} ${poppins.variable} text-white antialiased`}
+      >
         <Toaster richColors />
         <ParticleConnectkit>
           <ClientWrapper>{children}</ClientWrapper>

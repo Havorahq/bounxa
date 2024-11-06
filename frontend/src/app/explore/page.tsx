@@ -135,7 +135,7 @@ function Explore() {
                   value={
                     tick
                       ? // ? `https://devnet.explorer.seda.xyz/data-requests/${tick["seda_id"]}`
-                        `https://sepolia.etherscan.io/tx/${tick["ticket_hash"]}`
+                        `https://sepolia.arbiscan.io/${tick["ticket_hash"]}`
                       : ""
                   }
                   // value={`ffff`}
