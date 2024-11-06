@@ -13,6 +13,8 @@ import {
 import Button from "@/components/Button";
 import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 import Link from "next/link";
+import copy from "copy-to-clipboard";
+import { toast } from "sonner";
 
 function Header() {
   // const [show, setShow] = useState("upcoming");
@@ -36,35 +38,49 @@ function Header() {
       document.removeEventListener("mousedown", closeModal);
     };
   }, []);
+
+  const onCopy = (text: string) => {
+    copy(text, {});
+    toast("Address copied");
+  };
+
   return (
     <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1000px]">
       {bal && (
-        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC] text-sm">
+        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC]">
           <div
-            className="flex w-[95%] flex-col justify-center gap-2 rounded-2xl bg-white p-7 text-black phone:w-[450px]"
+            className="flex w-[95%] flex-col justify-center gap-2 rounded-2xl bg-white p-7 text-black sm:w-[630px]"
             ref={ref!}
           >
-            <p className="text-center font-medium">All your wallet ammount:</p>
-            <div className="mt-3 flex items-center gap-2">
-              <p className="font-medium">Ethereum sepolia: </p>
-              <p>
+            <div className="flex items-center gap-2">
+              <img src="/icons/document.svg" alt="" />
+              <p className="text-[22px] font-medium text-[#4C4C4C]">
+                Transaction Details
+              </p>
+            </div>
+
+            <p className="mt-4 text-xl">All your Wallet Amount:</p>
+
+            <div className="mt-3 flex items-center justify-between gap-2 text-lg">
+              <p className="">Ethereum sepolia: </p>
+              <p className="font-medium">
                 $
                 {parseInt(
                   unifiedBalance?.breakdown[0].amount.toString() as string,
                 ) / 1000000}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <p className="font-medium">Airbitrun sepolia: </p>
-              <p>
+            <div className="mt-4 flex items-center justify-between gap-2 text-lg">
+              <p className="">Airbitrun sepolia: </p>
+              <p className="font-medium">
                 $
                 {parseInt(
                   unifiedBalance?.breakdown[1].amount.toString() as string,
                 ) / 1000000}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <p className="font-medium">Optimism sepolia: </p>
+            <div className="mt-4 flex items-center justify-between gap-2 text-lg">
+              <p className="">Optimism sepolia: </p>
               <p>
                 $
                 {parseInt(
@@ -73,13 +89,22 @@ function Header() {
               </p>
             </div>
 
-            <div className="mt-4 font-medium">
-              <p> Fund your Klaster wallet to buy tickets.</p>
-              <p>
+            <div className="mt-4 text-lg font-medium">
+              <p className="text-center text-xl font-medium">
                 {" "}
-                Your Klaster wallet is:{" "}
-                <span className="font-semibold">{klasterAddress}</span>
+                Fund your Klaster wallet
               </p>
+              <p className="mt-3 text-wrap break-words">
+                Address: {klasterAddress}
+              </p>
+              <div className="flex justify-center">
+                <img
+                  src="/icons/copy.svg"
+                  onClick={() => onCopy(klasterAddress!)}
+                  alt=""
+                  className="cursor-pointer"
+                />
+              </div>
             </div>
           </div>
         </div>
