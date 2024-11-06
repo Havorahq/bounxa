@@ -20,7 +20,7 @@ function Header() {
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const { unifiedBalance } = useKlater();
+  const { unifiedBalance, klasterAddress } = useKlater();
 
   const ref: any = useRef(null);
   useEffect(() => {
@@ -39,13 +39,13 @@ function Header() {
   return (
     <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1000px]">
       {bal && (
-        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC]">
+        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC] text-sm">
           <div
-            className="flex h-[200px] w-[95%] flex-col justify-center gap-2 rounded-2xl bg-white p-5 text-black phone:w-[450px]"
+            className="flex w-[95%] flex-col justify-center gap-2 rounded-2xl bg-white p-7 text-black phone:w-[450px]"
             ref={ref!}
           >
-            <p className="text-center font-medium">All your wallet ammount</p>
-            <div className="flex items-center gap-2">
+            <p className="text-center font-medium">All your wallet ammount:</p>
+            <div className="mt-3 flex items-center gap-2">
               <p className="font-medium">Ethereum sepolia: </p>
               <p>
                 $
@@ -70,6 +70,15 @@ function Header() {
                 {parseInt(
                   unifiedBalance?.breakdown[2].amount.toString() as string,
                 ) / 1000000}
+              </p>
+            </div>
+
+            <div className="mt-4 font-medium">
+              <p> Fund your Klaster wallet to buy tickets.</p>
+              <p>
+                {" "}
+                Your Klaster wallet is:{" "}
+                <span className="font-semibold">{klasterAddress}</span>
               </p>
             </div>
           </div>
