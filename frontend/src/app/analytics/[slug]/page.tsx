@@ -97,8 +97,8 @@ function Analytics() {
   const delEvent = async () => {
     setDeleteL(true);
     const res = await deleteEvent(eventId as string);
-    if (res.data) {
-      toast("Event deleted");
+    if (!res.error) {
+      toast.success("Event deleted");
       router.push("/explore");
     } else {
       toast("Error while deleting event");

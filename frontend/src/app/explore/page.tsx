@@ -134,8 +134,9 @@ function Explore() {
                 <QRCode
                   value={
                     tick
-                      ? // ? `https://devnet.explorer.seda.xyz/data-requests/${tick["seda_id"]}`
-                        `https://sepolia.arbiscan.io/${tick["ticket_hash"]}`
+                      ? tick["seda_id"]
+                        ? `https://devnet.explorer.seda.xyz/data-requests/${tick["seda_id"]}`
+                        : `https://sepolia.arbiscan.io/tx/${tick["ticket_hash"]}`
                       : ""
                   }
                   // value={`ffff`}
