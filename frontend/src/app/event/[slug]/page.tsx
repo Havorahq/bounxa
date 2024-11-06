@@ -136,31 +136,32 @@ function EventDetail() {
   const buyTicket = async () => {
     setLoadingB(true);
 
-    try {
-      if (data.price) {
-        const result = await initiateKlasterTransaction(
-          data.price,
-          data.host as `0x${string}`,
-          // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
-          1,
-        );
-      }
-      const res = await payTicket({
-        eventContractAddress: data.blockchain_address as `0x${string}`,
-        quantity: 1,
-        userAddress: address as `0x${string}`,
-      });
+    if (data.price) {
+      const result = await initiateKlasterTransaction(
+        data.price,
+        data.host as `0x${string}`,
+        // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
+        1,
+      );
+    }
+    const res = await payTicket({
+      eventContractAddress: data.blockchain_address as `0x${string}`,
+      quantity: 1,
+      userAddress: address as `0x${string}`,
+    });
 
+    try {
       const sedaRes = await handleValidatePurchase(
         chainId!,
         res.transactionHash,
       );
-      if (sedaRes) {
-        await handleJoinEvent(res.transactionHash, sedaRes);
-      }
+      toast.success("Verifying ticket with Seda", { position: "top-right" });
+      await handleJoinEvent(res.transactionHash, sedaRes);
+      toast.success("Ticket bought", { position: "top-right" });
     } catch (e) {
-      toast.error("Something went wrong", { position: "top-right" });
-      // toast.error(e as string, { position: "top-right" });
+      // toast.error("Something went wrong", { position: "top-right" });
+      await handleJoinEvent(res.transactionHash, "");
+      toast.success("Ticket bought", { position: "top-right" });
       setLoadingB(false);
       return e;
     }

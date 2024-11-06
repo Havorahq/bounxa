@@ -117,7 +117,7 @@ function EditEvent() {
       if (response.error) {
         toast.error(response.error, { position: "top-right" });
       }
-      if (response.data) {
+      if (!response.error) {
         toast.success("Event updated", { position: "top-right" });
         router.push("/explore");
       }
