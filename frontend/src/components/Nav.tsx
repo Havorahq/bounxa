@@ -8,10 +8,10 @@ import {
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import React from "react";
-import Marquee from "./Marque";
+// import Marquee from "./Marque";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
+// import { useKlater } from "@/app/hooks/kaster/useKlasterTransaction";
 
 function Nav() {
   const pathName = usePathname();
@@ -19,7 +19,7 @@ function Nav() {
     "border-[#E0E0E0] border-2 rounded-full bg-[#e0e0e065] text-black",
   );
   const notActive = twMerge("text-[#7D7D7D]");
-  const { klasterAddress } = useKlater();
+  // const { klasterAddress } = useKlater();
 
   const navLinks = [
     {
@@ -71,7 +71,7 @@ function Nav() {
           </Link>
         ))}
       </nav>
-      {klasterAddress && (
+      {/* {klasterAddress && (
         <Marquee>
           <span className="mx-4 text-red-500">
             To top up and use Account Abstraction
@@ -84,7 +84,7 @@ function Nav() {
           <span className="mx-4 text-blue-500">{klasterAddress}</span>
           <span className="mx-4 text-indigo-500">{klasterAddress}</span>
         </Marquee>
-      )}
+      )} */}
     </>
   );
 }
