@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error fetching price quote:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to fetch price quote" }),
+      JSON.stringify({ error }),
       { status: 500 },
     );
   }
