@@ -151,14 +151,17 @@ function EventDetail() {
         userAddress: address as `0x${string}`,
       });
 
-      // const sedaRes = await handleValidatePurchase(chainId!, res.transactionHash);
-      // if (sedaRes) {
-      await handleJoinEvent(res.transactionHash, "seda");
-      // }
+      const sedaRes = await handleValidatePurchase(
+        chainId!,
+        res.transactionHash,
+      );
+      if (sedaRes) {
+        await handleJoinEvent(res.transactionHash, sedaRes.result.drId);
+      }
     } catch (e) {
       toast.error(e as string, { position: "top-right" });
       setLoadingB(false);
-      // return e;
+      return e;
     }
 
     setLoadingB(false);
