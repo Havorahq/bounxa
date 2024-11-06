@@ -517,7 +517,7 @@ function EditEvent() {
               text={
                 <div className="flex items-center gap-2">
                   <Plus />
-                  <p>Create Event</p>
+                  <p>Update Event</p>
                 </div>
               }
             />
