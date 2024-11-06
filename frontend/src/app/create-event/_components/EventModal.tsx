@@ -48,7 +48,7 @@ function EventModal({
   }, []);
 
   return (
-    <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC]">
+    <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-50">
       <div
         className="min-h-[377px] w-[95%] rounded-2xl bg-white p-5 text-black phone:w-[340px]"
         ref={ref!}

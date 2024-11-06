@@ -19,7 +19,7 @@ export function executionPhase(): void {
   const chainId = (drInputs[0]);
   const transaction_hash = (drInputs[1]);
 
-  Console.log(`Validate Ticket Puchase Transaction`);
+  Console.log(`Validate Ticket Purchase Transaction`);
 
   const response = httpFetch(
     `https://api.etherscan.io/v2/api?chainid=${chainId}&module=transaction&action=gettxreceiptstatus&txhash=${transaction_hash}&apikey=822QHPBSUW9A1MJQYDEAQA56T8G1SBVXRG`
@@ -34,7 +34,7 @@ export function executionPhase(): void {
 
   const data = response.bytes.toJSON<ValidationResponse>();
   if (data.message != 'OK') {
-    Process.error(Bytes.fromUtf8String(`Status: Transaction Cannot be Validated ${data.result}`));
+    Process.error(Bytes.fromUtf8String('This Ticket is not Valid'));
   } else
-    Process.success(Bytes.fromUtf8String(`Status: Transaction Validated Successfully ${data.result}`));
+    Process.success(Bytes.fromUtf8String('This Ticket is  Valid'));
 }

@@ -47,21 +47,23 @@ function Header() {
   return (
     <header className="m-auto flex w-[90%] items-center justify-between py-8 lg:w-[1000px]">
       {bal && (
-        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#DEDEDECC]">
+        <div className="absolute left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-50">
           <div
             className="flex w-[95%] flex-col justify-center gap-2 rounded-2xl bg-white p-7 text-black sm:w-[630px]"
             ref={ref!}
           >
             <div className="flex items-center gap-2">
               <img src="/icons/document.svg" alt="" />
-              <p className="text-[22px] font-medium text-[#4C4C4C]">
+              <p className="text-lg font-medium text-[#4C4C4C] phone:text-[22px]">
                 Transaction Details
               </p>
             </div>
 
-            <p className="mt-4 text-xl">All your Wallet Amount:</p>
+            <p className="mt-4 text-lg phone:text-xl">
+              All your Wallet Amount:
+            </p>
 
-            <div className="mt-3 flex items-center justify-between gap-2 text-lg">
+            <div className="mt-3 flex items-center justify-between gap-2 phone:text-lg">
               <p className="">Ethereum sepolia: </p>
               <p className="font-medium">
                 $
@@ -70,7 +72,7 @@ function Header() {
                 ) / 1000000}
               </p>
             </div>
-            <div className="mt-4 flex items-center justify-between gap-2 text-lg">
+            <div className="mt-4 flex items-center justify-between gap-2 phone:text-lg">
               <p className="">Airbitrun sepolia: </p>
               <p className="font-medium">
                 $
@@ -79,7 +81,7 @@ function Header() {
                 ) / 1000000}
               </p>
             </div>
-            <div className="mt-4 flex items-center justify-between gap-2 text-lg">
+            <div className="mt-4 flex items-center justify-between gap-2 phone:text-lg">
               <p className="">Optimism sepolia: </p>
               <p>
                 $
@@ -89,14 +91,12 @@ function Header() {
               </p>
             </div>
 
-            <div className="mt-4 text-lg font-medium">
-              <p className="text-center text-xl font-medium">
+            <div className="mt-4 font-medium phone:text-lg">
+              <p className="text-center text-lg font-medium phone:text-xl">
                 {" "}
                 Fund your Klaster wallet
               </p>
-              <p className="mt-3 text-wrap break-words">
-                Address: {klasterAddress}
-              </p>
+              <p className="mt-3 text-wrap break-words">{klasterAddress}</p>
               <div className="flex justify-center">
                 <img
                   src="/icons/copy.svg"
