@@ -9,23 +9,13 @@ require('dotenv').config()
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  if (!process.env.NEXT_PUBLIC_ORACLE_PROGRAM_ID) {
-    return new Response(
-      JSON.stringify({
-        error: "ORACLE_PROGRAM_ID not set in environment variables",
-      }),
-      {
-        status: 500,
-      },
-    );
-  }
-
   try {
     const body = await req.json();
     console.log(body)
 
     const params = body;
     const { chain, transaction_hash } = params
+    console.log({ chain, transaction_hash })
 
     const signingConfig = buildSigningConfig({});
     const signer = await Signer.fromPartial(signingConfig);
@@ -36,7 +26,7 @@ export async function POST(req: Request) {
         consensusOptions: {
           method: "none",
         },
-        oracleProgramId: process.env.NEXT_PUBLIC_ORACLE_PROGRAM_ID!,
+        oracleProgramId: '3fae5c7063ae93bbba37efd4928208ffca490818db865d6fb0cf1b434f0a150e',
         drInputs: Buffer.from(`${chain}-${transaction_hash}`),
         tallyInputs: Buffer.from([]),
         memo: Buffer.from(new Date().toISOString()),
