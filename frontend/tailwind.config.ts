@@ -23,6 +23,7 @@ const config: Config = {
     },
     fontFamily: {
       urbanist: ["var(--font-urbanist)"],
+      poppins: ["var(--font-poppins)"]
     },
 
     animation: {
