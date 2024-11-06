@@ -121,9 +121,10 @@ function Analytics() {
             />
             <Button
               text={"Delete event"}
-              className="!bg-red-400 !text-white"
+              className="!bg-red-400 !text-white disabled:!bg-red-300"
               onClick={delEvent}
               loading={deleteL}
+              disabled={data.price ? true : false}
             />
           </div>
           <div className="flex items-center justify-center">
