@@ -19,7 +19,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       !isConnected &&
       protectedRoutes.some((routes) => currentPath.startsWith(routes))
     ) {
-      router.push("/");
+      router.push("/login");
     } else if (isConnected && currentPath === "/login") {
       router.push("/explore");
     }
