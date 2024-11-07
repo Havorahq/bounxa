@@ -68,7 +68,9 @@ Easily host an event by navigating to "My Events" and clicking "Create Event." H
 
 ---
 6. **Explore Your Hosted Events**  
-   You can click on My Events to see the events you listed. 
+
+    You can click on My Events to see the events you listed.
+   
    ---
    ![image](https://github.com/user-attachments/assets/96d0edbd-708a-42bf-9530-8b3b7b3109af)
 
