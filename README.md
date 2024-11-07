@@ -7,8 +7,8 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction.
 - **Particle Connect**: Enables secure, streamlined connections for user authentication.
+- **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction.
 - **Seda**: Enables ticket validation and verification.
 - **Solidity**: Used for creating smart contracts.
 - **Hardhat**: Used for smart contract testing and manipulations. 
@@ -25,7 +25,7 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
    ![image](https://github.com/user-attachments/assets/fce0c3b0-e34b-409f-a8fc-7a21427c3adf)
 ---
 2. **Login/Create Account**  
-   Click on ***Connect*** to access all authentication options [Bounxa.com](https://bounxa.com).
+   Click on ***Connect*** to access all authentication options.
 
    ![image](https://github.com/user-attachments/assets/ce726b7f-7c0a-44bc-b9db-4acc90598c19)
 ---
