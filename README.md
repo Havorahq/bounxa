@@ -7,9 +7,9 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- **Particle Connect**: Enables secure, streamlined connections for user authentication.
+- **Particle Connect**: Enables secure, streamlined connections for user authentication. Gives our users accounts that can be used to interact with multiple chains. 
 - **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction.
-- **Seda**: Enables ticket validation and verification.
+- **Seda Protocol**: Enables our event hosts validate tickets. Fetches and verifies ticket purchase transactions with real-time feedback.
 - **Solidity**: Used for creating smart contracts.
 - **Hardhat**: Used for smart contract testing and manipulations. 
 
@@ -83,6 +83,13 @@ Tickets are validated using the Seda protocol, which fetches and verifies succes
 
    
 --- 
+4. **Funding Your Wallet**  
+Once you authenticate, a Particle Wallet is created for you. This particle wallet generates a Klaster wallet which you can use for multichain transactions. These transactions are signed and authorized by your Particle connect wallet as the owner. To buy ticket, you will need to click on View Balance, copy your generated wallet, and fund it. 
+
+![image0 (1)](https://github.com/user-attachments/assets/c74c1d73-4264-4b1e-a40e-11ac220a1134)
+
+![image](https://github.com/user-attachments/assets/14733582-5c7a-47b0-981a-8f74d9c4d8df)
+
 
 
 
