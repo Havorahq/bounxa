@@ -70,9 +70,9 @@ function EventDetail() {
   const [showImage, setShowImage] = useState(false);
   const [loadingB, setLoadingB] = useState(false);
   const [sedaId, setSedaId] = useState("");
+  const [bal, setBal] = useState(false);
 
-  const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
-    useKlater();
+  const { initiateKlasterTransaction, unifiedBalance } = useKlater();
   const { buyTickets: payTicket } = usePaymaster();
   const { address, chainId } = useAccount();
 
@@ -139,12 +139,36 @@ function EventDetail() {
       position: "top-center",
     });
     if (data.price) {
-      const result = await initiateKlasterTransaction(
-        data.price,
-        data.host as `0x${string}`,
-        // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
-        1,
-      );
+      if (
+        parseInt(unifiedBalance?.breakdown[1].amount.toString() as string) /
+          1000000 >
+        data.price!
+      ) {
+        try {
+          const result = await initiateKlasterTransaction(
+            data.price,
+            data.host as `0x${string}`,
+            // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
+            1,
+          );
+        } catch (e) {
+          toast.error(
+            "Insufficient balance. Please ensure you fund your wallet before proceeding.",
+            { position: "top-center" },
+          );
+          setLoadingB(false);
+          setBal(true);
+          throw new Error("Ticket cannot be bought");
+        }
+      } else {
+        setLoadingB(false);
+        toast.error(
+          "Insufficient balance. Please ensure you fund your wallet before proceeding.",
+          { position: "top-center" },
+        );
+        setBal(true);
+        throw new Error("Ticket cannot be bought");
+      }
     }
     const res = await payTicket({
       eventContractAddress: data.blockchain_address as `0x${string}`,
@@ -229,7 +253,7 @@ function EventDetail() {
         </div>
       )}
       <main className="background-image-div">
-        <Header />
+        <Header showBal={bal} />
         <Nav />
         {loading ? (
           <div className="flex w-full items-center justify-center">

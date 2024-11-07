@@ -16,7 +16,7 @@ import Link from "next/link";
 import copy from "copy-to-clipboard";
 import { toast } from "sonner";
 
-function Header() {
+function Header({ showBal }: { showBal?: boolean }) {
   // const [show, setShow] = useState("upcoming");
   const [bal, setBal] = useState(false);
   const { isConnected } = useAccount();
@@ -38,6 +38,12 @@ function Header() {
       document.removeEventListener("mousedown", closeModal);
     };
   }, []);
+
+  useEffect(() => {
+    if (showBal) {
+      setBal(true);
+    }
+  }, [showBal]);
 
   const onCopy = (text: string) => {
     copy(text, {});
