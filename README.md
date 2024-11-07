@@ -17,7 +17,7 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 
 
 
-## Event Organizer's User Journey
+## User Journey
 
 1. **Visit Bounxa**  
    Begin by visiting [Bounxa.com](https://bounxa.com) and clicking on ***Get Started***.
