@@ -70,9 +70,9 @@ function EventDetail() {
   const [showImage, setShowImage] = useState(false);
   const [loadingB, setLoadingB] = useState(false);
   const [sedaId, setSedaId] = useState("");
+  const [bal, setBal] = useState(false);
 
-  const { initiateKlasterTransaction, klasterAddress, unifiedBalance } =
-    useKlater();
+  const { initiateKlasterTransaction, unifiedBalance } = useKlater();
   const { buyTickets: payTicket } = usePaymaster();
   const { address, chainId } = useAccount();
 
@@ -135,14 +135,40 @@ function EventDetail() {
 
   const buyTicket = async () => {
     setLoadingB(true);
-
+    toast("Intializing ticket purchase...", {
+      position: "top-center",
+    });
     if (data.price) {
-      const result = await initiateKlasterTransaction(
-        data.price,
-        data.host as `0x${string}`,
-        // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
-        1,
-      );
+      if (
+        parseInt(unifiedBalance?.breakdown[1].amount.toString() as string) /
+          1000000 >
+        data.price!
+      ) {
+        try {
+          const result = await initiateKlasterTransaction(
+            data.price,
+            data.host as `0x${string}`,
+            // data.chain === "Ethereum" ? 0 : data.chain === "Arbitrum" ? 1 : 2,
+            1,
+          );
+        } catch (e) {
+          toast.error(
+            "Insufficient balance. Please ensure you fund your wallet before proceeding.",
+            { position: "top-center" },
+          );
+          setLoadingB(false);
+          setBal(true);
+          throw new Error("Ticket cannot be bought");
+        }
+      } else {
+        setLoadingB(false);
+        toast.error(
+          "Insufficient balance. Please ensure you fund your wallet before proceeding.",
+          { position: "top-center" },
+        );
+        setBal(true);
+        throw new Error("Ticket cannot be bought");
+      }
     }
     const res = await payTicket({
       eventContractAddress: data.blockchain_address as `0x${string}`,
@@ -150,23 +176,33 @@ function EventDetail() {
       userAddress: address as `0x${string}`,
     });
 
+    const initSet = setTimeout(() => {
+      toast("Creating your ticket...", { position: "top-center" });
+    }, 14000);
+
+    const verify = setTimeout(() => {
+      toast("Verifying ticket with Seda", {
+        position: "top-center",
+        duration: 6000,
+      });
+    }, 25000);
+
     try {
       const sedaRes = await handleValidatePurchase(
         chainId!,
         res.transactionHash,
       );
-      toast.success("Verifying ticket with Seda", { position: "top-right" });
       await handleJoinEvent(res.transactionHash, sedaRes);
       toast.success("Ticket bought", { position: "top-right" });
     } catch (e) {
-      // toast.error("Something went wrong", { position: "top-right" });
       await handleJoinEvent(res.transactionHash, "");
       toast.success("Ticket bought", { position: "top-right" });
-      setLoadingB(false);
       return e;
+    } finally {
+      clearTimeout(initSet);
+      clearTimeout(verify);
+      setLoadingB(false);
     }
-
-    setLoadingB(false);
   };
 
   const toggleModal = async () => {
@@ -211,13 +247,13 @@ function EventDetail() {
             </div>
             <div className="relative">
               {/* <Image src={data.image_url!} alt={"Event image"} fill /> */}
-              <img src={data.image_url!} alt="" />
+              <img src={data.image_url!} alt="" loading="lazy" />
             </div>
           </div>
         </div>
       )}
       <main className="background-image-div">
-        <Header />
+        <Header showBal={bal} />
         <Nav />
         {loading ? (
           <div className="flex w-full items-center justify-center">
@@ -229,6 +265,8 @@ function EventDetail() {
               <Image
                 src={data.image_url || "/images/events.png"}
                 alt=""
+                loading="lazy"
+                quality={40}
                 width={450}
                 height={539}
                 className="m-auto w-[90%] rounded-xl object-cover phone:w-[400px] tablet:h-[539px] tablet:w-[450px]"
