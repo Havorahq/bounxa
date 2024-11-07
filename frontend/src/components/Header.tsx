@@ -102,7 +102,9 @@ function Header({ showBal }: { showBal?: boolean }) {
                 {" "}
                 Fund your Klaster wallet
               </p>
-              <p className="mt-3 text-wrap break-words">{klasterAddress}</p>
+              <p className="mt-3 text-wrap break-words text-center">
+                {klasterAddress}
+              </p>
               <div className="flex justify-center">
                 <img
                   src="/icons/copy.svg"
