@@ -48,7 +48,12 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 
  --- 
 
-4. **View Your Hosted Events**  
+ 4. **Create an Event**  
+Easily host an event by navigating to "My Events" and clicking "Create Event." Here, you can choose to create either a public or private event. Public events are listed on "Explore Events" for anyone to view and join, while private events remain unlisted and can only be accessed by sharing the event URL with your target audience. While event attendees can purchase tickets with any supported chain of their choice, event hosts are given the option of choosing the blockchain network they would like to receive their money.
+
+![image](https://github.com/user-attachments/assets/96873d65-9278-4197-ba6e-e66ef3e8fc82)
+
+4. **Explore Your Hosted Events**  
    You can click on My Events to see the events you listed. 
    
    ![image](https://github.com/user-attachments/assets/96d0edbd-708a-42bf-9530-8b3b7b3109af)
@@ -56,26 +61,28 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 
 --- 
 
-4. **View Modify, or Delete Your Event**  
+4. **View, Modify, or Delete Your Event**  
    You can view your event details to check ticket sales and other information. You can also edit the event or delete it if it’s not a paid event. To curb fraud, paid events cannot be deleted.
 
  ![image](https://github.com/user-attachments/assets/c0f691a9-c15d-4557-8a5f-9972a7d51ee2)
-
    
 --- 
 
-4. **View Modify, or Delete Your Event**  
-   You can view your event details to check ticket sales and other information. You can also edit the event or delete it if it’s not a paid event. To curb fraud, paid events cannot be deleted.
+4. **Buy Tickets**  
+   You can purchase a ticket by simpmly viewing an event and clicking on Buy ticket. A voucher is generated once the transaction is successful. 
 
- ![image](https://github.com/user-attachments/assets/c0f691a9-c15d-4557-8a5f-9972a7d51ee2)
+ ![image](https://github.com/user-attachments/assets/fb5330e1-c8c2-4ef1-b071-4e52695fbd81)
 
    
 --- 
+4. **Ticket Voucher**  
+Tickets are validated using the Seda protocol, which fetches and verifies successful transactions. Seda's customization feature enables Bounxa to provide event hosts with real-time feedback on ticket status.
 
-4. **Create an Event**  
-Easily host an event by navigating to "My Events" and clicking "Create Event." Here, you can choose to create either a public or private event. Public events are listed on "Explore Events" for anyone to view and join, while private events remain unlisted and can only be accessed by sharing the event URL with your target audience.
+![image0 (1)](https://github.com/user-attachments/assets/c74c1d73-4264-4b1e-a40e-11ac220a1134)
 
-![image](https://github.com/user-attachments/assets/96873d65-9278-4197-ba6e-e66ef3e8fc82)
+
+   
+--- 
 
 
 
