@@ -7,9 +7,9 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- **Particle Connect**: Enables secure, streamlined connections for user authentication. Gives our users accounts that can be used to interact with multiple chains. See more [here](https://ua.particle.network/)
-- **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction. See more [here](https://klaster.io/)
-- **Seda Protocol**: Enables our event hosts validate tickets. Fetches and verifies ticket purchase transactions with real-time feedback. See more [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
+- **Particle Connect**: We integrated the Particle Connect SDK to securely onboard users and create accounts that support interaction across multiple blockchains. This setup provides users with various login options, including email, social login, and so on. See more about Particle Connect SDK [here](https://developers.particle.network/api-reference/connect/desktop/web)
+- **Klaster**: We implemented cross-chain transactions through the Klaster SDK, enabling users to purchase tickets seamlessly, regardless of the blockchain where their funds are held. See more about Klaster Account Abstraction [here](https://klaster.io/)
+- **Seda Protocol**: We integrated Seda as our ticket validator. The Seda explorer allows us to modify transaction reports and provide users with real-time feedback on ticket status, enabling event hosts to verify ticket transactions instantly. Tthe Seda EtherScanv2 API, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 - **Solidity**: Used for creating smart contracts.
 - **Hardhat**: Used for smart contract testing and manipulations. 
 
