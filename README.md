@@ -130,7 +130,7 @@ Smart Contract Code: https://sepolia.arbiscan.io/address/0x32d4B0F1C9150F2361303
 
 Bounxa Main Smart Contract Address: 0x32d4B0F1C9150F23613035F825eE52FD6fDC75Cc
 
-Bounxa Seda Contract Address: 3fae5c7063ae93bbba37efd4928208ffca490818db865d6fb0cf1b434f0a150e
+Bounxa OracleProgramId: 3fae5c7063ae93bbba37efd4928208ffca490818db865d6fb0cf1b434f0a150e
 
 Figma Link: https://www.figma.com/design/LZhLfAZw2d6VvmX5bpVER4/Bounxa?node-id=156-3719&t=Q7Fojg8zPt61FDBG-1
 
