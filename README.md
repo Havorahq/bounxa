@@ -108,7 +108,7 @@ Easily host an event by navigating to "My Events" and clicking "Create Event." H
    
 --- 
 9. **Ticket Voucher**  
-Tickets are validated using the Seda EtherScanv2 Protocol, which fetches and verifies successful transactions. Seda Explorer customisation feature also enables Bounxa to provide event hosts with real-time feedback on ticket status.
+Tickets are validated using the Seda EtherScanv2 API, which fetches and verifies successful transactions. Seda Oracle Program broadcast feature also enables Bounxa to provide event hosts with real-time feedback on ticket status.
 ---
 ![image0 (1)](https://github.com/user-attachments/assets/c74c1d73-4264-4b1e-a40e-11ac220a1134)
 
