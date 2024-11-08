@@ -117,6 +117,25 @@ We know most of our users access Bounxa on their phones, so the platform is full
 
 ---
 
+
+**Links:**
+
+Website: [bounxa.com](https://bounxa.com)
+
+Demo Video: https://www.youtube.com/watch?v=5oyj1Pptcz8
+
+Project Repo: https://github.com/Havorahq/bounxa
+
+Smart Contract Code: https://sepolia.arbiscan.io/address/0x32d4B0F1C9150F23613035F825eE52FD6fDC75Cc#code
+
+Smart Contract Address: 0x32d4B0F1C9150F23613035F825eE52FD6fDC75Cc
+
+Figma Link: https://www.figma.com/design/LZhLfAZw2d6VvmX5bpVER4/Bounxa?node-id=156-3719&t=Q7Fojg8zPt61FDBG-1
+
+
+
+---
+
 For more information, please contact a [Bounxa Dev](mailto:princenchiba@gmail.com).
 
 ---
