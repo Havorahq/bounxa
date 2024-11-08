@@ -66,7 +66,7 @@ function Header({ showBal }: { showBal?: boolean }) {
             </div>
 
             <p className="mt-4 text-lg phone:text-xl">
-              All your Wallet Amount:
+              All Balance:
             </p>
 
             <div className="mt-3 flex items-center justify-between gap-2 phone:text-lg">
@@ -79,7 +79,7 @@ function Header({ showBal }: { showBal?: boolean }) {
               </p>
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 phone:text-lg">
-              <p className="">Airbitrun sepolia: </p>
+              <p className="">Arbitrum sepolia: </p>
               <p className="font-medium">
                 $
                 {parseInt(
