@@ -7,11 +7,11 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- #### Particle Connect SDK:
+- #### Particle Connect SDK (Account-Level Chain Abstraction):
   We integrated the Particle Connect SDK to securely onboard users and create accounts that support interaction across multiple blockchains. This setup provides users with various login options, including email, social login, and so on. See more about Particle Connect SDK [here](https://developers.particle.network/api-reference/connect/desktop/web)
 
   
-- #### Klaster:
+- #### Klaster (Application-Level Chain Abstraction):
   We implemented cross-chain transactions through the Klaster SDK, enabling users to purchase tickets seamlessly, regardless of the blockchain where their funds are held. See more about Klaster Account Abstraction [here](https://klaster.io/)
 
 
