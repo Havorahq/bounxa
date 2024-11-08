@@ -16,7 +16,7 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 
 
 - #### Seda Oracle:
-  We integrated Seda as our ticket validator. The Seda explorer allows us to modify transaction reports and provide users with real-time feedback on ticket status, enabling event hosts to verify ticket transactions instantly. Tthe Seda EtherScanv2 API, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
+  We integrated Seda as our ticket validator. The Seda explorer allows us to modify transaction reports and provide users with real-time feedback on ticket status, enabling event hosts to verify ticket transactions instantly. The Seda EtherScanv2 API, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 
   
 - #### Solidity:
