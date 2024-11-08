@@ -7,26 +7,26 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- **Particle Connect**:
+- #### Particle Connect:
   We integrated the Particle Connect SDK to securely onboard users and create accounts that support interaction across multiple blockchains. This setup provides users with various login options, including email, social login, and so on. See more about Particle Connect SDK [here](https://developers.particle.network/api-reference/connect/desktop/web)
 
   
-- **Klaster**:
+- #### Klaster:
   We implemented cross-chain transactions through the Klaster SDK, enabling users to purchase tickets seamlessly, regardless of the blockchain where their funds are held. See more about Klaster Account Abstraction [here](https://klaster.io/)
 
 
-- **Seda Protocol**:
+- #### Seda Protocol:
   We integrated Seda as our ticket validator. The Seda explorer allows us to modify transaction reports and provide users with real-time feedback on ticket status, enabling event hosts to verify ticket transactions instantly. Tthe Seda EtherScanv2 API, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 
   
-- **Solidity**:
+- #### Solidity:
   Used for creating smart contracts.
 
   
-- **Hardhat**:
+- #### Hardhat:
   Used for smart contract testing and manipulations.
 
-- **Figma**:
+- #### Figma:
   Bounxa was designed from scratch on Figma. See design [here](https://www.figma.com/design/LZhLfAZw2d6VvmX5bpVER4/Bounxa?node-id=156-3719&t=Q7Fojg8zPt61FDBG-1). 
 
 ---
