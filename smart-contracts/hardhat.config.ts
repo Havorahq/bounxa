@@ -15,10 +15,15 @@ const config: HardhatUserConfig = {
       accounts: ['0x94408cb11d639ad62a0100ee08d8d025a9eee8ebf402823cf489233d67057093'],
       gasPrice: 1000000000,
     },
-    'artbitrum-sepolia': {
+    'arbitrumSepolia': {
       url: 'https://sepolia-rollup.arbitrum.io/rpc',
       accounts: ['0x94408cb11d639ad62a0100ee08d8d025a9eee8ebf402823cf489233d67057093'],
       gasPrice: 1000000000,
+    },
+  },
+  etherscan: {
+    apiKey: {
+      arbitrumSepolia: "PFBEU9U7V8HPN9AFK5ZRWKY14RS4C1SPRR",
     },
   },
 };
