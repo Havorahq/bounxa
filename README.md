@@ -15,7 +15,7 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
   We implemented cross-chain transactions through the Klaster SDK, enabling users to purchase tickets seamlessly, regardless of the blockchain where their funds are held. See more about Klaster Account Abstraction [here](https://klaster.io/)
 
 
-- #### Seda Oracle:
+- #### Seda Protocol:
   We integrated Seda as our ticket validator. The Seda Oracle Program allows us to broadcast transaction reports and provide users with real-time feedback on ticket status through Seda Explorer, enabling event hosts to verify ticket transactions instantly. The Seda EtherScanv2 API, deployed on the Seda Oracle Program, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 
   
