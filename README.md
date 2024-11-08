@@ -1,13 +1,13 @@
 # Bounxa: Event Management On the Blockchain
 
-**Bounxa** is a cutting-edge event management platform built on the blockchain, designed to streamline event creation, ticketing, and transaction processing. Leveraging powerful integrations with **Particle Network**, **Klaster**, and **Seda protocols**, Bounxa enables secure, flexible, and decentralized event hosting. Whether you're setting up a small gathering or a large conference, Bounxa’s infrastructure ensures seamless multichain interactions, automated ticketing through NFTs, and a user-friendly experience for both organizers and attendees.
+**Bounxa** is a cutting-edge event management platform built on the blockchain, designed to streamline event creation, ticketing, and transaction processing. Leveraging powerful integrations with **Particle Connect SDK**, **Klaster**, and **Seda Oracle**, Bounxa enables secure, flexible, and decentralized event hosting. Whether you're setting up a small gathering or a large conference, Bounxa’s infrastructure ensures seamless multichain interactions, automated ticketing through NFTs, and a user-friendly experience for both organizers and attendees.
 
 Explore the key features and technologies that make Bounxa a reliable, future-proof solution for decentralized event management.
 
 ---
 
 ## Technologies Used
-- #### Particle Connect:
+- #### Particle Connect SDK:
   We integrated the Particle Connect SDK to securely onboard users and create accounts that support interaction across multiple blockchains. This setup provides users with various login options, including email, social login, and so on. See more about Particle Connect SDK [here](https://developers.particle.network/api-reference/connect/desktop/web)
 
   
@@ -15,7 +15,7 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
   We implemented cross-chain transactions through the Klaster SDK, enabling users to purchase tickets seamlessly, regardless of the blockchain where their funds are held. See more about Klaster Account Abstraction [here](https://klaster.io/)
 
 
-- #### Seda Protocol:
+- #### Seda Oracle:
   We integrated Seda as our ticket validator. The Seda explorer allows us to modify transaction reports and provide users with real-time feedback on ticket status, enabling event hosts to verify ticket transactions instantly. Tthe Seda EtherScanv2 API, which leverages multichain queries through a single API key, helps us retrieve transaction statuses in real time to validate Bounxa ticket vouchers. See more about Seda Oracle [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 
   
