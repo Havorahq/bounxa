@@ -103,7 +103,8 @@ Tickets are validated using the Seda protocol, which fetches and verifies succes
 Once you authenticate, a Particle Wallet is created for you. This particle wallet generates a Klaster wallet which you can use for multichain transactions. These transactions are signed and authorized by your Particle connect wallet as the owner. To buy ticket, you will need to click on View Balance, copy your generated wallet, and fund it. 
 ---
 
-![image](https://github.com/user-attachments/assets/14733582-5c7a-47b0-981a-8f74d9c4d8df)
+![image](https://github.com/user-attachments/assets/8ef42b20-9a5f-4325-bd92-5a6d7001cb57)
+
 
 
 --- 
