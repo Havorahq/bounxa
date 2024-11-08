@@ -154,6 +154,10 @@ Figma Link: https://www.figma.com/design/LZhLfAZw2d6VvmX5bpVER4/Bounxa?node-id=1
 
 ---
 
+Project Start Date: 22nd September, 2024
+
+---
+
 For more information, please contact a [Bounxa Dev](mailto:princenchiba@gmail.com).
 
 ---
