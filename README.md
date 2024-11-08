@@ -7,9 +7,9 @@ Explore the key features and technologies that make Bounxa a reliable, future-pr
 ---
 
 ## Technologies Used
-- **Particle Connect**: Enables secure, streamlined connections for user authentication. Gives our users accounts that can be used to interact with multiple chains. 
-- **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction.
-- **Seda Protocol**: Enables our event hosts validate tickets. Fetches and verifies ticket purchase transactions with real-time feedback.
+- **Particle Connect**: Enables secure, streamlined connections for user authentication. Gives our users accounts that can be used to interact with multiple chains. See more [here](https://ua.particle.network/)
+- **Klaster**: Facilitates multichain transaction orchestration with smart accounts as well as account abstraction. See more [here](https://klaster.io/)
+- **Seda Protocol**: Enables our event hosts validate tickets. Fetches and verifies ticket purchase transactions with real-time feedback. See more [here](https://docs.seda.xyz/home/for-developers/building-an-oracle-program/deploying-your-oracle-program)
 - **Solidity**: Used for creating smart contracts.
 - **Hardhat**: Used for smart contract testing and manipulations. 
 
